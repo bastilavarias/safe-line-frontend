@@ -95,7 +95,9 @@ function Home() {
                         </Box>
                     </Grid>
                     <Grid item xs={12} md={6}>
-                        <h1>Right</h1>
+                        <Box display="flex" justifyContent="center">
+                            <img />
+                        </Box>
                     </Grid>
                 </Grid>
             </Container>
