@@ -9,15 +9,18 @@ import { makeStyles } from '@material-ui/core/styles';
 import { KeyboardArrowDown } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
-    appBar: {
+    root: {
         backgroundColor: theme.palette.primary.light,
         color: '#000000',
         boxShadow: 'none',
         paddingTop: '1rem',
     },
+    toolbar: {
+        padding: '0',
+    },
     logo: {
-        width: '2rem',
-        height: '2.5rem',
+        width: '2.5rem',
+        height: 'auto',
         fill: theme.palette.primary.main,
         marginRight: theme.spacing(1),
     },
@@ -84,10 +87,10 @@ function HomeAppBar() {
     };
 
     return (
-        <AppBar className={classes.appBar} position="fixed">
+        <AppBar className={classes.root} position="static">
             <Container maxWidth="lg">
-                <Toolbar>
-                    <Logo></Logo>
+                <Toolbar className={classes.toolbar}>
+                    <Logo />
                     <Typography className={classes.title}>Safe Line</Typography>
                     <Button color="inherit" className={classes.button}>
                         Home
