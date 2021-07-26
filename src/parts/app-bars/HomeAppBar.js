@@ -12,10 +12,10 @@ import Logo from '../../components/Logo';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        backgroundColor: theme.palette.primary.light,
+        backgroundColor: '#fff',
         color: '#000000',
         boxShadow: 'none',
-        paddingTop: '1rem',
+        padding: '1rem 0',
     },
     toolbar: {
         padding: '0',

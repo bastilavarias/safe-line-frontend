@@ -6,13 +6,13 @@ import {
     MapRounded,
     VideocamRounded,
 } from '@material-ui/icons';
-import LandingPageImage from '../../../assets/landing-page.jpg';
+import ImageBox from './ImageBox';
 
 const useStyles = makeStyles((theme) => ({
     root: {
         height: '100vh',
-        color: '#000000',
-        backgroundColor: theme.palette.primary.light,
+        color: theme.palette.primary.dark,
+        backgroundColor: '#fff',
     },
 
     button: {
@@ -21,11 +21,8 @@ const useStyles = makeStyles((theme) => ({
         width: '10rem',
     },
 
-    image: {
-        width: '30rem',
-        height: '30rem',
-        borderRadius: '50%',
-        objectFit: 'cover',
+    icon: {
+        color: theme.palette.primary.dark,
     },
 }));
 
@@ -65,71 +62,68 @@ function LandingSection() {
                                 <Box display="flex" alignItems="center" mb={3}>
                                     <Box mr={3}>
                                         <MapRounded
-                                            color="primary"
+                                            className={classes.icon}
                                             fontSize="large"
                                         />
                                     </Box>
                                     <Typography variant="body1">
-                                        Find a Clinic whereever you are
+                                        <Box
+                                            component="span"
+                                            fontWeight="fontWeightBold"
+                                        >
+                                            Find a Clinic whereever you are
+                                        </Box>
                                     </Typography>
                                 </Box>
                                 <Box display="flex" alignItems="center" mb={3}>
                                     <Box mr={3}>
                                         <VideocamRounded
-                                            color="primary"
+                                            className={classes.icon}
                                             fontSize="large"
                                         />
                                     </Box>
                                     <Typography variant="body1">
-                                        Get checked at home
+                                        <Box
+                                            component="span"
+                                            fontWeight="fontWeightBold"
+                                        >
+                                            Get checked at home
+                                        </Box>
                                     </Typography>
                                 </Box>
                                 <Box display="flex" alignItems="center">
                                     <Box mr={3}>
-                                        <Duo color="primary" fontSize="large" />
+                                        <Duo
+                                            className={classes.icon}
+                                            fontSize="large"
+                                        />
                                     </Box>
                                     <Typography variant="body1">
-                                        Message your doctor anytime
+                                        <Box
+                                            component="span"
+                                            fontWeight="fontWeightBold"
+                                        >
+                                            Message your doctor anytime
+                                        </Box>
                                     </Typography>
                                 </Box>
                             </Box>
-                            <Box display="flex">
-                                <Box mr={3}>
-                                    <Button
-                                        variant="contained"
-                                        color="primary"
-                                        className={classes.button}
-                                    >
-                                        <Box component="span" mr={1}>
-                                            Join Safe Line
-                                        </Box>
-                                        <ArrowRightAlt />
-                                    </Button>
-                                </Box>
-                                <Box mr={3}>
-                                    <Button
-                                        variant="outlined"
-                                        color="primary"
-                                        className={classes.button}
-                                    >
-                                        Learn More
-                                    </Button>
-                                </Box>
+                            <Box>
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    className={classes.button}
+                                >
+                                    <Box component="span" mr={1}>
+                                        Join Safe Line
+                                    </Box>
+                                    <ArrowRightAlt />
+                                </Button>
                             </Box>
                         </Box>
                     </Grid>
                     <Grid item xs={12} md={6}>
-                        <Box
-                            display="flex"
-                            justifyContent="center"
-                            alignItems="center"
-                        >
-                            <img
-                                alt="Landing Section"
-                                src={LandingPageImage}
-                                className={classes.image}
-                            />
-                        </Box>
+                        <ImageBox />
                     </Grid>
                 </Grid>
             </Container>

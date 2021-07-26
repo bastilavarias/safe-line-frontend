@@ -6,7 +6,7 @@ import LandingPageImage from '../../../assets/landing-page.jpg';
 const useStyles = makeStyles((theme) => ({
     root: {
         height: '100vh',
-        color: '#000000',
+        color: theme.palette.primary.dark,
         backgroundColor: theme.palette.primary.light,
     },
 

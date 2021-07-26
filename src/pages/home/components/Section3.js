@@ -3,10 +3,10 @@ import { Box, Button, Container, Grid, Typography } from '@material-ui/core';
 import { ArrowRightAlt, Duo } from '@material-ui/icons';
 import LandingPageImage from '../../../assets/landing-page.jpg';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
     root: {
         height: '100vh',
-        color: '#000000',
+        color: theme.palette.primary.dark,
         backgroundColor: '#fff',
     },
 
