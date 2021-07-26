@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function Section1() {
+function LandingSection() {
     const classes = useStyles();
 
     return (
@@ -138,4 +138,4 @@ function Section1() {
     );
 }
 
-export default Section1;
+export default LandingSection;
