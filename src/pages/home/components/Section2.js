@@ -1,13 +1,13 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, Button, Container, Grid, Typography } from '@material-ui/core';
-import { ArrowRightAlt, MapRounded } from '@material-ui/icons';
+import { ArrowRightAlt, VideocamRounded } from '@material-ui/icons';
 import LandingPageImage from '../../../assets/landing-page.jpg';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
     root: {
         height: '100vh',
         color: '#000000',
-        backgroundColor: '#fff',
+        backgroundColor: theme.palette.primary.light,
     },
 
     image: {
@@ -28,7 +28,7 @@ const useStyles = makeStyles(() => ({
     },
 }));
 
-function Section1() {
+function Section2() {
     const classes = useStyles();
 
     return (
@@ -42,6 +42,20 @@ function Section1() {
                 <Grid container spacing={2}>
                     <Grid item xs={12} md={6}>
                         <Box
+                            display="flex"
+                            justifyContent="center"
+                            alignItems="center"
+                        >
+                            <img
+                                alt="Landing Section"
+                                src={LandingPageImage}
+                                className={classes.image}
+                            />
+                        </Box>
+                    </Grid>
+
+                    <Grid item xs={12} md={6}>
+                        <Box
                             component="div"
                             height="100%"
                             display="flex"
@@ -49,7 +63,7 @@ function Section1() {
                             flexDirection="column"
                         >
                             <Box component="div">
-                                <MapRounded
+                                <VideocamRounded
                                     color="primary"
                                     className={classes.icon}
                                 />
@@ -57,7 +71,7 @@ function Section1() {
                             <Box component="div" mb={3}>
                                 <Typography variant="h4">
                                     <Box fontWeight="fontWeightBold">
-                                        Find a Clinic wherever you are
+                                        Get checked at home
                                     </Box>
                                 </Typography>
                             </Box>
@@ -81,23 +95,10 @@ function Section1() {
                             </Button>
                         </Box>
                     </Grid>
-                    <Grid item xs={12} md={6}>
-                        <Box
-                            display="flex"
-                            justifyContent="center"
-                            alignItems="center"
-                        >
-                            <img
-                                alt="Landing Section"
-                                src={LandingPageImage}
-                                className={classes.image}
-                            />
-                        </Box>
-                    </Grid>
                 </Grid>
             </Container>
         </Box>
     );
 }
 
-export default Section1;
+export default Section2;
