@@ -87,7 +87,7 @@ function HomeAppBar() {
     };
 
     return (
-        <AppBar className={classes.root} position="static">
+        <AppBar className={classes.root} position="fixed">
             <Container maxWidth="lg">
                 <Toolbar className={classes.toolbar}>
                     <Logo />
