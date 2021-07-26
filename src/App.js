@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@material-ui/core/styles';
-import Home from './pages/Home';
+import Home from './pages/home/Home';
 
 const theme = createTheme({
     palette: {
