@@ -42,23 +42,22 @@ function Section3() {
                 <Grid container spacing={2}>
                     <Grid item xs={12} md={6}>
                         <Box
-                            component="div"
                             height="100%"
                             display="flex"
                             justifyContent="center"
                             flexDirection="column"
                         >
-                            <Box component="div">
+                            <Box>
                                 <Duo color="primary" className={classes.icon} />
                             </Box>
-                            <Box component="div" mb={3}>
+                            <Box mb={3}>
                                 <Typography variant="h4">
                                     <Box fontWeight="fontWeightBold">
                                         Messages your doctors anytime
                                     </Box>
                                 </Typography>
                             </Box>
-                            <Box component="div" mb={3}>
+                            <Box mb={3}>
                                 <Typography variant="body1">
                                     Lorem ipsum dolor sit amet, consectetur
                                     adipisicing elit. Cupiditate, delectus,

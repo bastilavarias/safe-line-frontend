@@ -24,12 +24,7 @@ function Footer() {
             <Container>
                 <Grid container spacing={2}>
                     <Grid item xs={12} md={2}>
-                        <Box
-                            component="div"
-                            display="flex"
-                            alignItems="center"
-                            mb={3}
-                        >
+                        <Box display="flex" alignItems="center" mb={3}>
                             <Logo classes={classes} />
                             <Typography variant="h6">
                                 <Box fontWeight="fontWeightSemiBold">
@@ -37,20 +32,15 @@ function Footer() {
                                 </Box>
                             </Typography>
                         </Box>
-                        <Box component="div" mb={3}>
+                        <Box mb={3}>
                             <Typography variant="caption">
                                 Lorem ipsum dolor sit amet, consectetur
                                 adipiscing elit. Lectus sed vel tellus facilisis
                                 tincidunt sed.
                             </Typography>
                         </Box>
-                        <Box component="div" mb={3}>
-                            <Box
-                                component="div"
-                                display="flex"
-                                alignItems="center"
-                                mb={1}
-                            >
+                        <Box mb={3}>
+                            <Box display="flex" alignItems="center" mb={1}>
                                 <Box component="span" mr={2}>
                                     <Phone />
                                 </Box>
@@ -60,11 +50,7 @@ function Footer() {
                                     </Typography>
                                 </Box>
                             </Box>
-                            <Box
-                                component="div"
-                                display="flex"
-                                alignItems="center"
-                            >
+                            <Box display="flex" alignItems="center">
                                 <Box component="span" mr={2}>
                                     <Email />
                                 </Box>
@@ -76,21 +62,75 @@ function Footer() {
                             </Box>
                         </Box>
                         <Box
-                            component="div"
                             display="flex"
                             alignItems="center"
                             justifyContent="space-between"
                         >
-                            <Box component="div">
+                            <Box>
                                 <Facebook />
                             </Box>
-                            <Box component="div">
+                            <Box>
                                 <Twitter />
                             </Box>
-                            <Box component="div">
+                            <Box>
                                 <Instagram />
                             </Box>
                         </Box>
+                    </Grid>
+                    <Grid item xs={12} md={1} />
+                    <Grid item xs={12} md={9}>
+                        <Grid container spacing={2}>
+                            <Grid item xs={12} md={4}>
+                                <Box pt={3}>
+                                    <Typography variant="h6">
+                                        Lorem ipsum.
+                                    </Typography>
+                                    <Box component="ul" pt={2}>
+                                        <Box component="li" pb={2}>
+                                            Lorem ipsum.
+                                        </Box>
+                                        <Box component="li" pb={2}>
+                                            Lorem ipsum.
+                                        </Box>
+                                        <Box component="li">Lorem ipsum.</Box>
+                                    </Box>
+                                </Box>
+                            </Grid>
+
+                            <Grid item xs={12} md={4}>
+                                <Box pt={3}>
+                                    <Typography variant="h6">
+                                        Lorem ipsum.
+                                    </Typography>
+                                    <Box component="ul" pt={2}>
+                                        <Box component="li" pb={2}>
+                                            Lorem ipsum.
+                                        </Box>
+                                        <Box component="li" pb={2}>
+                                            Lorem ipsum.
+                                        </Box>
+                                        <Box component="li">Lorem ipsum.</Box>
+                                    </Box>
+                                </Box>
+                            </Grid>
+
+                            <Grid item xs={12} md={4}>
+                                <Box pt={3}>
+                                    <Typography variant="h6">
+                                        Lorem ipsum.
+                                    </Typography>
+                                    <Box component="ul" pt={2}>
+                                        <Box component="li" pb={2}>
+                                            Lorem ipsum.
+                                        </Box>
+                                        <Box component="li" pb={2}>
+                                            Lorem ipsum.
+                                        </Box>
+                                        <Box component="li">Lorem ipsum.</Box>
+                                    </Box>
+                                </Box>
+                            </Grid>
+                        </Grid>
                     </Grid>
                 </Grid>
             </Container>
