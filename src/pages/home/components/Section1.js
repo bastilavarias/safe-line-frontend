@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, Button, Container, Grid, Typography } from '@material-ui/core';
 import { ArrowRightAlt, MapRounded } from '@material-ui/icons';
-import LandingPageImage from '../../../assets/landing-page.jpg';
+import LandingPageImage from '../../../assets/images/girl-1.jpg';
 
 const useStyles = makeStyles((theme) => ({
     root: {

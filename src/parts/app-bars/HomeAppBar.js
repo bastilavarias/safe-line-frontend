@@ -1,3 +1,4 @@
+import { useHistory } from 'react-router-dom';
 import {
     AppBar,
     Toolbar,
@@ -40,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
 
 function HomeAppBar() {
     const classes = useStyles();
+    const history = useHistory();
 
     return (
         <AppBar className={classes.root} position="fixed">
@@ -68,6 +70,7 @@ function HomeAppBar() {
                         variant="contained"
                         color="primary"
                         className={classes.signInButton}
+                        onClick={() => history.push('/sign-in')}
                     >
                         Sign In
                     </Button>

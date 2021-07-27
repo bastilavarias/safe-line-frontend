@@ -1,12 +1,8 @@
 import { Box } from '@material-ui/core';
-import LandingPageImage from '../../../../assets/landing-page.jpg';
+import ImageGirl1 from '../../../../assets/images/girl-1.jpg';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(() => ({
-    root: {
-        position: 'relative',
-    },
-
     image: {
         width: '20rem',
         height: '20rem',
@@ -56,13 +52,9 @@ function ImageBox() {
             display="flex"
             justifyContent="center"
             alignItems="center"
-            className={classes.root}
+            position="relative"
         >
-            <img
-                alt="Landing Section"
-                src={LandingPageImage}
-                className={classes.image}
-            />
+            <img alt="Girl 1" src={ImageGirl1} className={classes.image} />
             <Box className={classes.sparkle1} />
             <Box className={classes.sparkle2} />
             <Box className={classes.sparkle3} />
