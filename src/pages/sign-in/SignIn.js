@@ -1,6 +1,7 @@
-import { Box, Container, Grid } from '@material-ui/core';
+import { Box, Container, Grid, TextField, Typography } from '@material-ui/core';
 import ImageGirl2 from '../../assets/images/girl-2.jpg';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, alpha } from '@material-ui/core/styles';
+import SignInAppBar from '../../parts/app-bars/SignInappBar';
 
 const useStyles = makeStyles((theme) => ({
     image: {
@@ -42,6 +43,8 @@ const useStyles = makeStyles((theme) => ({
         bottom: '-10%',
         transform: 'translate(0, 10%)',
     },
+
+    primaryText: { color: theme.palette.primary.main },
 }));
 
 function SignIn() {
@@ -71,7 +74,77 @@ function SignIn() {
                     </Box>
                 </Grid>
                 <Grid item xs={12} md={8}>
-                    dfdfd
+                    <Box height="100vh" position="relative">
+                        <SignInAppBar />
+                        <Box
+                            height="100%"
+                            width="100%"
+                            display="flex"
+                            alignItems="center"
+                            justifyContent="center"
+                        >
+                            <Box width="50%">
+                                <Box mb={2}>
+                                    <Typography variant="h3">
+                                        <Box fontWeight="fontWeightBold">
+                                            Hello, Welcome back!
+                                        </Box>
+                                    </Typography>
+                                </Box>
+                                <Box mb={2}>
+                                    <Typography variant="subtitle1">
+                                        <Box component="span" mr={1}>
+                                            New to Safe Line?
+                                        </Box>
+                                        <Box
+                                            component="span"
+                                            color="primary"
+                                            className={classes.primaryText}
+                                        >
+                                            Create Account
+                                        </Box>
+                                    </Typography>
+                                </Box>
+                                <Box>
+                                    <Box py={1}>
+                                        <Box>
+                                            <Typography variant="subtitle1">
+                                                <Box fontWeight="fontWeightBold">
+                                                    Email
+                                                </Box>
+                                            </Typography>
+                                        </Box>
+                                        <TextField
+                                            variant="outlined"
+                                            fullWidth
+                                            style={{
+                                                backgroundColor: '#E4E4E4',
+                                            }}
+                                            margin="dense"
+                                        />
+                                    </Box>
+
+                                    <Box py={1}>
+                                        <Box>
+                                            <Typography variant="subtitle1">
+                                                <Box fontWeight="fontWeightBold">
+                                                    Email
+                                                </Box>
+                                            </Typography>
+                                        </Box>
+                                        <TextField
+                                            variant="outlined"
+                                            fullWidth
+                                            style={{
+                                                backgroundColor: '#E4E4E4',
+                                            }}
+                                            margin="dense"
+                                        />
+                                    </Box>
+                                </Box>
+                            </Box>
+                        </Box>
+                    </Box>
                 </Grid>
             </Grid>
         </Box>

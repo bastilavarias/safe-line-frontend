@@ -2,10 +2,10 @@ import { useHistory } from 'react-router-dom';
 import {
     AppBar,
     Toolbar,
-    Typography,
     Container,
     Button,
     Box,
+    Typography,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { KeyboardArrowDown } from '@material-ui/icons';
@@ -17,6 +17,13 @@ const useStyles = makeStyles((theme) => ({
         color: '#000000',
         boxShadow: 'none',
         padding: '1rem 0',
+        width: '100%',
+    },
+
+    toolbar: {
+        padding: '0',
+        display: 'flex',
+        justifyContent: 'space-around',
     },
 
     logo: {
@@ -31,20 +38,20 @@ const useStyles = makeStyles((theme) => ({
         marginRight: theme.spacing(1),
     },
 
-    signInButton: {
+    signUpButton: {
         textTransform: 'capitalize',
         borderRadius: '.5rem',
     },
 }));
 
-function HomeAppBar() {
+function SignInAppBar() {
     const classes = useStyles();
     const history = useHistory();
 
     return (
-        <AppBar className={classes.root} position="fixed">
+        <AppBar className={classes.root} position="absolute">
             <Container maxWidth="lg">
-                <Toolbar style={{ padding: 0 }}>
+                <Toolbar className={classes.toolbar}>
                     <Logo classes={classes} />
                     <Box component="span" flexGrow={1}>
                         <Typography variant="h6">
@@ -67,10 +74,10 @@ function HomeAppBar() {
                     <Button
                         variant="contained"
                         color="primary"
-                        className={classes.signInButton}
+                        className={classes.signUpButton}
                         onClick={() => history.push('/sign-in')}
                     >
-                        Sign In
+                        Sign Up
                     </Button>
                 </Toolbar>
             </Container>
@@ -78,4 +85,4 @@ function HomeAppBar() {
     );
 }
 
-export default HomeAppBar;
+export default SignInAppBar;
