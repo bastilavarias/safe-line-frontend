@@ -25,7 +25,7 @@ function Footer() {
                 <Grid container spacing={2}>
                     <Grid item xs={12} md={2}>
                         <Box display="flex" alignItems="center" mb={3}>
-                            <Logo classes={classes} />
+                            <Logo className={classes.logo} />
                             <Typography variant="h6">
                                 <Box fontWeight="fontWeightSemiBold">
                                     Safe Line
