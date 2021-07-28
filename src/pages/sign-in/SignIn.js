@@ -1,9 +1,14 @@
-import { Box, Container, Grid, TextField, Typography } from '@material-ui/core';
+import { Box, Button, Grid, TextField, Typography } from '@material-ui/core';
 import ImageGirl2 from '../../assets/images/girl-2.jpg';
-import { makeStyles, alpha } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import SignInAppBar from '../../parts/app-bars/SignInappBar';
+import { ArrowRightAlt } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
+    primaryText: { color: theme.palette.primary.main },
+
+    button: { borderRadius: '.6rem', textTransform: 'capitalize' },
+
     image: {
         width: '18rem',
         height: '18rem',
@@ -43,8 +48,6 @@ const useStyles = makeStyles((theme) => ({
         bottom: '-10%',
         transform: 'translate(0, 10%)',
     },
-
-    primaryText: { color: theme.palette.primary.main },
 }));
 
 function SignIn() {
@@ -85,7 +88,10 @@ function SignIn() {
                         >
                             <Box width="50%">
                                 <Box mb={2}>
-                                    <Typography variant="h3">
+                                    <Typography
+                                        variant="h3"
+                                        className={classes.title}
+                                    >
                                         <Box fontWeight="fontWeightBold">
                                             Hello, Welcome back!
                                         </Box>
@@ -101,45 +107,46 @@ function SignIn() {
                                             color="primary"
                                             className={classes.primaryText}
                                         >
-                                            Create Account
+                                            Create an Account
                                         </Box>
                                     </Typography>
                                 </Box>
                                 <Box>
-                                    <Box py={1}>
-                                        <Box>
-                                            <Typography variant="subtitle1">
-                                                <Box fontWeight="fontWeightBold">
-                                                    Email
-                                                </Box>
-                                            </Typography>
-                                        </Box>
+                                    <Box py={2}>
                                         <TextField
+                                            label="Email"
                                             variant="outlined"
                                             fullWidth
-                                            style={{
-                                                backgroundColor: '#E4E4E4',
-                                            }}
-                                            margin="dense"
                                         />
                                     </Box>
-
-                                    <Box py={1}>
-                                        <Box>
-                                            <Typography variant="subtitle1">
-                                                <Box fontWeight="fontWeightBold">
-                                                    Email
-                                                </Box>
-                                            </Typography>
-                                        </Box>
+                                    <Box py={2}>
                                         <TextField
+                                            label="Email"
                                             variant="outlined"
                                             fullWidth
-                                            style={{
-                                                backgroundColor: '#E4E4E4',
-                                            }}
-                                            margin="dense"
                                         />
+                                    </Box>
+                                    <Box py={2}>
+                                        <Button
+                                            variant="contained"
+                                            fullWidth
+                                            color="primary"
+                                            size="medium"
+                                            className={classes.button}
+                                        >
+                                            <Box component="span" mr={1}>
+                                                Sign In
+                                            </Box>
+                                            <ArrowRightAlt />
+                                        </Button>
+                                    </Box>
+                                    <Box py={2}>
+                                        <Button
+                                            color="primary"
+                                            className={classes.button}
+                                        >
+                                            Forgot Password?
+                                        </Button>
                                     </Box>
                                 </Box>
                             </Box>
