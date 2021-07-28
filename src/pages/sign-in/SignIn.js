@@ -3,6 +3,7 @@ import ImageGirl2 from '../../assets/images/girl-2.jpg';
 import { makeStyles } from '@material-ui/core/styles';
 import SignInAppBar from '../../parts/app-bars/SignInappBar';
 import { ArrowRightAlt } from '@material-ui/icons';
+import Logo from '../../components/Logo';
 
 const useStyles = makeStyles((theme) => ({
     primaryText: { color: theme.palette.primary.main },
@@ -14,6 +15,19 @@ const useStyles = makeStyles((theme) => ({
         height: '18rem',
         borderRadius: '50%',
         objectFit: 'cover',
+    },
+
+    logoBox: {
+        width: '4rem',
+        height: '4rem',
+        borderRadius: '50%',
+        backgroundColor: theme.palette.primary.main,
+    },
+
+    logo: {
+        width: '2.5rem',
+        height: 'auto',
+        fill: '#fff',
     },
 
     sparkle1: {
@@ -87,11 +101,17 @@ function SignIn() {
                             justifyContent="center"
                         >
                             <Box width="50%">
+                                <Box
+                                    mb={5}
+                                    className={classes.logoBox}
+                                    display="flex"
+                                    justifyContent="center"
+                                    alignItems="center"
+                                >
+                                    <Logo className={classes.logo} />
+                                </Box>
                                 <Box mb={2}>
-                                    <Typography
-                                        variant="h3"
-                                        className={classes.title}
-                                    >
+                                    <Typography variant="h3">
                                         <Box fontWeight="fontWeightBold">
                                             Hello, Welcome back!
                                         </Box>
@@ -121,9 +141,10 @@ function SignIn() {
                                     </Box>
                                     <Box py={2}>
                                         <TextField
-                                            label="Email"
+                                            label="Password"
                                             variant="outlined"
                                             fullWidth
+                                            type="password"
                                         />
                                     </Box>
                                     <Box py={2}>

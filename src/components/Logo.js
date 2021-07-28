@@ -1,11 +1,11 @@
-function Logo({ classes }) {
+function Logo({ className }) {
     return (
         <svg
             version="1.1"
             id="Capa_1"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 142.657 142.657"
-            className={classes.logo}
+            className={className}
         >
             <g>
                 <path

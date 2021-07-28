@@ -52,7 +52,7 @@ function SignInAppBar() {
         <AppBar className={classes.root} position="absolute">
             <Container maxWidth="lg">
                 <Toolbar className={classes.toolbar}>
-                    <Logo classes={classes} />
+                    <Logo className={classes.logo} />
                     <Box component="span" flexGrow={1}>
                         <Typography variant="h6">
                             <Box fontWeight="fontWeightSemiBold">Safe Line</Box>
