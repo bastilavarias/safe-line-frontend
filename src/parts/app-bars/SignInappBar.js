@@ -31,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
         height: 'auto',
         fill: theme.palette.primary.main,
         marginRight: theme.spacing(1),
+        cursor: 'pointer',
     },
 
     button: {
@@ -52,8 +53,15 @@ function SignInAppBar() {
         <AppBar className={classes.root} position="absolute">
             <Container maxWidth="lg">
                 <Toolbar className={classes.toolbar}>
-                    <Logo className={classes.logo} />
-                    <Box component="span" flexGrow={1}>
+                    <Logo
+                        className={classes.logo}
+                        onClick={() => history.push('/')}
+                    />
+                    <Box
+                        component="span"
+                        flexGrow={1}
+                        onClick={() => history.push('/')}
+                    >
                         <Typography variant="h6">
                             <Box fontWeight="fontWeightSemiBold">Safe Line</Box>
                         </Typography>

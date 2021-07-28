@@ -1,4 +1,4 @@
-function Logo({ className }) {
+function Logo({ className, onClick }) {
     return (
         <svg
             version="1.1"
@@ -6,6 +6,7 @@ function Logo({ className }) {
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 142.657 142.657"
             className={className}
+            onClick={onClick}
         >
             <g>
                 <path
