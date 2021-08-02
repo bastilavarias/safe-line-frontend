@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import {
     AppBar,
@@ -8,8 +9,8 @@ import {
     Typography,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { KeyboardArrowDown } from '@material-ui/icons';
 import Logo from '../../components/Logo';
+import SignUpSelectionDialog from '../../components/SignUpSelectionDialog';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -46,8 +47,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function SignInAppBar() {
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
     const classes = useStyles();
     const history = useHistory();
+
+    const setDialogState = (state) => {
+        setIsDialogOpen(state);
+    };
 
     return (
         <AppBar className={classes.root} position="absolute">
@@ -66,29 +72,20 @@ function SignInAppBar() {
                             <Box fontWeight="fontWeightSemiBold">Safe Line</Box>
                         </Typography>
                     </Box>
-                    <Button color="inherit" className={classes.button}>
-                        Home
-                    </Button>
-                    <Button
-                        color="inherit"
-                        className={classes.button}
-                        endIcon={<KeyboardArrowDown />}
-                    >
-                        Clinics
-                    </Button>
-                    <Button color="inherit" className={classes.button}>
-                        Lorem Ipsum
-                    </Button>
                     <Button
                         variant="contained"
                         color="primary"
                         className={classes.signUpButton}
-                        onClick={() => history.push('/sign-in')}
+                        onClick={() => setDialogState(true)}
                     >
                         Sign Up
                     </Button>
                 </Toolbar>
             </Container>
+            <SignUpSelectionDialog
+                isOpen={isDialogOpen}
+                setDialogState={setDialogState}
+            />
         </AppBar>
     );
 }
