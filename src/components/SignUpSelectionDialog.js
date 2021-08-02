@@ -3,14 +3,12 @@ import {
     Slide,
     DialogTitle,
     DialogContent,
-    DialogContentText,
-    DialogActions,
     Button,
     Box,
     Typography,
 } from '@material-ui/core';
-import { Close } from '@material-ui/icons';
-import { forwardRef } from 'react';
+import { Close, Face, Favorite } from '@material-ui/icons';
+import { forwardRef, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Logo from './Logo';
 
@@ -33,11 +31,16 @@ const useStyles = makeStyles((theme) => ({
     },
 
     selectionBox: {
-        borderColor: 'rgba(77, 77, 77, 0.25)',
         border: 'thin solid',
         borderRadius: '.5rem',
-        width: '12rem',
+        cursor: 'pointer',
+        width: '10rem',
         height: '10rem',
+
+        '&:hover': {
+            transition: 'all .3s ease-in-out',
+            boxShadow: '-1px 4px 4px 0px rgba(0, 0, 0, 0.6)',
+        },
     },
 
     continueButton: {
@@ -51,6 +54,11 @@ const useStyles = makeStyles((theme) => ({
 
 function SignUpCollection({ isOpen, setDialogState }) {
     const classes = useStyles();
+    const [type, setType] = useState('');
+
+    const setSignUpType = (type) => {
+        setType(type);
+    };
 
     return (
         <Dialog
@@ -103,15 +111,66 @@ function SignUpCollection({ isOpen, setDialogState }) {
                             Lorem ipsum dolor sit amet
                         </Typography>
                     </Box>
-                    <Box my={5} display="flex" justifyContent="center">
-                        <Box className={classes.selectionBox}></Box>
+                    <Box mt={2} mb={5} display="flex" justifyContent="center">
+                        <Box
+                            className={classes.selectionBox}
+                            padding={2}
+                            color={
+                                type === 'patient'
+                                    ? 'primary'
+                                    : 'rgba(0, 0, 0, 0.6)'
+                            }
+                            borderColor={
+                                type === 'patient'
+                                    ? 'primary'
+                                    : 'rgba(77, 77, 77, 0.25)'
+                            }
+                            onClick={() => setSignUpType('patient')}
+                        >
+                            <Box>
+                                <Face />
+                            </Box>
+                            <Box my={1}>
+                                <Typography variant="subtitle1">
+                                    Patient
+                                </Typography>
+                            </Box>
+                            <Box>
+                                <Typography variant="body2">
+                                    Lorem ipsum dolor sit amet, consectetur
+                                    adipiscing elit ut aliquam
+                                </Typography>
+                            </Box>
+                        </Box>
+
                         <Box mx={1} />
-                        <Box className={classes.selectionBox}></Box>
+                        <Box
+                            className={classes.selectionBox}
+                            padding={2}
+                            color="rgba(0, 0, 0, 0.6)"
+                            onClick={() => setSignUpType('clinic')}
+                        >
+                            <Box>
+                                <Favorite />
+                            </Box>
+                            <Box my={1}>
+                                <Typography variant="subtitle1">
+                                    Clinic
+                                </Typography>
+                            </Box>
+                            <Box>
+                                <Typography variant="body2">
+                                    Lorem ipsum dolor sit amet, consectetur
+                                    adipiscing elit ut aliquam
+                                </Typography>
+                            </Box>
+                        </Box>
                     </Box>
                     <Button
                         variant="contained"
                         color="primary"
                         className={classes.continueButton}
+                        disableElevation
                     >
                         Continue
                     </Button>
