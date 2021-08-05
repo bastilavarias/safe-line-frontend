@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@material-ui/core/styles';
 import Home from './pages/home/Home';
 import SignIn from './pages/sign-in/SignIn';
+import SignUp from './pages/sign-up/SignUp';
 
 const theme = createTheme({
     palette: {
@@ -21,6 +22,9 @@ function App() {
         <ThemeProvider theme={theme}>
             <Router>
                 <Switch>
+                    <Route path="/sign-up">
+                        <SignUp />
+                    </Route>
                     <Route path="/sign-in">
                         <SignIn />
                     </Route>

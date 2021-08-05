@@ -1,10 +1,10 @@
-import { Typography } from '@material-ui/core';
+import { Typography, Box } from '@material-ui/core';
 
 function AccountInfo() {
     return (
-        <div>
+        <Box>
             <Typography variant="h1">Account Info</Typography>
-        </div>
+        </Box>
     );
 }
 

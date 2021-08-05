@@ -1,3 +1,4 @@
+import { useHistory } from 'react-router-dom';
 import {
     Dialog,
     Slide,
@@ -55,6 +56,7 @@ const useStyles = makeStyles((theme) => ({
 function SelectionDialog({ isOpen, setDialogState }) {
     const classes = useStyles();
     const [type, setType] = useState('');
+    const history = useHistory();
 
     const setSignUpType = (type) => {
         setType(type);
@@ -171,6 +173,7 @@ function SelectionDialog({ isOpen, setDialogState }) {
                         color="primary"
                         className={classes.continueButton}
                         disableElevation
+                        onClick={() => history.push('/sign-up')}
                     >
                         Continue
                     </Button>
