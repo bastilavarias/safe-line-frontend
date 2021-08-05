@@ -10,7 +10,7 @@ import {
 import { Close, Face, Favorite } from '@material-ui/icons';
 import { forwardRef, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Logo from './Logo';
+import Logo from '../Logo';
 
 const Transition = forwardRef(function Transition(props, ref) {
     return <Slide direction="down" ref={ref} {...props} />;
@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function SignUpCollection({ isOpen, setDialogState }) {
+function SelectionDialog({ isOpen, setDialogState }) {
     const classes = useStyles();
     const [type, setType] = useState('');
 
@@ -111,7 +111,7 @@ function SignUpCollection({ isOpen, setDialogState }) {
                             Lorem ipsum dolor sit amet
                         </Typography>
                     </Box>
-                    <Box mt={2} mb={5} display="flex" justifyContent="center">
+                    <Box mt={2} mb={4} display="flex" justifyContent="center">
                         <Box
                             className={classes.selectionBox}
                             padding={2}
@@ -180,4 +180,4 @@ function SignUpCollection({ isOpen, setDialogState }) {
     );
 }
 
-export default SignUpCollection;
+export default SelectionDialog;

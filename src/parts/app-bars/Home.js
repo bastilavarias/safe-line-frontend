@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function HomeAppBar() {
+function Home() {
     const classes = useStyles();
     const history = useHistory();
 
@@ -86,4 +86,4 @@ function HomeAppBar() {
     );
 }
 
-export default HomeAppBar;
+export default Home;

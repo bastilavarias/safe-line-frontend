@@ -1,7 +1,7 @@
 import { Box, Button, Grid, TextField, Typography } from '@material-ui/core';
 import ImageGirl2 from '../../assets/images/girl-2.jpg';
 import { makeStyles } from '@material-ui/core/styles';
-import SignInAppBar from '../../parts/app-bars/SignInappBar';
+import SignInAppBar from '../../parts/app-bars/SignIn';
 import { ArrowRightAlt } from '@material-ui/icons';
 import Logo from '../../components/Logo';
 

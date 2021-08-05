@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Logo from '../../components/Logo';
-import SignUpSelectionDialog from '../../components/SignUpSelectionDialog';
+import SignUpSelectionDialog from '../../components/sign-up/SelectionDialog';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function SignInAppBar() {
+function SignIn() {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const classes = useStyles();
     const history = useHistory();
@@ -90,4 +90,4 @@ function SignInAppBar() {
     );
 }
 
-export default SignInAppBar;
+export default SignIn;

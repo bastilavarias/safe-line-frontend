@@ -1,4 +1,4 @@
-import HomeAppBar from '../../parts/app-bars/HomeAppBar';
+import HomeAppBar from '../../parts/app-bars/Home';
 import { Box } from '@material-ui/core';
 import LandingSection from './components/landing-section/LandingSection';
 import Section1 from './components/Section1';
