@@ -32,7 +32,6 @@ function PersonalInfo() {
                         <InputLabel id="genders-select">Gender</InputLabel>
                         <Select
                             labelId="genders-select"
-                            fullWidth
                             value={gender}
                             onChange={handleChange}
                             label="Gender"
