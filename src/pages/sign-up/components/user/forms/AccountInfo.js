@@ -19,10 +19,10 @@ function AccountInfo() {
                 <Grid item xs={12} md={6}>
                     <TextField label="Last Name" variant="outlined" fullWidth />
                 </Grid>
-                <Grid item xs={12} md={12}>
+                <Grid item xs={12}>
                     <TextField label="Email" variant="outlined" fullWidth />
                 </Grid>
-                <Grid item xs={12} md={12}>
+                <Grid item xs={12}>
                     <TextField
                         label="Password"
                         variant="outlined"
@@ -30,7 +30,7 @@ function AccountInfo() {
                         type="password"
                     />
                 </Grid>
-                <Grid item xs={12} md={12}>
+                <Grid item xs={12}>
                     <TextField
                         label="Confirm Password"
                         variant="outlined"

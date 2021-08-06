@@ -13,6 +13,7 @@ import AccountInfo from './components/user/forms/AccountInfo';
 import { makeStyles } from '@material-ui/core/styles';
 import Logo from '../../components/Logo';
 import { BaseButtonStyle } from '../../styles/base';
+import PersonalInfo from './components/user/forms/PersonalInfo';
 
 const useStyles = makeStyles((theme) => ({
     leftSide: {
@@ -52,7 +53,7 @@ function getStepContent(stepIndex) {
         case 0:
             return <AccountInfo />;
         case 1:
-            return 'What is an ad group anyways?';
+            return <PersonalInfo />;
         case 2:
             return 'This is the bit I really care about!';
         default:
@@ -141,7 +142,18 @@ function SignUp() {
                                     display="flex"
                                     justifyContent="space-between"
                                 >
-                                    <Box />
+                                    {activeStep === 0 ? (
+                                        <Box />
+                                    ) : (
+                                        <Button
+                                            variant="outlined"
+                                            color="primary"
+                                            className={baseButtonStyle.base}
+                                            onClick={handleBack}
+                                        >
+                                            Back
+                                        </Button>
+                                    )}
                                     <Button
                                         variant="contained"
                                         color="primary"
