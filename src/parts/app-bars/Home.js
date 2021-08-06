@@ -10,6 +10,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import { KeyboardArrowDown } from '@material-ui/icons';
 import Logo from '../../components/Logo';
+import { BaseButtonStyle } from '../../styles/base';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -31,16 +32,12 @@ const useStyles = makeStyles((theme) => ({
         textTransform: 'capitalize',
         marginRight: theme.spacing(1),
     },
-
-    signInButton: {
-        textTransform: 'capitalize',
-        borderRadius: '.6rem',
-    },
 }));
 
 function Home() {
     const classes = useStyles();
     const history = useHistory();
+    const baseButtonStyle = BaseButtonStyle();
 
     return (
         <AppBar className={classes.root} position="fixed">
@@ -75,7 +72,7 @@ function Home() {
                     <Button
                         variant="contained"
                         color="primary"
-                        className={classes.signInButton}
+                        className={baseButtonStyle.base}
                         onClick={() => history.push('/sign-in')}
                     >
                         Sign In

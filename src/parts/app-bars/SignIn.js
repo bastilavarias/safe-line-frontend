@@ -11,6 +11,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import Logo from '../../components/Logo';
 import SignUpSelectionDialog from '../../components/sign-up/SelectionDialog';
+import { BaseButtonStyle } from '../../styles/base';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -39,17 +40,13 @@ const useStyles = makeStyles((theme) => ({
         textTransform: 'capitalize',
         marginRight: theme.spacing(1),
     },
-
-    signUpButton: {
-        textTransform: 'capitalize',
-        borderRadius: '.6rem',
-    },
 }));
 
 function SignIn() {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const classes = useStyles();
     const history = useHistory();
+    const baseButtonStyle = BaseButtonStyle();
 
     const setDialogState = (state) => {
         setIsDialogOpen(state);
@@ -75,7 +72,7 @@ function SignIn() {
                     <Button
                         variant="contained"
                         color="primary"
-                        className={classes.signUpButton}
+                        className={baseButtonStyle.base}
                         onClick={() => setDialogState(true)}
                     >
                         Sign Up
