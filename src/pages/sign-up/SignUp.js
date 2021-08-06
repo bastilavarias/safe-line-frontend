@@ -12,6 +12,7 @@ import {
 import AccountInfo from './components/user/forms/AccountInfo';
 import { makeStyles } from '@material-ui/core/styles';
 import Logo from '../../components/Logo';
+import { BaseButtonStyle } from '../../styles/base';
 
 const useStyles = makeStyles((theme) => ({
     leftSide: {
@@ -64,6 +65,7 @@ function SignUp() {
     const history = useHistory();
     const [activeStep, setActiveStep] = useState(0);
     const steps = getSteps();
+    const baseButtonStyle = BaseButtonStyle();
 
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -144,6 +146,7 @@ function SignUp() {
                                         variant="contained"
                                         color="primary"
                                         onClick={handleNext}
+                                        className={baseButtonStyle.base}
                                     >
                                         {activeStep === steps.length - 1
                                             ? 'Finish'

@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
 
     signUpButton: {
         textTransform: 'capitalize',
-        borderRadius: '.5rem',
+        borderRadius: '.6rem',
     },
 }));
 

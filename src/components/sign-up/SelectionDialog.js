@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 
     selectionBox: {
         border: 'thin solid',
-        borderRadius: '.5rem',
+        borderRadius: '.6rem',
         cursor: 'pointer',
         width: '10rem',
         height: '10rem',
@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
 
     continueButton: {
         padding: '.5rem 0',
-        borderRadius: '.5rem',
+        borderRadius: '.6rem',
         textTransform: 'capitalize',
         maxWidth: '15rem',
         minWidth: '15rem',

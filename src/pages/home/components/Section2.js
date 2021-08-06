@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     },
 
     button: {
-        borderRadius: '.5rem',
+        borderRadius: '.6rem',
         textTransform: 'capitalize',
         width: '10rem',
     },
