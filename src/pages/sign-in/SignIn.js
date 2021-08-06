@@ -131,23 +131,23 @@ function SignIn() {
                                         </Box>
                                     </Typography>
                                 </Box>
-                                <Box>
-                                    <Box py={2}>
+                                <Grid container spacing={4}>
+                                    <Grid item xs={12}>
                                         <TextField
                                             label="Email"
                                             variant="outlined"
                                             fullWidth
                                         />
-                                    </Box>
-                                    <Box py={2}>
+                                    </Grid>
+                                    <Grid item xs={12}>
                                         <TextField
                                             label="Password"
                                             variant="outlined"
                                             fullWidth
                                             type="password"
                                         />
-                                    </Box>
-                                    <Box py={2}>
+                                    </Grid>
+                                    <Grid item xs={12}>
                                         <Button
                                             variant="contained"
                                             fullWidth
@@ -160,16 +160,16 @@ function SignIn() {
                                             </Box>
                                             <ArrowRightAlt />
                                         </Button>
-                                    </Box>
-                                    <Box py={2}>
+                                    </Grid>
+                                    <Grid item xs={12}>
                                         <Button
                                             color="primary"
                                             className={classes.button}
                                         >
                                             Forgot Password?
                                         </Button>
-                                    </Box>
-                                </Box>
+                                    </Grid>
+                                </Grid>
                             </Box>
                         </Box>
                     </Box>
