@@ -125,23 +125,31 @@ function SignUp() {
                                 <Stepper
                                     activeStep={activeStep}
                                     alternativeLabel
-                                    className={classes.stepper}
                                 >
                                     {steps.map((label) => (
-                                        <Step
-                                            key={label}
-                                            className={classes.step}
-                                        >
+                                        <Step key={label}>
                                             <StepLabel>{label}</StepLabel>
                                         </Step>
                                     ))}
                                 </Stepper>
-                                <Typography variant="h4">
-                                    <Box fontWeight="bold">
-                                        Account Information
-                                    </Box>
-                                </Typography>
+
                                 {getStepContent(activeStep)}
+
+                                <Box
+                                    display="flex"
+                                    justifyContent="space-between"
+                                >
+                                    <Box />
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        onClick={handleNext}
+                                    >
+                                        {activeStep === steps.length - 1
+                                            ? 'Finish'
+                                            : 'Next'}
+                                    </Button>
+                                </Box>
                             </Box>
                         </Box>
                     </Box>
