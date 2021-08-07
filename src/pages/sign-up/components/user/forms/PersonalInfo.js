@@ -44,8 +44,10 @@ function PersonalInfo() {
                             onChange={handleChange}
                             label="Gender"
                         >
-                            {genders.map((item) => (
-                                <MenuItem value={item}>{item}</MenuItem>
+                            {genders.map((item, index) => (
+                                <MenuItem value={item} key={index}>
+                                    {item}
+                                </MenuItem>
                             ))}
                         </Select>
                     </FormControl>
@@ -67,10 +69,10 @@ function PersonalInfo() {
                 </Grid>
                 <Grid item xs={12}>
                     <TextField
-                        label="Confirm Password"
+                        label="Phone Number"
                         variant="outlined"
                         fullWidth
-                        type="password"
+                        type="tel"
                     />
                 </Grid>
             </Grid>

@@ -14,6 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Logo from '../../components/Logo';
 import { BaseButtonStyle } from '../../styles/base';
 import PersonalInfo from './components/user/forms/PersonalInfo';
+import AddressInfo from './components/user/forms/AddressInfo';
 
 const useStyles = makeStyles((theme) => ({
     leftSide: {
@@ -55,7 +56,7 @@ function getStepContent(stepIndex) {
         case 1:
             return <PersonalInfo />;
         case 2:
-            return 'This is the bit I really care about!';
+            return <AddressInfo />;
         default:
             return 'Unknown stepIndex';
     }
