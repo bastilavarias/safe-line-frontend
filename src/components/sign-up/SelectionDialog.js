@@ -67,7 +67,8 @@ function SelectionDialog({ isOpen, setDialogState }) {
             open={isOpen}
             TransitionComponent={Transition}
             onClose={() => setDialogState(false)}
-            maxWidth="lg"
+            maxWidth="sm"
+            fullWidth
         >
             <DialogTitle>
                 <Box
@@ -88,7 +89,6 @@ function SelectionDialog({ isOpen, setDialogState }) {
                     display="flex"
                     alignItems="center"
                     justifyContent="center"
-                    minWidth="40rem"
                     height="35rem"
                     flexDirection="column"
                 >

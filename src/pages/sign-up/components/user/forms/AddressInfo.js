@@ -1,11 +1,4 @@
-import {
-    Typography,
-    Box,
-    Grid,
-    TextField,
-    InputLabel,
-    FormControl,
-} from '@material-ui/core';
+import { Typography, Box, Grid, TextField } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useState, useEffect } from 'react';
 import psgcService from '../../../../../services/psgcService';
@@ -14,7 +7,6 @@ function AddressInfo() {
     const [regions, setRegions] = useState([]);
     const [cities, setCities] = useState([]);
     const [region, setRegion] = useState('');
-    const [city, setCity] = useState('');
 
     const handleRegionChange = async (_, newValue) => {
         const { code, regionName } = newValue;
@@ -23,13 +15,14 @@ function AddressInfo() {
         setCities(cities);
     };
 
-    async function getRegions() {
-        return await psgcService.getRegions();
-    }
-
     useEffect(() => {
-        getRegions().then((items) => setRegions(items));
-    });
+        async function getRegions() {
+            const regions = await psgcService.getRegions();
+            setRegions(regions);
+        }
+
+        getRegions();
+    }, []);
 
     return (
         <Box py={3}>

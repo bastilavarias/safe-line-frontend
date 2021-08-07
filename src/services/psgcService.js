@@ -4,15 +4,21 @@ const url = 'https://psgc.gitlab.io/api';
 
 const psgcService = {
     async getRegions() {
-        const result = await api.get(`${url}/regions`);
-        return result.data;
+        try {
+            const result = await api.get(`${url}/regions`);
+            return result.data;
+        } catch (e) {
+            return [];
+        }
     },
 
     async getCities(code) {
-        const result = await api.get(
-            `${url}/regions/${code}/cities-municipalities`
-        );
-        return result.data;
+        try {
+            const result = await api.get(
+                `${url}/regions/${code}/cities-municipalities`
+            );
+            return result.data;
+        } catch (e) {}
     },
 };
 

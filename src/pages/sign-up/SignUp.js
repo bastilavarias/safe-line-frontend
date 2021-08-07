@@ -15,6 +15,7 @@ import Logo from '../../components/Logo';
 import { BaseButtonStyle } from '../../styles/base';
 import PersonalInfo from './components/user/forms/PersonalInfo';
 import AddressInfo from './components/user/forms/AddressInfo';
+import FinishDialog from './components/FinishDialog';
 
 const useStyles = makeStyles((theme) => ({
     leftSide: {
@@ -68,8 +69,10 @@ function SignUp() {
     const [activeStep, setActiveStep] = useState(0);
     const steps = getSteps();
     const baseButtonStyle = BaseButtonStyle();
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     const handleNext = () => {
+        if (activeStep === 2) return setIsDialogOpen(true);
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
     };
 
@@ -77,8 +80,8 @@ function SignUp() {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
-    const handleReset = () => {
-        setActiveStep(0);
+    const setDialogState = (state) => {
+        setIsDialogOpen(state);
     };
 
     return (
@@ -171,6 +174,10 @@ function SignUp() {
                     </Box>
                 </Grid>
             </Grid>
+            <FinishDialog
+                isOpen={isDialogOpen}
+                setDialogState={setDialogState}
+            />
         </Box>
     );
 }
