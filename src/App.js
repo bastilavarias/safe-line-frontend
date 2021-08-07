@@ -3,6 +3,8 @@ import { createTheme, ThemeProvider } from '@material-ui/core/styles';
 import Home from './pages/home/Home';
 import SignIn from './pages/sign-in/SignIn';
 import SignUp from './pages/sign-up/SignUp';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import MomentUtils from '@date-io/moment';
 
 const theme = createTheme({
     palette: {
@@ -20,19 +22,21 @@ const theme = createTheme({
 function App() {
     return (
         <ThemeProvider theme={theme}>
-            <Router>
-                <Switch>
-                    <Route path="/sign-up">
-                        <SignUp />
-                    </Route>
-                    <Route path="/sign-in">
-                        <SignIn />
-                    </Route>
-                    <Route path="/">
-                        <Home />
-                    </Route>
-                </Switch>
-            </Router>
+            <MuiPickersUtilsProvider utils={MomentUtils}>
+                <Router>
+                    <Switch>
+                        <Route path="/sign-up">
+                            <SignUp />
+                        </Route>
+                        <Route path="/sign-in">
+                            <SignIn />
+                        </Route>
+                        <Route path="/">
+                            <Home />
+                        </Route>
+                    </Switch>
+                </Router>
+            </MuiPickersUtilsProvider>
         </ThemeProvider>
     );
 }

@@ -8,15 +8,23 @@ import {
     InputLabel,
     FormControl,
 } from '@material-ui/core';
+import { KeyboardDatePicker } from '@material-ui/pickers';
 import { useState } from 'react';
 
 const genders = ['Male', 'Female'];
 
 function PersonalInfo() {
     const [gender, setGender] = useState('');
+    const [selectedDate, setSelectedDate] = useState(
+        new Date('2021-08-07T21:11:54')
+    );
 
     const handleChange = (event) => {
         setGender(event.target.value);
+    };
+
+    const handleDateChange = (date) => {
+        setSelectedDate(date);
     };
 
     return (
@@ -43,12 +51,19 @@ function PersonalInfo() {
                     </FormControl>
                 </Grid>
                 <Grid item xs={12}>
-                    <TextField
-                        label="Password"
-                        variant="outlined"
-                        fullWidth
-                        type="password"
-                    />
+                    <FormControl fullWidth>
+                        <KeyboardDatePicker
+                            inputVariant="outlined"
+                            format="MM/DD/YYYY"
+                            margin="normal"
+                            label="Birthday"
+                            value={selectedDate}
+                            onChange={handleDateChange}
+                            KeyboardButtonProps={{
+                                'aria-label': 'change date',
+                            }}
+                        />
+                    </FormControl>
                 </Grid>
                 <Grid item xs={12}>
                     <TextField
