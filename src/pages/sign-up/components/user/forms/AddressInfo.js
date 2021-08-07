@@ -77,6 +77,9 @@ function AddressInfo() {
                         )}
                     />
                 </Grid>
+                <Grid item xs={12}>
+                    <TextField label="Zip Code" variant="outlined" fullWidth />
+                </Grid>
             </Grid>
         </Box>
     );
