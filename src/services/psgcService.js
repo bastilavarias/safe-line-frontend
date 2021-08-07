@@ -7,6 +7,13 @@ const psgcService = {
         const result = await api.get(`${url}/regions`);
         return result.data;
     },
+
+    async getCities(code) {
+        const result = await api.get(
+            `${url}/regions/${code}/cities-municipalities`
+        );
+        return result.data;
+    },
 };
 
 export default psgcService;

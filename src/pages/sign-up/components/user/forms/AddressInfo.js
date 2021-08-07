@@ -12,17 +12,15 @@ import psgcService from '../../../../../services/psgcService';
 
 function AddressInfo() {
     const [regions, setRegions] = useState([]);
+    const [cities, setCities] = useState([]);
     const [region, setRegion] = useState('');
-    const [selectedDate, setSelectedDate] = useState(
-        new Date('2021-08-07T21:11:54')
-    );
+    const [city, setCity] = useState('');
 
-    const handleRegionChange = (event) => {
-        setRegion(event.target.value);
-    };
-
-    const handleDateChange = (date) => {
-        setSelectedDate(date);
+    const handleRegionChange = async (_, newValue) => {
+        const { code, regionName } = newValue;
+        setRegion(regionName);
+        const cities = await psgcService.getCities(code);
+        setCities(cities);
     };
 
     async function getRegions() {
@@ -53,11 +51,28 @@ function AddressInfo() {
                         options={regions}
                         getOptionLabel={(option) => option.regionName}
                         fullWidth
+                        onChange={handleRegionChange}
                         renderInput={(params) => (
                             <TextField
                                 {...params}
                                 label="Region"
                                 variant="outlined"
+                                autoComplete="off"
+                            />
+                        )}
+                    />
+                </Grid>
+                <Grid item xs={12}>
+                    <Autocomplete
+                        options={cities}
+                        getOptionLabel={(option) => option.name}
+                        fullWidth
+                        renderInput={(params) => (
+                            <TextField
+                                {...params}
+                                label="City"
+                                variant="outlined"
+                                autoComplete="off"
                             />
                         )}
                     />
