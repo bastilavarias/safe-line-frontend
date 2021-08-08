@@ -6,11 +6,9 @@ import psgcService from '../../../../../services/psgcService';
 function AddressInfo() {
     const [regions, setRegions] = useState([]);
     const [cities, setCities] = useState([]);
-    const [region, setRegion] = useState('');
 
     const handleRegionChange = async (_, newValue) => {
-        const { code, regionName } = newValue;
-        setRegion(regionName);
+        const { code } = newValue;
         const cities = await psgcService.getCities(code);
         setCities(cities);
     };
