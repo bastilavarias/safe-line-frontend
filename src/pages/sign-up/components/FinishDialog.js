@@ -32,10 +32,39 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-
         '& .mainSparkle__icon': {
             color: theme.palette.primary.main,
             fontSize: '6rem',
+        },
+        '& .mainSparkle__child1': {
+            backgroundColor: 'rgba(231, 76, 60, 0.8)',
+            width: '2.2rem',
+            height: '2.2rem',
+            borderRadius: '50%',
+            position: 'absolute',
+            left: '-50%',
+            bottom: '0',
+            transform: 'translate(50%, 0)',
+        },
+        '& .mainSparkle__child2': {
+            backgroundColor: 'rgba(241, 196, 15, 0.8)',
+            width: '2.2rem',
+            height: '2.2rem',
+            borderRadius: '50%',
+            position: 'absolute',
+            left: '-20%',
+            top: '-30%',
+            transform: 'translate(20%, 30%)',
+        },
+        '& .mainSparkle__child3': {
+            backgroundColor: 'rgba(26, 188, 156, 0.8)',
+            width: '2.2rem',
+            height: '2.2rem',
+            borderRadius: '50%',
+            position: 'absolute',
+            right: '-30%',
+            top: '40%',
+            transform: 'translate(30%, -40%)',
         },
     },
 }));
@@ -73,7 +102,12 @@ function FinishDialog({ isOpen, setDialogState }) {
                     height="35rem"
                     flexDirection="column"
                 >
-                    <Box mb={5} className={classes.mainSparkle}>
+                    <Box
+                        mb={5}
+                        p={2}
+                        position="relative"
+                        className={classes.mainSparkle}
+                    >
                         <Box className="mainSparkle__child1" />
                         <Box className="mainSparkle__child2" />
                         <Box className="mainSparkle__child3" />
