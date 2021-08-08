@@ -9,13 +9,13 @@ import {
     StepLabel,
     Button,
 } from '@material-ui/core';
-import AccountInfo from './user/forms/AccountInfo';
+import AccountInfo from './forms/AccountInfo';
 import { makeStyles } from '@material-ui/core/styles';
-import Logo from '../../../components/Logo';
-import { BaseButtonStyle } from '../../../styles/base';
-import PersonalInfo from './user/forms/PersonalInfo';
-import AddressInfo from './user/forms/AddressInfo';
-import FinishDialog from './FinishDialog';
+import Logo from '../../../../components/Logo';
+import { BaseButtonStyle } from '../../../../styles/base';
+import PersonalInfo from './forms/PersonalInfo';
+import AddressInfo from './forms/AddressInfo';
+import FinishDialog from '../FinishDialog';
 
 const useStyles = makeStyles((theme) => ({
     leftSide: {

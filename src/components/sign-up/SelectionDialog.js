@@ -32,16 +32,21 @@ const useStyles = makeStyles((theme) => ({
     },
 
     selectionBox: {
-        border: 'thin solid',
+        border: '.15rem solid rgba(77, 77, 77, 0.25)',
         borderRadius: '.6rem',
         cursor: 'pointer',
         width: '10rem',
-        height: '10rem',
+        padding: '1.5rem 1rem',
+        transition: 'all .3s ease-in-out',
 
         '&:hover': {
-            transition: 'all .3s ease-in-out',
-            boxShadow: '-1px 4px 4px 0px rgba(0, 0, 0, 0.6)',
+            boxShadow: '-1px 0px .2rem rgba(0,0,0,0.75);',
         },
+    },
+
+    activeSelectionBox: {
+        borderColor: theme.palette.primary.main,
+        boxShadow: '-1px 0px .5rem rgba(0,0,0,0.75);',
     },
 
     continueButton: {
@@ -115,7 +120,11 @@ function SelectionDialog({ isOpen, setDialogState }) {
                     </Box>
                     <Box mt={2} mb={4} display="flex" justifyContent="center">
                         <Box
-                            className={classes.selectionBox}
+                            className={`${classes.selectionBox} ${
+                                type === 'patient'
+                                    ? classes.activeSelectionBox
+                                    : null
+                            }`}
                             padding={2}
                             color={
                                 type === 'patient'
@@ -147,7 +156,11 @@ function SelectionDialog({ isOpen, setDialogState }) {
 
                         <Box mx={1} />
                         <Box
-                            className={classes.selectionBox}
+                            className={`${classes.selectionBox} ${
+                                type === 'clinic'
+                                    ? classes.activeSelectionBox
+                                    : null
+                            }`}
                             padding={2}
                             color="rgba(0, 0, 0, 0.6)"
                             onClick={() => setSignUpType('clinic')}
@@ -173,7 +186,6 @@ function SelectionDialog({ isOpen, setDialogState }) {
                         color="primary"
                         className={classes.continueButton}
                         disableElevation
-                        onClick={() => history.push('/sign-up/user')}
                     >
                         Continue
                     </Button>
