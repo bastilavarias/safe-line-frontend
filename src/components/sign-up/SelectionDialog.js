@@ -67,6 +67,11 @@ function SelectionDialog({ isOpen, setDialogState }) {
         setType(type);
     };
 
+    const handleContinue = () => {
+        if (type === 'clinic') return history.push('/sign-up/clinic');
+        history.push('/sign-up/user');
+    };
+
     return (
         <Dialog
             open={isOpen}
@@ -121,22 +126,22 @@ function SelectionDialog({ isOpen, setDialogState }) {
                     <Box mt={2} mb={4} display="flex" justifyContent="center">
                         <Box
                             className={`${classes.selectionBox} ${
-                                type === 'patient'
+                                type === 'user'
                                     ? classes.activeSelectionBox
                                     : null
                             }`}
                             padding={2}
                             color={
-                                type === 'patient'
+                                type === 'user'
                                     ? 'primary'
                                     : 'rgba(0, 0, 0, 0.6)'
                             }
                             borderColor={
-                                type === 'patient'
+                                type === 'user'
                                     ? 'primary'
                                     : 'rgba(77, 77, 77, 0.25)'
                             }
-                            onClick={() => setSignUpType('patient')}
+                            onClick={() => setSignUpType('user')}
                         >
                             <Box>
                                 <Face />
@@ -186,6 +191,8 @@ function SelectionDialog({ isOpen, setDialogState }) {
                         color="primary"
                         className={classes.continueButton}
                         disableElevation
+                        disabled={!type}
+                        onClick={handleContinue}
                     >
                         Continue
                     </Button>
