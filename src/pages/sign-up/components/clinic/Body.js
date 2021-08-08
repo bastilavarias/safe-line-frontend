@@ -13,7 +13,7 @@ import Details from './forms/Details';
 import { makeStyles } from '@material-ui/core/styles';
 import Logo from '../../../../components/Logo';
 import { BaseButtonStyle } from '../../../../styles/base';
-import PersonalInfo from './forms/PersonalInfo';
+import Services from './forms/Services';
 import FinishDialog from '../FinishDialog';
 
 const useStyles = makeStyles((theme) => ({
@@ -54,7 +54,7 @@ function getStepContent(stepIndex) {
         case 0:
             return <Details />;
         case 1:
-            return <PersonalInfo />;
+            return <Services />;
         default:
             return 'Unknown stepIndex';
     }
