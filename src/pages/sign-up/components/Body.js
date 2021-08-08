@@ -9,13 +9,13 @@ import {
     StepLabel,
     Button,
 } from '@material-ui/core';
-import AccountInfo from './components/user/forms/AccountInfo';
+import AccountInfo from './user/forms/AccountInfo';
 import { makeStyles } from '@material-ui/core/styles';
-import Logo from '../../components/Logo';
-import { BaseButtonStyle } from '../../styles/base';
-import PersonalInfo from './components/user/forms/PersonalInfo';
-import AddressInfo from './components/user/forms/AddressInfo';
-import FinishDialog from './components/FinishDialog';
+import Logo from '../../../components/Logo';
+import { BaseButtonStyle } from '../../../styles/base';
+import PersonalInfo from './user/forms/PersonalInfo';
+import AddressInfo from './user/forms/AddressInfo';
+import FinishDialog from './FinishDialog';
 
 const useStyles = makeStyles((theme) => ({
     leftSide: {
@@ -63,7 +63,7 @@ function getStepContent(stepIndex) {
     }
 }
 
-function SignUp() {
+function Body() {
     const classes = useStyles();
     const history = useHistory();
     const [activeStep, setActiveStep] = useState(0);
@@ -182,4 +182,4 @@ function SignUp() {
     );
 }
 
-export default SignUp;
+export default Body;

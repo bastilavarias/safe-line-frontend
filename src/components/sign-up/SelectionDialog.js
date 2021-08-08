@@ -173,7 +173,7 @@ function SelectionDialog({ isOpen, setDialogState }) {
                         color="primary"
                         className={classes.continueButton}
                         disableElevation
-                        onClick={() => history.push('/sign-up')}
+                        onClick={() => history.push('/sign-up/user')}
                     >
                         Continue
                     </Button>

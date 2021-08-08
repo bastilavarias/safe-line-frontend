@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@material-ui/core/styles';
 import Home from './pages/home/Home';
 import SignIn from './pages/sign-in/SignIn';
-import SignUp from './pages/sign-up/SignUp';
+import UserSignUp from './pages/sign-up/components/Body';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
 
@@ -25,8 +25,8 @@ function App() {
             <MuiPickersUtilsProvider utils={MomentUtils}>
                 <Router>
                     <Switch>
-                        <Route path="/sign-up">
-                            <SignUp />
+                        <Route path="/sign-up/user">
+                            <UserSignUp />
                         </Route>
                         <Route path="/sign-in">
                             <SignIn />
