@@ -20,8 +20,8 @@ const useStyles = makeStyles((theme) => ({
         padding: '.5rem 0',
         borderRadius: '.6rem',
         textTransform: 'capitalize',
-        maxWidth: '15rem',
-        minWidth: '15rem',
+        maxWidth: '20rem',
+        minWidth: '20rem',
     },
 
     mainSparkle: {
@@ -80,11 +80,28 @@ function FinishDialog({ isOpen, setDialogState }) {
                         <DoneAllRounded className="mainSparkle__icon" />
                     </Box>
                     <Box textAlign="center">
-                        <Typography variant="h4">
-                            <Box fontWeight="fontWeightBold">
-                                You’re all set up!
-                            </Box>
-                        </Typography>
+                        <Box mb={3}>
+                            <Typography variant="h4">
+                                <Box fontWeight="fontWeightBold">
+                                    You’re all set up!
+                                </Box>
+                            </Typography>
+                        </Box>
+                        <Box mb={2}>
+                            <Typography variant="h6">
+                                You can now use your account
+                            </Typography>
+                        </Box>
+                        <Box>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                className={classes.finishButton}
+                                disableElevation
+                            >
+                                Finish Set Up
+                            </Button>
+                        </Box>
                     </Box>
                 </Box>
             </DialogContent>
