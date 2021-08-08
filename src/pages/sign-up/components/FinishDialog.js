@@ -69,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function FinishDialog({ isOpen, setDialogState }) {
+function FinishDialog({ isOpen, setDialogState, title, description }) {
     const classes = useStyles();
 
     return (
@@ -116,15 +116,11 @@ function FinishDialog({ isOpen, setDialogState }) {
                     <Box textAlign="center">
                         <Box mb={3}>
                             <Typography variant="h4">
-                                <Box fontWeight="fontWeightBold">
-                                    You’re all set up!
-                                </Box>
+                                <Box fontWeight="fontWeightBold">{title}</Box>
                             </Typography>
                         </Box>
                         <Box mb={2}>
-                            <Typography variant="h6">
-                                You can now use your account
-                            </Typography>
+                            <Typography variant="h6">{description}</Typography>
                         </Box>
                         <Box>
                             <Button

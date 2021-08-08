@@ -177,6 +177,8 @@ function Body() {
             <FinishDialog
                 isOpen={isDialogOpen}
                 setDialogState={setDialogState}
+                title="You’re all set up!"
+                description="You can now use your account"
             />
         </Box>
     );

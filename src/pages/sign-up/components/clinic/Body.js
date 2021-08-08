@@ -69,7 +69,7 @@ function Body() {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     const handleNext = () => {
-        if (activeStep === 2) return setIsDialogOpen(true);
+        if (activeStep === 1) return setIsDialogOpen(true);
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
     };
 
@@ -174,6 +174,8 @@ function Body() {
             <FinishDialog
                 isOpen={isDialogOpen}
                 setDialogState={setDialogState}
+                title="Welcome to Safe Line!"
+                description="You can now do online consultations"
             />
         </Box>
     );
