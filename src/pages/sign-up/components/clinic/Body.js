@@ -9,12 +9,11 @@ import {
     StepLabel,
     Button,
 } from '@material-ui/core';
-import AccountInfo from './forms/AccountInfo';
+import Details from './forms/Details';
 import { makeStyles } from '@material-ui/core/styles';
 import Logo from '../../../../components/Logo';
 import { BaseButtonStyle } from '../../../../styles/base';
 import PersonalInfo from './forms/PersonalInfo';
-import AddressInfo from './forms/AddressInfo';
 import FinishDialog from '../FinishDialog';
 
 const useStyles = makeStyles((theme) => ({
@@ -47,17 +46,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function getSteps() {
-    return ['Account Info', 'Personal Info', 'Address Info'];
+    return ['Clinic Details', 'Services'];
 }
 
 function getStepContent(stepIndex) {
     switch (stepIndex) {
         case 0:
-            return <AccountInfo />;
+            return <Details />;
         case 1:
             return <PersonalInfo />;
-        case 2:
-            return <AddressInfo />;
         default:
             return 'Unknown stepIndex';
     }
