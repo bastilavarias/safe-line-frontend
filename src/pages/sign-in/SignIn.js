@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import SignInAppBar from '../../parts/app-bars/SignIn';
 import { ArrowRightAlt } from '@material-ui/icons';
 import Logo from '../../components/Logo';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     primaryText: { color: theme.palette.primary.main },
@@ -66,6 +67,7 @@ const useStyles = makeStyles((theme) => ({
 
 function SignIn() {
     const classes = useStyles();
+    const history = useHistory();
 
     return (
         <Box component="section">
@@ -154,6 +156,9 @@ function SignIn() {
                                             color="primary"
                                             size="medium"
                                             className={classes.button}
+                                            onClick={() =>
+                                                history.push('/user-dashboard')
+                                            }
                                         >
                                             <Box component="span" mr={1}>
                                                 Sign In
