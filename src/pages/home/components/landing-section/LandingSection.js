@@ -7,6 +7,8 @@ import {
     VideocamRounded,
 } from '@material-ui/icons';
 import ImageBox from './ImageBox';
+import SignUpSelectionDialog from '../../../../components/sign-up/SelectionDialog';
+import { useState } from 'react';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -27,7 +29,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function LandingSection() {
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
     const classes = useStyles();
+
+    const setDialogState = (state) => {
+        setIsDialogOpen(state);
+    };
 
     return (
         <Box
@@ -113,6 +120,7 @@ function LandingSection() {
                                     variant="contained"
                                     color="primary"
                                     className={classes.button}
+                                    onClick={() => setDialogState(true)}
                                 >
                                     <Box component="span" mr={1}>
                                         Join Safe Line
@@ -127,6 +135,11 @@ function LandingSection() {
                     </Grid>
                 </Grid>
             </Container>
+
+            <SignUpSelectionDialog
+                isOpen={isDialogOpen}
+                setDialogState={setDialogState}
+            />
         </Box>
     );
 }
