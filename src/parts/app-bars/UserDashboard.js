@@ -9,10 +9,14 @@ import {
     InputAdornment,
     Badge,
     IconButton,
+    ListItem,
+    ListItemAvatar,
+    Avatar,
+    ListItemText,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { SearchRounded, NotificationsRounded, Mail } from '@material-ui/icons';
-import { useState } from 'react';
+import { SearchRounded, NotificationsRounded } from '@material-ui/icons';
+import { useState, Fragment } from 'react';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -30,6 +34,11 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: 'white',
         borderRadius: '.6rem !important',
     },
+
+    largeUserAvatar: {
+        width: theme.spacing(7),
+        height: theme.spacing(7),
+    },
 }));
 
 function UserDashboard() {
@@ -40,13 +49,13 @@ function UserDashboard() {
         <AppBar position="static" className={classes.root}>
             <Toolbar className={classes.toolbar}>
                 <Container>
-                    <Grid container>
-                        <Grid item xs={12} md={10}>
+                    <Grid container spacing={5}>
+                        <Grid item xs={12} md={9}>
                             <Box
                                 display="flex"
                                 height="100%"
                                 justifyContent="space-between"
-                                alignItems="start"
+                                alignItems="center"
                             >
                                 <Box>
                                     <Typography
@@ -79,7 +88,7 @@ function UserDashboard() {
                                 />
                             </Box>
                         </Grid>
-                        <Grid item xs={12} md={2}>
+                        <Grid item xs={12} md={3}>
                             <Box
                                 display="flex"
                                 height="100%"
@@ -92,9 +101,42 @@ function UserDashboard() {
                                         variant="dot"
                                         invisible={hasNewNotification}
                                     >
-                                        <Mail />
+                                        <NotificationsRounded />
                                     </Badge>
                                 </IconButton>
+                                <ListItem alignItems="flex-start">
+                                    <ListItemAvatar>
+                                        <Avatar
+                                            alt="Remy Sharp"
+                                            src="https://randomuser.me/api/portraits/men/18.jpg"
+                                        />
+                                    </ListItemAvatar>
+                                    <ListItemText
+                                        primary={
+                                            <Fragment>
+                                                <Typography
+                                                    variant="h6"
+                                                    style={{
+                                                        color: 'rgba(0, 0, 0, 1)',
+                                                        fontWeight: 'bolder',
+                                                    }}
+                                                >
+                                                    Lorem Ipsum
+                                                </Typography>
+                                            </Fragment>
+                                        }
+                                        secondary={
+                                            <Fragment>
+                                                <Typography
+                                                    variant="body2"
+                                                    color="rgba(0, 0, 0, 0.8)"
+                                                >
+                                                    loremipsum@gmail.com
+                                                </Typography>
+                                            </Fragment>
+                                        }
+                                    />
+                                </ListItem>
                             </Box>
                         </Grid>
                     </Grid>
