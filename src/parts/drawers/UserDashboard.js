@@ -2,12 +2,7 @@ import { Drawer, Box, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Logo from '../../components/Logo';
 import { NavLink } from 'react-router-dom';
-import {
-    HomeRounded,
-    MessageRounded,
-    MapRounded,
-    FavoriteRounded,
-} from '@material-ui/icons';
+import { HomeRounded, MessageRounded, MapRounded } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -90,13 +85,6 @@ function UserDashboard() {
                         to="/dashboard"
                     >
                         <MessageRounded fontSize="large" />
-                    </Button>
-                    <Button
-                        className={classes.button}
-                        component={NavLink}
-                        to="/map"
-                    >
-                        <FavoriteRounded fontSize="large" />
                     </Button>
                     <Button
                         className={classes.button}
