@@ -1,6 +1,6 @@
 import { Box } from '@material-ui/core';
-import UserDashboardAppBar from '../../parts/app-bars/UserDashboard';
 import { makeStyles } from '@material-ui/core/styles';
+import Drawer from '../../parts/drawers/UserDashboard';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -14,7 +14,7 @@ function User() {
 
     return (
         <Box component="section" className={classes.root}>
-            <UserDashboardAppBar />
+            <Drawer />
         </Box>
     );
 }
