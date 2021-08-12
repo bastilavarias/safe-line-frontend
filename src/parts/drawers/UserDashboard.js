@@ -2,11 +2,21 @@ import { Drawer, Box, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Logo from '../../components/Logo';
 import { NavLink } from 'react-router-dom';
-import { HomeRounded, MessageRounded, MapRounded } from '@material-ui/icons';
+import {
+    HomeRounded,
+    MessageRounded,
+    MapRounded,
+    ExitToAppRounded,
+} from '@material-ui/icons';
 
+const drawerWidth = '6rem';
 const useStyles = makeStyles((theme) => ({
-    paper: {
-        width: '6rem',
+    drawer: {
+        width: drawerWidth,
+    },
+
+    drawerPaper: {
+        width: drawerWidth,
         backgroundColor: theme.palette.primary.main,
     },
 
@@ -27,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
         },
     },
 
-    button: {
+    navButton: {
         backgroundColor: 'transparent',
         color: '#DCDAFB',
         borderRadius: '.6rem',
@@ -37,13 +47,24 @@ const useStyles = makeStyles((theme) => ({
             color: theme.palette.primary.main,
         },
     },
+
+    exitButton: {
+        color: 'white',
+        padding: '1rem',
+        borderRadius: '.6rem',
+    },
 }));
 
 function UserDashboard() {
     const classes = useStyles();
 
     return (
-        <Drawer classes={{ paper: classes.paper }} variant="permanent">
+        <Drawer
+            variant="permanent"
+            anchor="left"
+            className={classes.drawer}
+            classes={{ paper: classes.drawerPaper }}
+        >
             <Box
                 className={classes.drawerContainer}
                 display="flex"
@@ -73,21 +94,21 @@ function UserDashboard() {
                     width="100%"
                 >
                     <Button
-                        className={classes.button}
+                        className={classes.navButton}
                         component={NavLink}
                         to="/user-dashboard"
                     >
                         <HomeRounded fontSize="large" />
                     </Button>
                     <Button
-                        className={classes.button}
+                        className={classes.navButton}
                         component={NavLink}
                         to="/dashboard"
                     >
                         <MessageRounded fontSize="large" />
                     </Button>
                     <Button
-                        className={classes.button}
+                        className={classes.navButton}
                         component={NavLink}
                         to="/messages"
                     >
@@ -95,6 +116,24 @@ function UserDashboard() {
                     </Button>
                 </Box>
                 <Box />
+            </Box>
+            <Box
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                borderRadius="50%"
+                position="absolute"
+                bottom="3%"
+                width="100%"
+            >
+                <Button
+                    className={classes.exitButton}
+                    component={NavLink}
+                    exact={true}
+                    to="/"
+                >
+                    <ExitToAppRounded fontSize="large" />
+                </Button>
             </Box>
         </Drawer>
     );
