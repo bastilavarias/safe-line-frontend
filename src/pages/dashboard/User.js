@@ -1,20 +1,44 @@
-import { Box, Container, Grid } from '@material-ui/core';
+import { Fragment, useRef, useEffect, useState } from 'react';
+import {
+    Avatar,
+    Box,
+    Container,
+    Grid,
+    ListItem,
+    ListItemAvatar,
+    ListItemText,
+    Typography,
+} from '@material-ui/core';
+import { NotificationsOutlined } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '../../parts/drawers/UserDashboard';
 import Toolbar from './components/Toolbar';
 import Table from './components/Table';
 import InformationBox from './components/InformationBox';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
     root: {
         backgroundColor: '#F5F5F5',
         minHeight: '100vh',
         display: 'flex',
     },
+
+    userMenuAvatar: {
+        width: theme.spacing(6),
+        height: theme.spacing(6),
+        marginRight: '1rem',
+    },
 }));
 
 function User() {
     const classes = useStyles();
+    const userMenuRef = useRef(null);
+    const [userMenuHeight, setUserMenuHeight] = useState(0);
+
+    useEffect(() => {
+        const height = userMenuRef.current.offsetHeight;
+        setUserMenuHeight(height);
+    }, [userMenuRef]);
 
     return (
         <Box component="section" className={classes.root}>
@@ -53,14 +77,59 @@ function User() {
                             </Grid>
                         </Grid>
                         <Grid item xs={12} md={5} lg={4} xl={3}>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing
-                            elit. Animi aut deleniti esse impedit, nesciunt non
-                            perspiciatis possimus recusandae tempora! Cumque
-                            numquam odit optio quae quo. Alias aliquid
-                            asperiores commodi consequatur, deserunt est eum ex
-                            explicabo facilis illum ipsum odio pariatur,
-                            repellat reprehenderit sit tenetur totam unde. Fuga
-                            fugit officiis quam?
+                            <Grid container>
+                                <Grid item xs={3} md={2}>
+                                    <Box
+                                        display="flex"
+                                        justifyContent="center"
+                                        alignItems="center"
+                                        height={userMenuHeight || 77}
+                                    >
+                                        <Box>
+                                            <NotificationsOutlined fontSize="medium" />
+                                        </Box>
+                                    </Box>
+                                </Grid>
+                                <Grid item xs={9} md={10}>
+                                    <Box ref={userMenuRef}>
+                                        <ListItem>
+                                            <ListItemAvatar>
+                                                <Avatar
+                                                    alt="Remy Sharp"
+                                                    src="https://randomuser.me/api/portraits/men/22.jpg"
+                                                    className={
+                                                        classes.userMenuAvatar
+                                                    }
+                                                />
+                                            </ListItemAvatar>
+                                            <ListItemText
+                                                primary={
+                                                    <Fragment>
+                                                        <Typography
+                                                            component="span"
+                                                            variant="subtitle1"
+                                                        >
+                                                            <Box fontWeight="bold">
+                                                                John Doe
+                                                            </Box>
+                                                        </Typography>
+                                                    </Fragment>
+                                                }
+                                                secondary={
+                                                    <Fragment>
+                                                        <Typography
+                                                            component="span"
+                                                            variant="subtitle2"
+                                                        >
+                                                            johndoe@gmail.com
+                                                        </Typography>
+                                                    </Fragment>
+                                                }
+                                            />
+                                        </ListItem>
+                                    </Box>
+                                </Grid>
+                            </Grid>
                         </Grid>
                     </Grid>
                 </Container>
