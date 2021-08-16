@@ -1,55 +1,158 @@
+import { Fragment } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Paper,
+    Typography,
+    AppBar,
+    Toolbar,
+    Button,
+    ListItemText,
+    ListItem,
+    Box,
+} from '@material-ui/core';
+import ConsultationStatusChip from '../../../components/ConsultationStatusChip';
 
 const useStyles = makeStyles({
+    paper: {
+        paddingTop: '1rem',
+    },
+
+    appBar: {
+        boxShadow: 'none',
+
+        '& .appBar__toolbar': {
+            '& .toolbar__title': {
+                flexGrow: 1,
+                fontWeight: 'bold',
+            },
+        },
+    },
+
     table: {
         minWidth: 650,
     },
+
+    listItem: {
+        paddingLeft: 0,
+    },
+
+    button: {
+        borderRadius: '.6rem',
+    },
 });
 
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-}
-
 const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
+    {
+        doctor: {
+            name: 'Ernest Dela Cruz',
+            specialty: 'Psychiatrist',
+        },
+        schedule: 'Aug 28, 2021',
+        status: 'To Consult',
+    },
+
+    {
+        doctor: {
+            name: 'Ernest Dela Cruz',
+            specialty: 'Psychiatrist',
+        },
+        schedule: 'Aug 28, 2021',
+        status: 'Resched',
+    },
+
+    {
+        doctor: {
+            name: 'Ernest Dela Cruz',
+            specialty: 'Psychiatrist',
+        },
+        schedule: 'Aug 28, 2021',
+        status: 'Resched',
+    },
 ];
 
 function BaseTable() {
     const classes = useStyles();
 
     return (
-        <TableContainer component={Paper}>
-            <Table className={classes.table} aria-label="simple table">
+        <TableContainer component={Paper} className={classes.paper}>
+            <AppBar
+                position="static"
+                className={classes.appBar}
+                color="inherit"
+            >
+                <Toolbar className="appBar__toolbar">
+                    <Typography variant="h5" className="toolbar__title">
+                        Consultations
+                    </Typography>
+                    <Button color="inherit">Login</Button>
+                </Toolbar>
+            </AppBar>
+            <Table className={classes.table} aria-label="Consultations Table">
                 <TableHead>
                     <TableRow>
-                        <TableCell>Dessert (100g serving)</TableCell>
-                        <TableCell align="right">Calories</TableCell>
-                        <TableCell align="right">Fat&nbsp;(g)</TableCell>
-                        <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-                        <TableCell align="right">Protein&nbsp;(g)</TableCell>
+                        <TableCell>Doctors</TableCell>
+                        <TableCell>Schedule</TableCell>
+                        <TableCell>Status</TableCell>
+                        <TableCell />
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {rows.map((row) => (
-                        <TableRow key={row.name}>
+                    {rows.map((row, index) => (
+                        <TableRow key={index}>
                             <TableCell component="th" scope="row">
-                                {row.name}
+                                <ListItem className={classes.listItem}>
+                                    <ListItemText
+                                        primary={
+                                            <Fragment>
+                                                <Typography
+                                                    component="span"
+                                                    variant="subtitle1"
+                                                >
+                                                    <Box fontWeight="bold">
+                                                        {row.doctor.name}
+                                                    </Box>
+                                                </Typography>
+                                            </Fragment>
+                                        }
+                                        secondary={row.doctor.specialty}
+                                    />
+                                </ListItem>
                             </TableCell>
-                            <TableCell align="right">{row.calories}</TableCell>
-                            <TableCell align="right">{row.fat}</TableCell>
-                            <TableCell align="right">{row.carbs}</TableCell>
-                            <TableCell align="right">{row.protein}</TableCell>
+                            <TableCell>
+                                <ListItem className={classes.listItem}>
+                                    <ListItemText
+                                        primary={
+                                            <Fragment>
+                                                <Typography
+                                                    component="span"
+                                                    variant="subtitle1"
+                                                >
+                                                    {row.schedule}
+                                                </Typography>
+                                            </Fragment>
+                                        }
+                                        secondary="In 3 hours"
+                                    />
+                                </ListItem>
+                            </TableCell>
+                            <TableCell>
+                                <ConsultationStatusChip text={row.status} />
+                            </TableCell>
+                            <TableCell align="right">
+                                <Button
+                                    variant="outlined"
+                                    color="primary"
+                                    className={classes.button}
+                                >
+                                    Go To Room
+                                </Button>
+                            </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
