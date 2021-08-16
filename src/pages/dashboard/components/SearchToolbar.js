@@ -8,7 +8,7 @@ const useStyles = makeStyles(() => ({
     },
 }));
 
-function Toolbar() {
+function SearchToolbar() {
     const classes = useStyles();
 
     return (
@@ -38,4 +38,4 @@ function Toolbar() {
     );
 }
 
-export default Toolbar;
+export default SearchToolbar;
