@@ -5,6 +5,7 @@ import SearchToolbar from './components/SearchToolbar';
 import Table from './components/Table';
 import InformationBox from './components/InformationBox';
 import UserToolbar from './components/UserToolbar';
+import ScheduleCalendar from './components/ScheduleCalendar';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -54,12 +55,12 @@ function User() {
                             </Grid>
                         </Grid>
                         <Grid item xs={12} md={5} lg={4} xl={3}>
-                            <Grid container>
+                            <Grid container spacing={4}>
                                 <Grid item xs={12}>
                                     <UserToolbar />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <UserToolbar />
+                                    <ScheduleCalendar />
                                 </Grid>
                             </Grid>
                         </Grid>
