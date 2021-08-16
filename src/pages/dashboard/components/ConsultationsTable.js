@@ -85,7 +85,7 @@ const rows = [
     },
 ];
 
-function BaseTable() {
+function ConsultationsTable() {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
 
@@ -224,4 +224,4 @@ function BaseTable() {
     );
 }
 
-export default BaseTable;
+export default ConsultationsTable;

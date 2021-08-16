@@ -2,7 +2,7 @@ import { Box, Container, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '../../parts/drawers/UserDashboard';
 import SearchToolbar from './components/SearchToolbar';
-import Table from './components/Table';
+import ConsultationsTable from './components/ConsultationsTable';
 import InformationBox from './components/InformationBox';
 import UserToolbar from './components/UserToolbar';
 import ScheduleCalendar from './components/ScheduleCalendar';
@@ -30,7 +30,7 @@ function User() {
                                     <SearchToolbar />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <Table />
+                                    <ConsultationsTable />
                                 </Grid>
                                 <Grid item xs={12}>
                                     <Box
