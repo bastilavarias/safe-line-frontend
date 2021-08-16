@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '../../parts/drawers/UserDashboard';
 import Toolbar from './components/Toolbar';
 import Table from './components/Table';
+import InformationBox from './components/InformationBox';
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -28,6 +29,26 @@ function User() {
                                 </Grid>
                                 <Grid item xs={12}>
                                     <Table />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Box
+                                        display="flex"
+                                        justifyContent="space-between"
+                                        alignItems="center"
+                                    >
+                                        <Grid container spacing={4}>
+                                            {[1, 2, 3, 4].map((n) => (
+                                                <Grid
+                                                    key={n}
+                                                    item
+                                                    xs={12}
+                                                    md={3}
+                                                >
+                                                    <InformationBox />
+                                                </Grid>
+                                            ))}
+                                        </Grid>
+                                    </Box>
                                 </Grid>
                             </Grid>
                         </Grid>
