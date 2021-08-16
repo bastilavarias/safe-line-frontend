@@ -54,7 +54,14 @@ function User() {
                             </Grid>
                         </Grid>
                         <Grid item xs={12} md={5} lg={4} xl={3}>
-                            <UserToolbar />
+                            <Grid container>
+                                <Grid item xs={12}>
+                                    <UserToolbar />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <UserToolbar />
+                                </Grid>
+                            </Grid>
                         </Grid>
                     </Grid>
                 </Container>
