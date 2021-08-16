@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
     Table,
@@ -15,7 +15,10 @@ import {
     ListItemText,
     ListItem,
     Box,
+    Menu,
+    MenuItem,
 } from '@material-ui/core';
+import { ExpandMoreOutlined } from '@material-ui/icons';
 import ConsultationStatusChip from '../../../components/ConsultationStatusChip';
 
 const useStyles = makeStyles({
@@ -30,6 +33,12 @@ const useStyles = makeStyles({
             '& .toolbar__title': {
                 flexGrow: 1,
                 fontWeight: 'bold',
+            },
+
+            '& .toolbar__button': {
+                borderRadius: '.6rem',
+                textTransform: 'capitalize',
+                boxShadow: 'none',
             },
         },
     },
@@ -78,6 +87,15 @@ const rows = [
 
 function BaseTable() {
     const classes = useStyles();
+    const [anchorEl, setAnchorEl] = useState(null);
+
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
 
     return (
         <TableContainer component={Paper} className={classes.paper}>
@@ -90,7 +108,52 @@ function BaseTable() {
                     <Typography variant="h5" className="toolbar__title">
                         Consultations
                     </Typography>
-                    <Button color="inherit">Login</Button>
+                    <Box mr={2}>
+                        <Button
+                            aria-controls="schedule-menu"
+                            aria-haspopup="true"
+                            onClick={handleClick}
+                            endIcon={<ExpandMoreOutlined />}
+                            className="toolbar__button"
+                            variant="contained"
+                        >
+                            Schedule
+                        </Button>
+                        <Menu
+                            id="schedule-menu"
+                            anchorEl={anchorEl}
+                            keepMounted
+                            open={Boolean(anchorEl)}
+                            onClose={handleClose}
+                        >
+                            <MenuItem onClick={handleClose}>
+                                Sample Schedule Filter
+                            </MenuItem>
+                        </Menu>
+                    </Box>
+                    <Box>
+                        <Button
+                            aria-controls="filter-menu"
+                            aria-haspopup="true"
+                            onClick={handleClick}
+                            endIcon={<ExpandMoreOutlined />}
+                            className="toolbar__button"
+                            variant="contained"
+                        >
+                            Filter
+                        </Button>
+                        <Menu
+                            id="filter-menu"
+                            anchorEl={anchorEl}
+                            keepMounted
+                            open={Boolean(anchorEl)}
+                            onClose={handleClose}
+                        >
+                            <MenuItem onClick={handleClose}>
+                                Sample Schedule Filter
+                            </MenuItem>
+                        </Menu>
+                    </Box>
                 </Toolbar>
             </AppBar>
             <Table className={classes.table} aria-label="Consultations Table">
