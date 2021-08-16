@@ -19,6 +19,22 @@ const theme = createTheme({
             main: '#38D6EB',
         },
     },
+
+    overrides: {
+        MuiPickersCalendarHeader: {
+            daysHeader: {
+                display: 'flex',
+                justifyContent: 'space-between',
+            },
+        },
+
+        MuiPickersCalendar: {
+            week: {
+                display: 'flex',
+                justifyContent: 'space-between',
+            },
+        },
+    },
 });
 
 function App() {
