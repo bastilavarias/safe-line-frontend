@@ -43,21 +43,17 @@ function App() {
             <MuiPickersUtilsProvider utils={MomentUtils}>
                 <Router>
                     <Switch>
-                        <Route exact path="/">
-                            <Home />
-                        </Route>
-                        <Route path="/sign-up/clinic">
-                            <ClinicSignUp />
-                        </Route>
-                        <Route path="/sign-up/user">
-                            <UserSignUp />
-                        </Route>
-                        <Route path="/sign-in">
-                            <SignIn />
-                        </Route>
-                        <Route path="/user-dashboard">
-                            <DashboardStructure />
-                        </Route>
+                        <Route exact path="/" component={Home} />
+                        <Route
+                            path="/sign-up/clinic"
+                            component={ClinicSignUp}
+                        />
+                        <Route path="/sign-up/user" component={UserSignUp} />
+                        <Route path="/sign-in" component={SignIn} />
+                        <Route
+                            path="/user-dashboard"
+                            component={DashboardStructure}
+                        />
                     </Switch>
                 </Router>
             </MuiPickersUtilsProvider>

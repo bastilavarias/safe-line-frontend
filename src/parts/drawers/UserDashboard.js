@@ -1,7 +1,7 @@
 import { Drawer, Box, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Logo from '../../components/Logo';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useRouteMatch } from 'react-router-dom';
 import {
     HomeRounded,
     MessageRounded,
@@ -57,6 +57,7 @@ const useStyles = makeStyles((theme) => ({
 
 function UserDashboard() {
     const classes = useStyles();
+    let { url } = useRouteMatch();
 
     return (
         <Drawer
@@ -96,21 +97,22 @@ function UserDashboard() {
                     <Button
                         className={classes.navButton}
                         component={NavLink}
-                        to="/user-dashboard"
+                        to={url}
+                        exact
                     >
                         <HomeRounded fontSize="large" />
                     </Button>
                     <Button
                         className={classes.navButton}
                         component={NavLink}
-                        to="/dashboard"
+                        to={`${url}/test`}
                     >
                         <MessageRounded fontSize="large" />
                     </Button>
                     <Button
                         className={classes.navButton}
                         component={NavLink}
-                        to="/user-dashboard/clinics"
+                        to={`${url}/clinics`}
                     >
                         <MapRounded fontSize="large" />
                     </Button>

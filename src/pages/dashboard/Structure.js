@@ -23,12 +23,8 @@ function Structure() {
             <Drawer />
             <Box component="main" width="100%" pt={5}>
                 <Switch>
-                    <Route exact path={path}>
-                        <User />
-                    </Route>
-                    <Route exact path={`${path}/clinics`}>
-                        <Clinics />
-                    </Route>
+                    <Route exact path={path} component={User} />
+                    <Route path={`${path}/clinics`} component={Clinics} />
                 </Switch>
             </Box>
         </Box>
