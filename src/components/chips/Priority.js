@@ -3,30 +3,33 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
     chip: {
+        border: 'thin solid',
         borderRadius: '.6rem',
+        textTransform: 'uppercase',
+        backgroundColor: 'transparent',
     },
 
-    success: {
-        backgroundColor: 'rgba(46, 204, 113, 0.25)',
-        color: '#2ECC71',
+    high: {
+        borderColor: '#E74C3C',
+        color: '#E74C3C',
     },
 
-    warning: {
-        backgroundColor: 'rgba(241, 196, 15, 0.25)',
+    medium: {
+        borderColor: '#F1C40F',
         color: '#F1C40F',
     },
 });
 
-function ConsultationStatusChip({ text }) {
+function Priority({ text }) {
     const classes = useStyles();
 
     const theme = () => {
-        let theme = 'success';
-        if (text === 'Resched') theme = 'warning';
+        let theme = 'high';
+        if (text === 'MEDIUM') theme = 'medium';
         return `${classes.chip} ${classes[theme]}`;
     };
 
     return <Chip label={text} className={theme()} />;
 }
 
-export default ConsultationStatusChip;
+export default Priority;

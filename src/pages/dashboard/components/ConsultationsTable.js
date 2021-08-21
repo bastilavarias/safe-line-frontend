@@ -19,11 +19,13 @@ import {
     MenuItem,
 } from '@material-ui/core';
 import { ExpandMoreOutlined } from '@material-ui/icons';
-import ConsultationStatusChip from '../../../components/ConsultationStatusChip';
+import ConsultationStatusChip from '../../../components/chips/ConsultationStatus';
 
 const useStyles = makeStyles({
     paper: {
         paddingTop: '1rem',
+        borderRadius: '.6rem',
+        overflow: 'hidden',
     },
 
     appBar: {

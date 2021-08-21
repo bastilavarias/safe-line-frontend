@@ -6,6 +6,7 @@ import ConsultationsTable from './components/ConsultationsTable';
 import InformationBox from './components/InformationBox';
 import UserToolbar from './components/UserToolbar';
 import ScheduleCalendar from './components/ScheduleCalendar';
+import RemindersBox from './components/reminders/RemindersBox';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -61,6 +62,9 @@ function User() {
                                 </Grid>
                                 <Grid item xs={12}>
                                     <ScheduleCalendar />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <RemindersBox />
                                 </Grid>
                             </Grid>
                         </Grid>
