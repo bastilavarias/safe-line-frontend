@@ -1,5 +1,5 @@
 import { Box, Typography } from '@material-ui/core';
-import PriorityChip from '../../../../components/chips/Priority';
+import PriorityChip from '../../../../../components/chips/Priority';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({

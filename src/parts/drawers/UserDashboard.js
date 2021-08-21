@@ -110,7 +110,7 @@ function UserDashboard() {
                     <Button
                         className={classes.navButton}
                         component={NavLink}
-                        to="/messages"
+                        to="/user-dashboard/clinics"
                     >
                         <MapRounded fontSize="large" />
                     </Button>

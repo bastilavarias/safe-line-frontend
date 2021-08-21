@@ -19,7 +19,7 @@ import {
     MenuItem,
 } from '@material-ui/core';
 import { ExpandMoreOutlined } from '@material-ui/icons';
-import ConsultationStatusChip from '../../../components/chips/ConsultationStatus';
+import ConsultationStatusChip from '../../../../components/chips/ConsultationStatus';
 
 const useStyles = makeStyles({
     paper: {

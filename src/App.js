@@ -6,7 +6,7 @@ import UserSignUp from './pages/sign-up/components/user/Body';
 import ClinicSignUp from './pages/sign-up/components/clinic/Body';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
-import UserDashboard from './pages/dashboard/User.js';
+import DashboardStructure from './pages/dashboard/Structure';
 
 const theme = createTheme({
     palette: {
@@ -43,8 +43,8 @@ function App() {
             <MuiPickersUtilsProvider utils={MomentUtils}>
                 <Router>
                     <Switch>
-                        <Route path="/user-dashboard">
-                            <UserDashboard />
+                        <Route exact path="/">
+                            <Home />
                         </Route>
                         <Route path="/sign-up/clinic">
                             <ClinicSignUp />
@@ -55,8 +55,8 @@ function App() {
                         <Route path="/sign-in">
                             <SignIn />
                         </Route>
-                        <Route path="/">
-                            <Home />
+                        <Route path="/user-dashboard">
+                            <DashboardStructure />
                         </Route>
                     </Switch>
                 </Router>
