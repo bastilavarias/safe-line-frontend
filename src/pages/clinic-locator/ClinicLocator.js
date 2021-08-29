@@ -1,35 +1,44 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { useEffect, useState } from 'react';
 
 const useStyles = makeStyles(() => ({
     root: {
         width: '100%',
         height: '100vh',
+        position: 'relative',
     },
 }));
 
-const position = [14.5995, 120.9842];
-
 function ClinicLocator() {
     const classes = useStyles();
+    const [positions, setPositions] = useState([14.5995, 120.9842]);
+
+    useEffect(() => {
+        navigator.geolocation.getCurrentPosition((position) => {
+            setPositions([position.coords.latitude, position.coords.longitude]);
+        });
+    });
 
     return (
-        <MapContainer
-            center={position}
-            zoom={25}
-            scrollWheelZoom={false}
-            className={classes.root}
-        >
-            <TileLayer
-                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
-            <Marker position={position}>
-                <Popup>
-                    A pretty CSS3 popup. <br /> Easily customizable.
-                </Popup>
-            </Marker>
-        </MapContainer>
+        <>
+            <MapContainer
+                center={positions}
+                zoom={25}
+                scrollWheelZoom={true}
+                className={classes.root}
+            >
+                <TileLayer
+                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                <Marker position={positions}>
+                    <Popup>
+                        A pretty CSS3 popup. <br /> Easily customizable.
+                    </Popup>
+                </Marker>
+            </MapContainer>
+        </>
     );
 }
 
