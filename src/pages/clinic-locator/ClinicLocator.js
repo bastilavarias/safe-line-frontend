@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { useEffect, useState } from 'react';
 import { Box } from '@material-ui/core';
 import SearchBar from './components/SearchBar';
+import ClinicPreviewCard from './components/ClinicPreviewCard';
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -45,6 +46,7 @@ function ClinicLocator() {
                 </Marker>
             </MapContainer>
             <SearchBar />
+            <ClinicPreviewCard />
         </Box>
     );
 }

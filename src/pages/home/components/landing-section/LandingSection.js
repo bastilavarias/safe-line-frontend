@@ -6,7 +6,7 @@ import {
     MapRounded,
     VideocamRounded,
 } from '@material-ui/icons';
-import ImageBox from './ImageBox';
+import ImageBox from './components/ImageBox';
 import SignUpSelectionDialog from '../../../../components/sign-up/SelectionDialog';
 import { useState } from 'react';
 

@@ -1,5 +1,5 @@
 import { Box } from '@material-ui/core';
-import ImageGirl1 from '../../../../assets/images/girl-1.jpg';
+import ImageGirl1 from '../../../../../assets/images/girl-1.jpg';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(() => ({

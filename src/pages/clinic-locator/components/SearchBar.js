@@ -1,12 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import {
-    Paper,
-    InputBase,
-    Divider,
-    IconButton,
-    FormControl,
-} from '@material-ui/core';
+import { Paper, InputBase, Divider, IconButton } from '@material-ui/core';
 import { SearchRounded } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
@@ -42,7 +36,7 @@ function SearchBar() {
     const classes = useStyles();
 
     return (
-        <Paper className={classes.root}>
+        <Paper className={classes.root} elevation={3}>
             <InputBase
                 className={classes.input}
                 placeholder="Current location"
