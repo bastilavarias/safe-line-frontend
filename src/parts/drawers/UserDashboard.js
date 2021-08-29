@@ -112,7 +112,7 @@ function UserDashboard() {
                     <Button
                         className={classes.navButton}
                         component={NavLink}
-                        to={`${url}/clinics`}
+                        to={`${url}/clinic-locator`}
                     >
                         <MapRounded fontSize="large" />
                     </Button>

@@ -4,7 +4,7 @@ import { Box } from '@material-ui/core';
 import Drawer from '../../parts/drawers/UserDashboard';
 import { Switch, Route } from 'react-router-dom';
 import User from './user/components/User';
-import Clinics from '../clinics/Clinics';
+import ClinicLocator from '../clinic-locator/ClinicLocator';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -21,10 +21,13 @@ function Structure() {
     return (
         <Box component="section" className={classes.root}>
             <Drawer />
-            <Box component="main" width="100%" pt={5}>
+            <Box component="main" width="100%">
                 <Switch>
                     <Route exact path={path} component={User} />
-                    <Route path={`${path}/clinics`} component={Clinics} />
+                    <Route
+                        path={`${path}/clinic-locator`}
+                        component={ClinicLocator}
+                    />
                 </Switch>
             </Box>
         </Box>
