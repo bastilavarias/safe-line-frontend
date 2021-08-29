@@ -1,9 +1,15 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { useEffect, useState } from 'react';
+import { Box } from '@material-ui/core';
+import SearchTextField from './SearchTextField';
 
 const useStyles = makeStyles(() => ({
     root: {
+        position: 'relative',
+    },
+
+    mapContainer: {
         width: '100%',
         height: '100vh',
         position: 'relative',
@@ -12,7 +18,7 @@ const useStyles = makeStyles(() => ({
 
 function ClinicLocator() {
     const classes = useStyles();
-    const [positions, setPositions] = useState([14.5995, 120.9842]);
+    const [positions, setPositions] = useState([14.5386, 121.0574]);
 
     useEffect(() => {
         navigator.geolocation.getCurrentPosition((position) => {
@@ -21,12 +27,12 @@ function ClinicLocator() {
     });
 
     return (
-        <>
+        <Box className={classes.root}>
             <MapContainer
                 center={positions}
                 zoom={25}
                 scrollWheelZoom={true}
-                className={classes.root}
+                className={classes.mapContainer}
             >
                 <TileLayer
                     attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -38,7 +44,8 @@ function ClinicLocator() {
                     </Popup>
                 </Marker>
             </MapContainer>
-        </>
+            <SearchTextField />
+        </Box>
     );
 }
 
