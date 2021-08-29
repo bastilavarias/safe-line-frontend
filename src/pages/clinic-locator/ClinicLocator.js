@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { useEffect, useState } from 'react';
 import { Box } from '@material-ui/core';
-import SearchTextField from './SearchTextField';
+import SearchBar from './components/SearchBar';
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -44,7 +44,7 @@ function ClinicLocator() {
                     </Popup>
                 </Marker>
             </MapContainer>
-            <SearchTextField />
+            <SearchBar />
         </Box>
     );
 }

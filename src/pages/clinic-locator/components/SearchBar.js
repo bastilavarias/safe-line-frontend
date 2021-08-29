@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function SearchTextField() {
+function SearchBar() {
     const classes = useStyles();
 
     return (
@@ -57,4 +57,4 @@ function SearchTextField() {
     );
 }
 
-export default SearchTextField;
+export default SearchBar;

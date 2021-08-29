@@ -1,4 +1,5 @@
 import { Box, Container, Grid } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
 import SearchToolbar from './SearchToolbar';
 import ConsultationsTable from './ConsultationsTable';
 import InformationBox from './InformationBox';
@@ -6,9 +7,17 @@ import UserToolbar from './UserToolbar';
 import ScheduleCalendar from './ScheduleCalendar';
 import RemindersBox from './reminders/RemindersBox';
 
+const useStyles = makeStyles(() => ({
+    root: {
+        paddingTop: '1rem',
+    },
+}));
+
 function User() {
+    const classes = useStyles();
+
     return (
-        <Container maxWidth="xl">
+        <Container maxWidth="xl" className={classes.root}>
             <Grid container spacing={4}>
                 <Grid item xs={12} md={7} lg={8} xl={9}>
                     <Grid container spacing={4}>
