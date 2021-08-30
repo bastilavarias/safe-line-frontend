@@ -1,4 +1,3 @@
-import { useHistory } from 'react-router-dom';
 import {
     Dialog,
     Slide,
@@ -7,10 +6,12 @@ import {
     Button,
     Box,
     Typography,
+    Grid,
 } from '@material-ui/core';
-import { Close, Face, Favorite } from '@material-ui/icons';
-import { forwardRef, useState } from 'react';
+import { Close, PlaceRounded, ScheduleRounded } from '@material-ui/icons';
+import { forwardRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import ImageGirl1 from '../../../../assets/images/girl-1.jpg';
 
 const Transition = forwardRef(function Transition(props, ref) {
     return <Slide direction="down" ref={ref} {...props} />;
@@ -19,7 +20,6 @@ const Transition = forwardRef(function Transition(props, ref) {
 const useStyles = makeStyles((theme) => ({
     root: {
         height: 'max-content',
-        minHeight: '100%',
     },
 
     backdrop: {
@@ -30,59 +30,32 @@ const useStyles = makeStyles((theme) => ({
         overflow: 'visible',
     },
 
-    logoBox: {
-        width: '4rem',
-        height: '4rem',
+    image: {
+        width: '7rem',
+        height: '7rem',
         borderRadius: '50%',
-        backgroundColor: theme.palette.primary.main,
+        objectFit: 'cover',
     },
 
-    logo: {
-        width: '2.5rem',
-        height: 'auto',
-        fill: '#fff',
+    clinicTypeText: {
+        color: 'rgba(0, 0, 0, 0.55)',
     },
 
-    selectionBox: {
-        border: '.15rem solid rgba(77, 77, 77, 0.25)',
-        borderRadius: '.6rem',
-        cursor: 'pointer',
-        width: '10rem',
-        padding: '1.5rem 1rem',
-        transition: 'all .3s ease-in-out',
-
-        '&:hover': {
-            boxShadow: '-1px 0px .2rem rgba(0,0,0,0.75);',
-        },
+    icon: {
+        marginRight: '1rem',
     },
 
-    activeSelectionBox: {
-        borderColor: theme.palette.primary.main,
-        boxShadow: '-1px 0px .5rem rgba(0,0,0,0.75);',
+    availableText: {
+        color: '#2ECC71',
     },
 
-    continueButton: {
-        padding: '.5rem 0',
-        borderRadius: '.6rem',
+    button: {
         textTransform: 'capitalize',
-        maxWidth: '15rem',
-        minWidth: '15rem',
     },
 }));
 
 function InformationDialog({ isOpen, setDialogState }) {
     const classes = useStyles();
-    const [type, setType] = useState('');
-    const history = useHistory();
-
-    const setSignUpType = (type) => {
-        setType(type);
-    };
-
-    const handleContinue = () => {
-        if (type === 'clinic') return history.push('/sign-up/clinic');
-        history.push('/sign-up/user');
-    };
 
     return (
         <Dialog
@@ -117,99 +90,69 @@ function InformationDialog({ isOpen, setDialogState }) {
                     </Box>
                 </Box>
             </DialogTitle>
-            <DialogContent>
-                <Box
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                    height="35rem"
-                    flexDirection="column"
-                >
-                    <Box mb={1}>
-                        <Typography variant="h4">
-                            <Box fontWeight="fontWeightBold">
-                                Sign Up to Safe Line
-                            </Box>
-                        </Typography>
-                    </Box>
-                    <Box>
-                        <Typography variant="h6">
-                            Lorem ipsum dolor sit amet
-                        </Typography>
-                    </Box>
-                    <Box mt={2} mb={4} display="flex" justifyContent="center">
-                        <Box
-                            className={`${classes.selectionBox} ${
-                                type === 'user'
-                                    ? classes.activeSelectionBox
-                                    : null
-                            }`}
-                            padding={2}
-                            color={
-                                type === 'user'
-                                    ? 'primary'
-                                    : 'rgba(0, 0, 0, 0.6)'
-                            }
-                            borderColor={
-                                type === 'user'
-                                    ? 'primary'
-                                    : 'rgba(77, 77, 77, 0.25)'
-                            }
-                            onClick={() => setSignUpType('user')}
-                        >
-                            <Box>
-                                <Face />
-                            </Box>
-                            <Box my={1}>
-                                <Typography variant="subtitle1">
-                                    Patient
+            <DialogContent style={{ overflow: 'hidden' }}>
+                <Box>
+                    <Grid container spacing={4}>
+                        <Grid item xs={3}>
+                            <img
+                                alt="Clinic Image"
+                                src={ImageGirl1}
+                                className={classes.image}
+                            />
+                        </Grid>
+                        <Grid item xs={9}>
+                            <Box mb={3}>
+                                <Typography variant="h6">
+                                    <Box fontWeight="bold">
+                                        JRG DENTAL CLINIC
+                                    </Box>
+                                </Typography>
+                                <Typography
+                                    variant="caption"
+                                    className={classes.clinicTypeText}
+                                >
+                                    Dental Clinic
                                 </Typography>
                             </Box>
-                            <Box>
-                                <Typography variant="body2">
-                                    Lorem ipsum dolor sit amet, consectetur
-                                    adipiscing elit ut aliquam
-                                </Typography>
-                            </Box>
-                        </Box>
-
-                        <Box mx={1} />
-                        <Box
-                            className={`${classes.selectionBox} ${
-                                type === 'clinic'
-                                    ? classes.activeSelectionBox
-                                    : null
-                            }`}
-                            padding={2}
-                            color="rgba(0, 0, 0, 0.6)"
-                            onClick={() => setSignUpType('clinic')}
-                        >
-                            <Box>
-                                <Favorite />
-                            </Box>
-                            <Box my={1}>
-                                <Typography variant="subtitle1">
-                                    Clinic
-                                </Typography>
-                            </Box>
-                            <Box>
-                                <Typography variant="body2">
-                                    Lorem ipsum dolor sit amet, consectetur
-                                    adipiscing elit ut aliquam
-                                </Typography>
-                            </Box>
-                        </Box>
-                    </Box>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        className={classes.continueButton}
-                        disableElevation
-                        disabled={!type}
-                        onClick={handleContinue}
-                    >
-                        Continue
-                    </Button>
+                            <Grid container>
+                                <Grid item xs={5}>
+                                    <Box display="flex" alignItems="start">
+                                        <ScheduleRounded
+                                            color="primary"
+                                            className={classes.icon}
+                                        />
+                                        <Box>
+                                            <Typography
+                                                className={
+                                                    classes.availableText
+                                                }
+                                                variant="subtitle1"
+                                            >
+                                                Open Now
+                                            </Typography>
+                                            <Typography variant="subtitle2">
+                                                Closes at 5:00 PM
+                                            </Typography>
+                                        </Box>
+                                    </Box>
+                                </Grid>
+                                <Grid item xs={7}>
+                                    <Box display="flex" alignItems="start">
+                                        <PlaceRounded
+                                            color="primary"
+                                            className={classes.icon}
+                                        />
+                                        <Box>
+                                            <Typography variant="subtitle1">
+                                                90, 1012 Quezon St, Tondo,
+                                                Manila, 1012 Metro Manila
+                                            </Typography>
+                                        </Box>
+                                    </Box>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </Grid>
                 </Box>
             </DialogContent>
         </Dialog>
