@@ -1,5 +1,10 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { Box, Paper, Grid, Typography } from '@material-ui/core';
+import { Box, Paper, Grid, Typography, Button } from '@material-ui/core';
+import {
+    ScheduleRounded,
+    PlaceRounded,
+    ArrowDropDownRounded,
+} from '@material-ui/icons';
 import React from 'react';
 import ImageGirl1 from '../../../assets/images/girl-1.jpg';
 
@@ -23,6 +28,18 @@ const useStyles = makeStyles((theme) => ({
 
     clinicTypeText: {
         color: 'rgba(0, 0, 0, 0.55)',
+    },
+
+    icon: {
+        marginRight: '1rem',
+    },
+
+    availableText: {
+        color: '#2ECC71',
+    },
+
+    button: {
+        textTransform: 'capitalize',
     },
 }));
 
@@ -52,17 +69,48 @@ function ClinicPreviewCard() {
                                 Dental Clinic
                             </Typography>
                         </Box>
-                        <Box
-                            display="flex"
-                            justifyContent="space-between"
-                            alignItems="center"
-                        >
-                            <Box>1</Box>
-                            <Box>2</Box>
-                        </Box>
+                        <Grid container>
+                            <Grid item xs={5}>
+                                <Box display="flex" alignItems="start">
+                                    <ScheduleRounded
+                                        color="primary"
+                                        className={classes.icon}
+                                    />
+                                    <Box>
+                                        <Typography
+                                            className={classes.availableText}
+                                            variant="subtitle1"
+                                        >
+                                            Open Now
+                                        </Typography>
+                                        <Typography variant="subtitle2">
+                                            Closes at 5:00 PM
+                                        </Typography>
+                                    </Box>
+                                </Box>
+                            </Grid>
+                            <Grid item xs={7}>
+                                <Box display="flex" alignItems="start">
+                                    <PlaceRounded
+                                        color="primary"
+                                        className={classes.icon}
+                                    />
+                                    <Box>
+                                        <Typography variant="subtitle1">
+                                            90, 1012 Quezon St, Tondo, Manila,
+                                            1012 Metro Manila
+                                        </Typography>
+                                    </Box>
+                                </Box>
+                            </Grid>
+                        </Grid>
                     </Grid>
                 </Grid>
             </Box>
+            <Button fullWidth color="primary" className={classes.button}>
+                <ArrowDropDownRounded fontSize="large" />
+                <span>View More</span>
+            </Button>
         </Paper>
     );
 }
