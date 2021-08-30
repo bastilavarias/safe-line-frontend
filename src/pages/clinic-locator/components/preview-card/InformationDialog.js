@@ -17,6 +17,19 @@ const Transition = forwardRef(function Transition(props, ref) {
 });
 
 const useStyles = makeStyles((theme) => ({
+    root: {
+        height: 'max-content',
+        minHeight: '100%',
+    },
+
+    backdrop: {
+        position: 'absolute',
+    },
+
+    paperScrollPaper: {
+        overflow: 'visible',
+    },
+
     logoBox: {
         width: '4rem',
         height: '4rem',
@@ -78,6 +91,17 @@ function InformationDialog({ isOpen, setDialogState }) {
             onClose={() => setDialogState(false)}
             maxWidth="sm"
             fullWidth
+            disableAutoFocus //disables rescrolling the window when the dialog is opened
+            disableEnforceFocus //allows user to interact outside the dialog
+            disableScrollLock //prevents the div from shrinking to make room for a scrollbar
+            disablePortal
+            classes={{
+                paperScrollPaper: classes.paperScrollPaper,
+            }}
+            BackdropProps={{
+                classes: { root: classes.backdrop },
+            }}
+            style={{ position: 'absolute' }}
         >
             <DialogTitle>
                 <Box

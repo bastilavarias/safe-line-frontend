@@ -5,9 +5,7 @@ import {
     PlaceRounded,
     ArrowDropDownRounded,
 } from '@material-ui/icons';
-import React, { useState } from 'react';
 import ImageGirl1 from '../../../../assets/images/girl-1.jpg';
-import InformationDialog from './InformationDialog';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -44,13 +42,8 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function PreviewCard() {
+function PreviewCard({ setDialogState }) {
     const classes = useStyles();
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
-
-    const setDialogState = (state) => {
-        setIsDialogOpen(state);
-    };
 
     return (
         <Paper className={classes.root} component={Box} elevation={3}>
@@ -122,10 +115,6 @@ function PreviewCard() {
                 <ArrowDropDownRounded fontSize="large" />
                 <span>View More</span>
             </Button>
-            <InformationDialog
-                isOpen={isDialogOpen}
-                setDialogState={setDialogState}
-            />
         </Paper>
     );
 }

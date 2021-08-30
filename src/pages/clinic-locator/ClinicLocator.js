@@ -1,9 +1,10 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box } from '@material-ui/core';
 import SearchBar from './components/SearchBar';
 import ClinicPreviewCard from './components/preview-card/PreviewCard';
+import ClinicInformationDialog from './components/preview-card/InformationDialog';
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -20,6 +21,11 @@ const useStyles = makeStyles(() => ({
 function ClinicLocator() {
     const classes = useStyles();
     const [positions, setPositions] = useState([14.5386, 121.0574]);
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+    const setDialogState = (state) => {
+        setIsDialogOpen(state);
+    };
 
     useEffect(() => {
         navigator.geolocation.getCurrentPosition((position) => {
@@ -46,7 +52,11 @@ function ClinicLocator() {
                 </Marker>
             </MapContainer>
             <SearchBar />
-            <ClinicPreviewCard />
+            <ClinicPreviewCard setDialogState={setDialogState} />
+            <ClinicInformationDialog
+                isOpen={isDialogOpen}
+                setDialogState={setDialogState}
+            />
         </Box>
     );
 }
