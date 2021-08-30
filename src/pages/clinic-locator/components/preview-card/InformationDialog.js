@@ -54,6 +54,14 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+const services = [
+    'Oral Prophylaxis',
+    'Restoration',
+    'Extraction',
+    'Dentures',
+    'Crowns',
+];
+
 function InformationDialog({ isOpen, setDialogState }) {
     const classes = useStyles();
 
@@ -91,68 +99,75 @@ function InformationDialog({ isOpen, setDialogState }) {
                 </Box>
             </DialogTitle>
             <DialogContent style={{ overflow: 'hidden' }}>
-                <Box>
-                    <Grid container spacing={4}>
-                        <Grid item xs={3}>
-                            <img
-                                alt="Clinic Image"
-                                src={ImageGirl1}
-                                className={classes.image}
-                            />
-                        </Grid>
-                        <Grid item xs={9}>
-                            <Box mb={3}>
-                                <Typography variant="h6">
-                                    <Box fontWeight="bold">
-                                        JRG DENTAL CLINIC
-                                    </Box>
-                                </Typography>
-                                <Typography
-                                    variant="caption"
-                                    className={classes.clinicTypeText}
-                                >
-                                    Dental Clinic
-                                </Typography>
-                            </Box>
-                            <Grid container>
-                                <Grid item xs={5}>
-                                    <Box display="flex" alignItems="start">
-                                        <ScheduleRounded
-                                            color="primary"
-                                            className={classes.icon}
-                                        />
-                                        <Box>
-                                            <Typography
-                                                className={
-                                                    classes.availableText
-                                                }
-                                                variant="subtitle1"
-                                            >
-                                                Open Now
-                                            </Typography>
-                                            <Typography variant="subtitle2">
-                                                Closes at 5:00 PM
-                                            </Typography>
+                <Box pb={4}>
+                    <Box mb={5}>
+                        <Grid container spacing={4}>
+                            <Grid item xs={3}>
+                                <img
+                                    alt="Clinic Image"
+                                    src={ImageGirl1}
+                                    className={classes.image}
+                                />
+                            </Grid>
+                            <Grid item xs={9}>
+                                <Box mb={3}>
+                                    <Typography variant="h6">
+                                        <Box fontWeight="bold">
+                                            JRG DENTAL CLINIC
                                         </Box>
-                                    </Box>
-                                </Grid>
-                                <Grid item xs={7}>
-                                    <Box display="flex" alignItems="start">
-                                        <PlaceRounded
-                                            color="primary"
-                                            className={classes.icon}
-                                        />
-                                        <Box>
-                                            <Typography variant="subtitle1">
-                                                90, 1012 Quezon St, Tondo,
-                                                Manila, 1012 Metro Manila
-                                            </Typography>
+                                    </Typography>
+                                    <Typography
+                                        variant="caption"
+                                        className={classes.clinicTypeText}
+                                    >
+                                        Dental Clinic
+                                    </Typography>
+                                </Box>
+                                <Grid container>
+                                    <Grid item xs={5}>
+                                        <Box display="flex" alignItems="start">
+                                            <ScheduleRounded
+                                                color="primary"
+                                                className={classes.icon}
+                                            />
+                                            <Box>
+                                                <Typography
+                                                    className={
+                                                        classes.availableText
+                                                    }
+                                                    variant="subtitle1"
+                                                >
+                                                    Open Now
+                                                </Typography>
+                                                <Typography variant="subtitle2">
+                                                    Closes at 5:00 PM
+                                                </Typography>
+                                            </Box>
                                         </Box>
-                                    </Box>
+                                    </Grid>
+                                    <Grid item xs={7}>
+                                        <Box display="flex" alignItems="start">
+                                            <PlaceRounded
+                                                color="primary"
+                                                className={classes.icon}
+                                            />
+                                            <Box>
+                                                <Typography variant="subtitle1">
+                                                    90, 1012 Quezon St, Tondo,
+                                                    Manila, 1012 Metro Manila
+                                                </Typography>
+                                            </Box>
+                                        </Box>
+                                    </Grid>
                                 </Grid>
                             </Grid>
                         </Grid>
-                    </Grid>
+                    </Box>
+                    <Box>
+                        <Typography variant="subtitle2">
+                            Services Offered
+                        </Typography>
+                    </Box>
                 </Box>
             </DialogContent>
         </Dialog>
