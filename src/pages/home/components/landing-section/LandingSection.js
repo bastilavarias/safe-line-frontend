@@ -29,8 +29,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function LandingSection() {
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
     const classes = useStyles();
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     const setDialogState = (state) => {
         setIsDialogOpen(state);
@@ -135,7 +135,6 @@ function LandingSection() {
                     </Grid>
                 </Grid>
             </Container>
-
             <SignUpSelectionDialog
                 isOpen={isDialogOpen}
                 setDialogState={setDialogState}
