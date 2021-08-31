@@ -12,6 +12,9 @@ import { Close, PlaceRounded, ScheduleRounded } from '@material-ui/icons';
 import { forwardRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import ImageGirl1 from '../../../../assets/images/girl-1.jpg';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 const Transition = forwardRef(function Transition(props, ref) {
     return <Slide direction="down" ref={ref} {...props} />;
@@ -61,6 +64,13 @@ const services = [
     'Dentures',
     'Crowns',
 ];
+
+const sliderSettigs = {
+    dots: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 3,
+};
 
 function InformationDialog({ isOpen, setDialogState }) {
     const classes = useStyles();
@@ -167,6 +177,27 @@ function InformationDialog({ isOpen, setDialogState }) {
                         <Typography variant="subtitle2">
                             Services Offered
                         </Typography>
+                        <Slider {...sliderSettigs}>
+                            {services.map((service) => (
+                                <Box
+                                    display="flex"
+                                    alignItems="center"
+                                    justifyContent="center"
+                                    flexDirection="col"
+                                    margin="auto"
+                                >
+                                    <Box
+                                        width="5rem"
+                                        height="5rem"
+                                        borderRadius="50%"
+                                        bgcolor="primary.main"
+                                    />
+                                    <Typography varian="caption">
+                                        {service}
+                                    </Typography>
+                                </Box>
+                            ))}
+                        </Slider>
                     </Box>
                 </Box>
             </DialogContent>
