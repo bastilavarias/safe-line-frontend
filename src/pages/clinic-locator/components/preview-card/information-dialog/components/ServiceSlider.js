@@ -18,7 +18,7 @@ const services = [
     'Crowns',
 ];
 
-function ServicesSlider() {
+function ServiceSlider() {
     return (
         <CarouselProvider
             naturalSlideWidth={100}
@@ -44,7 +44,7 @@ function ServicesSlider() {
                                     bgcolor="primary.main"
                                     mb={1}
                                 />
-                                <Typography variant="caption">
+                                <Typography variant="subtitle2">
                                     {service}
                                 </Typography>
                             </Box>
@@ -62,4 +62,4 @@ function ServicesSlider() {
     );
 }
 
-export default ServicesSlider;
+export default ServiceSlider;

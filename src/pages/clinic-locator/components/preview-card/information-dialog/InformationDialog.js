@@ -12,7 +12,8 @@ import { Close, PlaceRounded, ScheduleRounded } from '@material-ui/icons';
 import { forwardRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import ImageGirl1 from '../../../../../assets/images/girl-1.jpg';
-import ServicesSlider from './ServicesSlider';
+import ServiceSlider from './components/ServiceSlider';
+import DoctorSlider from './components/DoctorSlider';
 
 const Transition = forwardRef(function Transition(props, ref) {
     return <Slide direction="down" ref={ref} {...props} />;
@@ -65,9 +66,9 @@ function InformationDialog({ isOpen, setDialogState }) {
             onClose={() => setDialogState(false)}
             maxWidth="sm"
             fullWidth
-            disableAutoFocus //disables rescrolling the window when the dialog is opened
-            disableEnforceFocus //allows user to interact outside the dialog
-            disableScrollLock //prevents the div from shrinking to make room for a scrollbar
+            disableAutoFocus
+            disableEnforceFocus
+            disableScrollLock
             disablePortal
             classes={{
                 paperScrollPaper: classes.paperScrollPaper,
@@ -104,13 +105,13 @@ function InformationDialog({ isOpen, setDialogState }) {
                             </Grid>
                             <Grid item xs={9}>
                                 <Box mb={3}>
-                                    <Typography variant="h6">
+                                    <Typography variant="h5">
                                         <Box fontWeight="bold">
                                             JRG DENTAL CLINIC
                                         </Box>
                                     </Typography>
                                     <Typography
-                                        variant="caption"
+                                        variant="subtitle2"
                                         className={classes.clinicTypeText}
                                     >
                                         Dental Clinic
@@ -157,12 +158,22 @@ function InformationDialog({ isOpen, setDialogState }) {
                         </Grid>
                     </Box>
                     <Box>
-                        <Box mb={3}>
-                            <Typography variant="subtitle2">
-                                Services Offered
-                            </Typography>
+                        <Box mb={5}>
+                            <Box mb={2}>
+                                <Typography variant="subtitle1">
+                                    Services Offered
+                                </Typography>
+                            </Box>
+                            <ServiceSlider />
                         </Box>
-                        <ServicesSlider />
+                        <Box mb={5}>
+                            <Box mb={2}>
+                                <Typography variant="subtitle1">
+                                    Doctors
+                                </Typography>
+                            </Box>
+                            <DoctorSlider />
+                        </Box>
                     </Box>
                 </Box>
             </DialogContent>

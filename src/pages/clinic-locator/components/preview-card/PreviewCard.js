@@ -58,11 +58,11 @@ function PreviewCard({ setDialogState }) {
                     </Grid>
                     <Grid item xs={9}>
                         <Box mb={3}>
-                            <Typography variant="h6">
+                            <Typography variant="h5">
                                 <Box fontWeight="bold">JRG DENTAL CLINIC</Box>
                             </Typography>
                             <Typography
-                                variant="caption"
+                                variant="subtitle2"
                                 className={classes.clinicTypeText}
                             >
                                 Dental Clinic

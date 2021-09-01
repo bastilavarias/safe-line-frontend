@@ -25,9 +25,7 @@
     }
 
     &:disabled {
-        border: thin solid gray;
-        color: gray;
-        cursor: not-allowed ;
+        display: none;
     }
 
 }
