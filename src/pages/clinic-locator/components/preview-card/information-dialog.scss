@@ -1,11 +1,33 @@
-.slick-prev {
-    left: 3% !important;
+.container {
+    position: relative;
 }
 
-.slick-next {
-    right: 3% !important;
-}
-
-.slick-prev::before, .slick-next::before {
+.slider-button {
+    position: absolute ;
+    background-color: white;
+    border: thin solid #4F48EC;
     color: #4F48EC;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: .3rem;
+
+    &__back {
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+    }
+
+    &__next {
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
+    }
+
+    &:disabled {
+        border: thin solid gray;
+        color: gray;
+        cursor: not-allowed ;
+    }
+
 }

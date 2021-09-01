@@ -8,7 +8,13 @@ import {
     Typography,
     Grid,
 } from '@material-ui/core';
-import { Close, PlaceRounded, ScheduleRounded } from '@material-ui/icons';
+import {
+    Close,
+    PlaceRounded,
+    ScheduleRounded,
+    ChevronLeftRounded,
+    ChevronRightRounded,
+} from '@material-ui/icons';
 import { forwardRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import ImageGirl1 from '../../../../assets/images/girl-1.jpg';
@@ -70,15 +76,6 @@ const services = [
     'Dentures',
     'Crowns',
 ];
-
-const sliderSettings = {
-    arrows: true,
-    dots: false,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 3,
-    className: 'slides',
-};
 
 function InformationDialog({ isOpen, setDialogState }) {
     const classes = useStyles();
@@ -195,30 +192,36 @@ function InformationDialog({ isOpen, setDialogState }) {
                             dragEnabled={false}
                             step={3}
                         >
-                            <Slider>
-                                {services.map((service, index) => (
-                                    <PRCSlide index={index}>
-                                        <Box
-                                            display="flex"
-                                            flexDirection="column"
-                                            alignItems="center"
-                                        >
+                            <Box className="container">
+                                <Slider>
+                                    {services.map((service, index) => (
+                                        <PRCSlide index={index}>
                                             <Box
-                                                width="3rem"
-                                                height="3rem"
-                                                borderRadius="50%"
-                                                bgcolor="primary.main"
-                                                mb={1}
-                                            />
-                                            <Typography variant="caption">
-                                                {service}
-                                            </Typography>
-                                        </Box>
-                                    </PRCSlide>
-                                ))}
-                            </Slider>
-                            <ButtonBack>Back</ButtonBack>
-                            <ButtonNext>Next</ButtonNext>
+                                                display="flex"
+                                                flexDirection="column"
+                                                alignItems="center"
+                                            >
+                                                <Box
+                                                    width="3rem"
+                                                    height="3rem"
+                                                    borderRadius="50%"
+                                                    bgcolor="primary.main"
+                                                    mb={1}
+                                                />
+                                                <Typography variant="caption">
+                                                    {service}
+                                                </Typography>
+                                            </Box>
+                                        </PRCSlide>
+                                    ))}
+                                </Slider>
+                                <ButtonBack className="slider-button slider-button__back">
+                                    <ChevronLeftRounded fontSize="medium" />
+                                </ButtonBack>
+                                <ButtonNext className="slider-button slider-button__next">
+                                    <ChevronRightRounded fontSize="medium" />
+                                </ButtonNext>
+                            </Box>
                         </CarouselProvider>
                     </Box>
                 </Box>
