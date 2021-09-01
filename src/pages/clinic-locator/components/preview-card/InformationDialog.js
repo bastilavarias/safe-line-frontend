@@ -15,6 +15,7 @@ import ImageGirl1 from '../../../../assets/images/girl-1.jpg';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import './information-dialog.css';
 
 const Transition = forwardRef(function Transition(props, ref) {
     return <Slide direction="down" ref={ref} {...props} />;
@@ -65,11 +66,14 @@ const services = [
     'Crowns',
 ];
 
-const sliderSettigs = {
-    dots: true,
+const sliderSettings = {
+    arrows: true,
+    dots: false,
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 3,
+    centerMode: true,
+    className: 'slides',
 };
 
 function InformationDialog({ isOpen, setDialogState }) {
@@ -174,30 +178,34 @@ function InformationDialog({ isOpen, setDialogState }) {
                         </Grid>
                     </Box>
                     <Box>
-                        <Typography variant="subtitle2">
-                            Services Offered
-                        </Typography>
-                        <Slider {...sliderSettigs}>
-                            {services.map((service) => (
-                                <Box
-                                    display="flex"
-                                    alignItems="center"
-                                    justifyContent="center"
-                                    flexDirection="col"
-                                    margin="auto"
-                                >
+                        <Box mb={3}>
+                            <Typography variant="subtitle2">
+                                Services Offered
+                            </Typography>
+                        </Box>
+                        <Box>
+                            <Slider {...sliderSettings}>
+                                {services.map((service) => (
                                     <Box
-                                        width="5rem"
-                                        height="5rem"
-                                        borderRadius="50%"
-                                        bgcolor="primary.main"
-                                    />
-                                    <Typography varian="caption">
-                                        {service}
-                                    </Typography>
-                                </Box>
-                            ))}
-                        </Slider>
+                                        display="flex"
+                                        alignItems="center"
+                                        justifyContent="center"
+                                        flexDirection="col"
+                                        margin="auto"
+                                    >
+                                        <Box
+                                            width="3rem"
+                                            height="3rem"
+                                            borderRadius="50%"
+                                            bgcolor="primary.main"
+                                        />
+                                        <Typography varian="caption">
+                                            {service}
+                                        </Typography>
+                                    </Box>
+                                ))}
+                            </Slider>
+                        </Box>
                     </Box>
                 </Box>
             </DialogContent>
