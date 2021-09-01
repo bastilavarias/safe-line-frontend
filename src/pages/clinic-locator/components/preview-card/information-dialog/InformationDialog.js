@@ -14,6 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import ImageGirl1 from '../../../../../assets/images/girl-1.jpg';
 import ServiceSlider from './components/ServiceSlider';
 import DoctorSlider from './components/DoctorSlider';
+import '../../../../../styles/custom.scss';
 
 const Transition = forwardRef(function Transition(props, ref) {
     return <Slide direction="down" ref={ref} {...props} />;
@@ -157,7 +158,7 @@ function InformationDialog({ isOpen, setDialogState }) {
                             </Grid>
                         </Grid>
                     </Box>
-                    <Box>
+                    <Box mb={5}>
                         <Box mb={5}>
                             <Box mb={2}>
                                 <Typography variant="subtitle1">
@@ -173,6 +174,22 @@ function InformationDialog({ isOpen, setDialogState }) {
                                 </Typography>
                             </Box>
                             <DoctorSlider />
+                        </Box>
+                    </Box>
+                    <Box
+                        display="flex"
+                        justifyContent="space-between"
+                        alignItems="center"
+                    >
+                        <Box />
+                        <Box>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                className="c-button-base"
+                            >
+                                Set Appointment
+                            </Button>
                         </Box>
                     </Box>
                 </Box>
