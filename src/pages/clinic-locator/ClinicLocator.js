@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Box } from '@material-ui/core';
 import SearchBar from './components/SearchBar';
 import ClinicPreviewCard from './components/preview-card/PreviewCard';
-import ClinicInformationDialog from './components/preview-card/InformationDialog';
+import ClinicInformationDialog from './components/preview-card/information-dialog/InformationDialog';
 
 const useStyles = makeStyles(() => ({
     root: {
