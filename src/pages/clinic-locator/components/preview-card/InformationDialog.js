@@ -12,10 +12,15 @@ import { Close, PlaceRounded, ScheduleRounded } from '@material-ui/icons';
 import { forwardRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import ImageGirl1 from '../../../../assets/images/girl-1.jpg';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import './information-dialog.css';
+import './information-dialog.scss';
+import {
+    CarouselProvider,
+    Slider,
+    Slide as PRCSlide,
+    ButtonBack,
+    ButtonNext,
+} from 'pure-react-carousel';
+import 'pure-react-carousel/dist/react-carousel.es.css';
 
 const Transition = forwardRef(function Transition(props, ref) {
     return <Slide direction="down" ref={ref} {...props} />;
@@ -72,7 +77,6 @@ const sliderSettings = {
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 3,
-    centerMode: true,
     className: 'slides',
 };
 
@@ -183,29 +187,39 @@ function InformationDialog({ isOpen, setDialogState }) {
                                 Services Offered
                             </Typography>
                         </Box>
-                        <Box>
-                            <Slider {...sliderSettings}>
-                                {services.map((service) => (
-                                    <Box
-                                        display="flex"
-                                        alignItems="center"
-                                        justifyContent="center"
-                                        flexDirection="col"
-                                        margin="auto"
-                                    >
+                        <CarouselProvider
+                            naturalSlideWidth={100}
+                            naturalSlideHeight={50}
+                            visibleSlides={3}
+                            totalSlides={services.length}
+                            dragEnabled={false}
+                            step={3}
+                        >
+                            <Slider>
+                                {services.map((service, index) => (
+                                    <PRCSlide index={index}>
                                         <Box
-                                            width="3rem"
-                                            height="3rem"
-                                            borderRadius="50%"
-                                            bgcolor="primary.main"
-                                        />
-                                        <Typography varian="caption">
-                                            {service}
-                                        </Typography>
-                                    </Box>
+                                            display="flex"
+                                            flexDirection="column"
+                                            alignItems="center"
+                                        >
+                                            <Box
+                                                width="3rem"
+                                                height="3rem"
+                                                borderRadius="50%"
+                                                bgcolor="primary.main"
+                                                mb={1}
+                                            />
+                                            <Typography variant="caption">
+                                                {service}
+                                            </Typography>
+                                        </Box>
+                                    </PRCSlide>
                                 ))}
                             </Slider>
-                        </Box>
+                            <ButtonBack>Back</ButtonBack>
+                            <ButtonNext>Next</ButtonNext>
+                        </CarouselProvider>
                     </Box>
                 </Box>
             </DialogContent>
