@@ -51,7 +51,7 @@ function PreviewCard({ setDialogState }) {
                 <Grid container spacing={4}>
                     <Grid item xs={3}>
                         <img
-                            alt="Clinic Image"
+                            alt="Clinic"
                             src={ImageGirl1}
                             className={classes.image}
                         />

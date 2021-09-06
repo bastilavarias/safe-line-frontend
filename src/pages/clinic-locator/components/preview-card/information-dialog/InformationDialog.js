@@ -14,7 +14,6 @@ import { forwardRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import '../../../../../styles/custom.scss';
 import InformationSection from './components/information-section/InformationSection';
-import App from '../../../../../App';
 import AppointmentForm from './components/AppointmentForm';
 import ImageGirl1 from '../../../../../assets/images/girl-1.jpg';
 
@@ -105,7 +104,7 @@ function InformationDialog({ isOpen, setDialogState }) {
                     <Grid container spacing={4}>
                         <Grid item xs={3}>
                             <img
-                                alt="Clinic Image"
+                                alt="Clinic"
                                 src={ImageGirl1}
                                 className={classes.image}
                             />
