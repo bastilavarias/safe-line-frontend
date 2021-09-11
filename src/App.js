@@ -7,6 +7,7 @@ import ClinicSignUp from './pages/sign-up/components/clinic/Body';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
 import DashboardStructure from './pages/dashboard/Structure';
+import './styles/_index.scss';
 
 const theme = createTheme({
     palette: {

@@ -1,11 +1,11 @@
 import { Box, Container, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import SearchToolbar from './SearchToolbar';
-import ConsultationsTable from './ConsultationsTable';
-import InformationBox from './InformationBox';
-import UserToolbar from './UserToolbar';
-import ScheduleCalendar from './ScheduleCalendar';
-import RemindersBox from './reminders/RemindersBox';
+import SearchToolbar from './components/SearchToolbar';
+import ConsultationsTable from './components/ConsultationsTable';
+import InformationBox from './components/InformationBox';
+import UserToolbar from './components/UserToolbar';
+import ScheduleCalendar from './components/ScheduleCalendar';
+import RemindersBox from './components/reminders/RemindersBox';
 
 const useStyles = makeStyles(() => ({
     root: {

@@ -1,0 +1,13 @@
+.root {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.rooms-holder, .messages-holder, .room-information-holder {
+  height: 100vh;
+}
+
+.rooms-holder {
+  border-right: 2px solid #B0B0B0;
+  padding: 1rem;
+}

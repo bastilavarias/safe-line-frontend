@@ -105,7 +105,7 @@ function UserDashboard() {
                     <Button
                         className={classes.navButton}
                         component={NavLink}
-                        to={`${url}/test`}
+                        to={`${url}/chat`}
                     >
                         <MessageRounded fontSize="large" />
                     </Button>
