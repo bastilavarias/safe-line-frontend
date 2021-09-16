@@ -1,0 +1,13 @@
+.app-bar {
+  background-color: white !important;
+  border: none;
+  padding: .8rem 0;
+  height: 10%;
+
+
+  &__avatar-image {
+      width: 3rem !important;
+      height: 3rem !important;
+      margin-right: 1rem;
+  }
+}
