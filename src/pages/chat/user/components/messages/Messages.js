@@ -1,6 +1,8 @@
 import { Box } from '@material-ui/core';
 import Toolbar from './components/Toolbar';
 import './messages.scss';
+import Conversation from './components/Conversation';
+import WriterBox from './components/WriterBox';
 
 function Messages() {
     return (
@@ -11,6 +13,8 @@ function Messages() {
             justifyContent="space-between"
         >
             <Toolbar />
+            <Conversation />
+            <WriterBox />
         </Box>
     );
 }
