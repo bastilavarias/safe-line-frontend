@@ -16,7 +16,7 @@ function User() {
     return (
         <Box className="root">
             <Grid container>
-                <Grid item md={3} lg={4} xl={3}>
+                <Grid item md={3}>
                     <Box className="rooms-holder">
                         <Box mb={2}>
                             <Typography variant="h5">
@@ -101,7 +101,7 @@ function User() {
                         </Box>
                     </Box>
                 </Grid>
-                <Grid item md={9} lg={8} xl={9}>
+                <Grid item md={9}>
                     <Chat />
                 </Grid>
             </Grid>

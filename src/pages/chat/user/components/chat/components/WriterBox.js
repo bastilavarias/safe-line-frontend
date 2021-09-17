@@ -14,7 +14,7 @@ function WriterBox() {
     return (
         <Box className="writer-box" display="flex" alignItems="center">
             <Grid container>
-                <Grid item lg={10} xl={11}>
+                <Grid item md={10} xl={11}>
                     <FormControl fullWidth>
                         <OutlinedInput
                             className="writer-box__input"
@@ -30,7 +30,7 @@ function WriterBox() {
                         />
                     </FormControl>
                 </Grid>
-                <Grid item lg={2} xl={1} className="writer-box__right-grid">
+                <Grid item md={2} xl={1} className="writer-box__right-grid">
                     <Box
                         display="flex"
                         alignItems="center"
