@@ -2,10 +2,19 @@
   margin: 1rem 0;
 }
 
-.message-content {
+.away, .self {
   padding: 1rem;
-  background-color: #E2E2E2;
-  color: rgba(black, .8);
   border-radius: .6rem;
   line-height: 1.6;
+}
+
+.away {
+  background-color: #E2E2E2;
+  color: rgba(black, .8);
+}
+
+
+.self {
+  background-color: rgba(#4F48EC, .8);
+  color: white;
 }
