@@ -1,9 +1,9 @@
 import { Box } from '@material-ui/core';
-import './conversation.scss';
+import './conversation-box.scss';
 
-function Conversation() {
+function ConversationBox() {
     return (
-        <Box className="conversation" px={3} py={5}>
+        <Box className="conversation-box" px={3} py={5}>
             {Array.from(Array(100).keys()).map(() => (
                 <Box>Conversation</Box>
             ))}
@@ -11,4 +11,4 @@ function Conversation() {
     );
 }
 
-export default Conversation;
+export default ConversationBox;

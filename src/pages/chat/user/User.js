@@ -10,7 +10,7 @@ import {
 import { SearchRounded, ExpandMoreRounded } from '@material-ui/icons';
 import './user.scss';
 import RoomPreviewListItem from './components/RoomPreviewListItem';
-import Messages from './components/messages/Messages.js';
+import Chat from './components/chat/Chat';
 
 function User() {
     return (
@@ -102,7 +102,7 @@ function User() {
                     </Box>
                 </Grid>
                 <Grid item lg={8} xl={9}>
-                    <Messages />
+                    <Chat />
                 </Grid>
             </Grid>
         </Box>
