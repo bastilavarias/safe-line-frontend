@@ -46,23 +46,6 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function getSteps() {
-    return ['Account Info', 'Personal Info', 'Address Info'];
-}
-
-function showStepContent(stepIndex, form, setForm) {
-    switch (stepIndex) {
-        case 0:
-            return <AccountInfo form={form} setForm={setForm} />;
-        case 1:
-            return <PersonalInfo />;
-        case 2:
-            return <AddressInfo />;
-        default:
-            return 'Unknown stepIndex';
-    }
-}
-
 const defaultForm = {
     firstName: '',
     lastName: '',
@@ -80,7 +63,7 @@ function Body() {
     const classes = useStyles();
     const history = useHistory();
     const [activeStep, setActiveStep] = useState(0);
-    const steps = getSteps();
+    const steps = ['Account Info', 'Personal Info', 'Address Info'];
     const baseButtonStyle = BaseButtonStyle();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [form, setForm] = useState(Object.assign({ ...defaultForm }));
@@ -104,6 +87,19 @@ function Body() {
             [property]: value,
         }));
     };
+
+    function showStepContent() {
+        switch (activeStep) {
+            case 0:
+                return <AccountInfo form={form} setForm={handleFormState} />;
+            case 1:
+                return <PersonalInfo form={form} setForm={handleFormState} />;
+            case 2:
+                return <AddressInfo form={form} setForm={handleFormState} />;
+            default:
+                return 'Unknown stepIndex';
+        }
+    }
 
     const showStepButton = () => {
         const { firstName, lastName, email, password } = form;
@@ -203,11 +199,7 @@ function Body() {
                                     ))}
                                 </Stepper>
 
-                                {showStepContent(
-                                    activeStep,
-                                    form,
-                                    handleFormState
-                                )}
+                                {showStepContent()}
 
                                 <Box
                                     display="flex"
@@ -225,6 +217,7 @@ function Body() {
                                             Back
                                         </Button>
                                     )}
+
                                     {showStepButton()}
                                 </Box>
                             </Box>
