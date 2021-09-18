@@ -1,4 +1,5 @@
 import { Typography, Box, Grid, TextField } from '@material-ui/core';
+import PasswordField from '../../../../../components/base/PasswordField';
 
 function AccountInfo() {
     return (
@@ -23,20 +24,13 @@ function AccountInfo() {
                     <TextField label="Email" variant="outlined" fullWidth />
                 </Grid>
                 <Grid item xs={12}>
-                    <TextField
-                        label="Password"
-                        variant="outlined"
-                        fullWidth
-                        type="password"
-                    />
-                </Grid>
-                <Grid item xs={12}>
-                    <TextField
-                        label="Confirm Password"
-                        variant="outlined"
-                        fullWidth
-                        type="password"
-                    />
+                    {/*<TextField*/}
+                    {/*    label="Password"*/}
+                    {/*    variant="outlined"*/}
+                    {/*    fullWidth*/}
+                    {/*    type="password"*/}
+                    {/*/>*/}
+                    <PasswordField />
                 </Grid>
             </Grid>
         </Box>
