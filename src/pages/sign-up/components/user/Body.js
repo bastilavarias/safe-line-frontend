@@ -105,7 +105,7 @@ function Body() {
         }));
     };
 
-    function showStepButton() {
+    const showStepButton = () => {
         const { firstName, lastName, email, password } = form;
         const isButton1Valid = firstName && lastName && email && password;
         switch (activeStep) {
@@ -145,7 +145,7 @@ function Body() {
             default:
                 return 'Unknown stepIndex';
         }
-    }
+    };
 
     return (
         <Box component="section">
