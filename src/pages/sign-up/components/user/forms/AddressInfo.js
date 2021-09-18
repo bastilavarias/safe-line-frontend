@@ -2,6 +2,7 @@ import { Typography, Box, Grid, TextField } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useState, useEffect } from 'react';
 import psgcService from '../../../../../services/psgcService';
+import GooglePlacesAutocomplete from '../../../../../components/base/GooglePlacesAutocomplete';
 
 function AddressInfo() {
     const [regions, setRegions] = useState([]);
@@ -31,11 +32,12 @@ function AddressInfo() {
             </Box>
             <Grid container spacing={4}>
                 <Grid item xs={12}>
-                    <TextField
-                        label="Street Address"
-                        variant="outlined"
-                        fullWidth
-                    />
+                    {/*<TextField*/}
+                    {/*    label="Street Address"*/}
+                    {/*    variant="outlined"*/}
+                    {/*    fullWidth*/}
+                    {/*/>*/}
+                    <GooglePlacesAutocomplete />
                 </Grid>
                 <Grid item xs={12}>
                     <Autocomplete
