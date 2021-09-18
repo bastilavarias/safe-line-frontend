@@ -50,7 +50,7 @@ function getSteps() {
     return ['Account Info', 'Personal Info', 'Address Info'];
 }
 
-function getStepContent(stepIndex, form, setForm) {
+function showStepContent(stepIndex, form, setForm) {
     switch (stepIndex) {
         case 0:
             return <AccountInfo form={form} setForm={setForm} />;
@@ -104,6 +104,48 @@ function Body() {
             [property]: value,
         }));
     };
+
+    function showStepButton() {
+        const { firstName, lastName, email, password } = form;
+        const isButton1Valid = firstName && lastName && email && password;
+        switch (activeStep) {
+            case 0:
+                return (
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleNext}
+                        className={baseButtonStyle.base}
+                        disabled={!isButton1Valid}
+                    >
+                        Next
+                    </Button>
+                );
+            case 1:
+                return (
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleNext}
+                        className={baseButtonStyle.base}
+                    >
+                        Next
+                    </Button>
+                );
+            case 2:
+                return (
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        className={baseButtonStyle.base}
+                    >
+                        Finish
+                    </Button>
+                );
+            default:
+                return 'Unknown stepIndex';
+        }
+    }
 
     return (
         <Box component="section">
@@ -161,7 +203,7 @@ function Body() {
                                     ))}
                                 </Stepper>
 
-                                {getStepContent(
+                                {showStepContent(
                                     activeStep,
                                     form,
                                     handleFormState
@@ -183,16 +225,7 @@ function Body() {
                                             Back
                                         </Button>
                                     )}
-                                    <Button
-                                        variant="contained"
-                                        color="primary"
-                                        onClick={handleNext}
-                                        className={baseButtonStyle.base}
-                                    >
-                                        {activeStep === steps.length - 1
-                                            ? 'Finish'
-                                            : 'Next'}
-                                    </Button>
+                                    {showStepButton()}
                                 </Box>
                             </Box>
                         </Box>
