@@ -52,7 +52,7 @@ const defaultForm = {
     email: '',
     password: '',
     gender: '',
-    birthday: '',
+    birthday: null,
     phoneNumber: '',
     streetAddress: '',
     latitude: '',
@@ -102,8 +102,17 @@ function Body() {
     }
 
     const showStepButton = () => {
-        const { firstName, lastName, email, password } = form;
+        const {
+            firstName,
+            lastName,
+            email,
+            password,
+            gender,
+            birthday,
+            phoneNumber,
+        } = form;
         const isButton1Valid = firstName && lastName && email && password;
+        const isButton2Valid = gender && birthday && phoneNumber;
         switch (activeStep) {
             case 0:
                 return (
@@ -124,6 +133,7 @@ function Body() {
                         color="primary"
                         onClick={handleNext}
                         className={baseButtonStyle.base}
+                        disabled={!isButton2Valid}
                     >
                         Next
                     </Button>

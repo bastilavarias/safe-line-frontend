@@ -9,22 +9,13 @@ import {
     FormControl,
 } from '@material-ui/core';
 import { KeyboardDatePicker } from '@material-ui/pickers';
-import { useState } from 'react';
+import dateUtility from '../../../../../utilities/date';
 
 const genders = ['Male', 'Female'];
 
-function PersonalInfo() {
-    const [gender, setGender] = useState('');
-    const [selectedDate, setSelectedDate] = useState(
-        new Date('2021-08-07T21:11:54')
-    );
-
-    const handleChange = (event) => {
-        setGender(event.target.value);
-    };
-
+function PersonalInfo({ form, setForm }) {
     const handleDateChange = (date) => {
-        setSelectedDate(date);
+        setForm('birthday', dateUtility.formatBasic(date._d));
     };
 
     return (
@@ -40,8 +31,8 @@ function PersonalInfo() {
                         <InputLabel id="genders-select">Gender</InputLabel>
                         <Select
                             labelId="genders-select"
-                            value={gender}
-                            onChange={handleChange}
+                            value={form.gender}
+                            onChange={(e) => setForm('gender', e.target.value)}
                             label="Gender"
                         >
                             {genders.map((item, index) => (
@@ -56,11 +47,16 @@ function PersonalInfo() {
                     <FormControl fullWidth>
                         <KeyboardDatePicker
                             inputVariant="outlined"
-                            format="MM/DD/YYYY"
                             margin="normal"
                             label="Birthday"
-                            value={selectedDate}
-                            onChange={handleDateChange}
+                            value={form.birthday}
+                            format="MMMM Do YYYY"
+                            onChange={(date) =>
+                                setForm(
+                                    'birthday',
+                                    dateUtility.formatBasic(date._d)
+                                )
+                            }
                             KeyboardButtonProps={{
                                 'aria-label': 'change date',
                             }}
@@ -73,6 +69,8 @@ function PersonalInfo() {
                         variant="outlined"
                         fullWidth
                         type="tel"
+                        value={form.phoneNumber}
+                        onChange={(e) => setForm('phoneNumber', e.target.value)}
                     />
                 </Grid>
             </Grid>
