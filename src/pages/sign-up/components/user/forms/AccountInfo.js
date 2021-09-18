@@ -1,7 +1,7 @@
 import { Typography, Box, Grid, TextField } from '@material-ui/core';
 import PasswordField from '../../../../../components/base/PasswordField';
 
-function AccountInfo() {
+function AccountInfo({ form, setForm }) {
     return (
         <Box py={3}>
             <Box mb={4}>
@@ -15,22 +15,34 @@ function AccountInfo() {
                         label="First Name"
                         variant="outlined"
                         fullWidth
+                        onChange={(e) => setForm('firstName', e.target.value)}
+                        value={form.firstName}
                     />
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <TextField label="Last Name" variant="outlined" fullWidth />
+                    <TextField
+                        label="Last Name"
+                        variant="outlined"
+                        fullWidth
+                        onChange={(e) => setForm('lastName', e.target.value)}
+                        value={form.lastName}
+                    />
                 </Grid>
                 <Grid item xs={12}>
-                    <TextField label="Email" variant="outlined" fullWidth />
+                    <TextField
+                        label="Email"
+                        variant="outlined"
+                        fullWidth
+                        onChange={(e) => setForm('email', e.target.value)}
+                        value={form.email}
+                    />
                 </Grid>
                 <Grid item xs={12}>
-                    {/*<TextField*/}
-                    {/*    label="Password"*/}
-                    {/*    variant="outlined"*/}
-                    {/*    fullWidth*/}
-                    {/*    type="password"*/}
-                    {/*/>*/}
-                    <PasswordField />
+                    <PasswordField
+                        label="Password"
+                        onChange={(e) => setForm('password', e.target.value)}
+                        value={form.password}
+                    />
                 </Grid>
             </Grid>
         </Box>

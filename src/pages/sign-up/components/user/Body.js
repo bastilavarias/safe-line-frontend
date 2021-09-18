@@ -50,10 +50,10 @@ function getSteps() {
     return ['Account Info', 'Personal Info', 'Address Info'];
 }
 
-function getStepContent(stepIndex) {
+function getStepContent(stepIndex, form, setForm) {
     switch (stepIndex) {
         case 0:
-            return <AccountInfo />;
+            return <AccountInfo form={form} setForm={setForm} />;
         case 1:
             return <PersonalInfo />;
         case 2:
@@ -63,6 +63,19 @@ function getStepContent(stepIndex) {
     }
 }
 
+const defaultForm = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    gender: '',
+    birthday: '',
+    phoneNumber: '',
+    streetAddress: '',
+    latitude: '',
+    longitude: '',
+};
+
 function Body() {
     const classes = useStyles();
     const history = useHistory();
@@ -70,6 +83,7 @@ function Body() {
     const steps = getSteps();
     const baseButtonStyle = BaseButtonStyle();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [form, setForm] = useState(Object.assign({ ...defaultForm }));
 
     const handleNext = () => {
         if (activeStep === 2) return setIsDialogOpen(true);
@@ -80,8 +94,15 @@ function Body() {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
-    const setDialogState = (state) => {
+    const handleDialogState = (state) => {
         setIsDialogOpen(state);
+    };
+
+    const handleFormState = (property, value) => {
+        setForm((oldValue) => ({
+            ...oldValue,
+            [property]: value,
+        }));
     };
 
     return (
@@ -140,7 +161,11 @@ function Body() {
                                     ))}
                                 </Stepper>
 
-                                {getStepContent(activeStep)}
+                                {getStepContent(
+                                    activeStep,
+                                    form,
+                                    handleFormState
+                                )}
 
                                 <Box
                                     display="flex"
@@ -176,7 +201,7 @@ function Body() {
             </Grid>
             <FinishDialog
                 isOpen={isDialogOpen}
-                setDialogState={setDialogState}
+                setDialogState={handleDialogState}
                 title="You’re all set up!"
                 description="You can now use your account"
             />

@@ -8,8 +8,7 @@ import {
 } from '@material-ui/core';
 import { VisibilityRounded, VisibilityOffRounded } from '@material-ui/icons';
 
-function PasswordField() {
-    const [password, setPassword] = useState('');
+function PasswordField({ label, onChange, value }) {
     const [isPasswordShow, setPasswordShow] = useState(false);
 
     const handleMouseDownPassword = (event) => {
@@ -20,20 +19,16 @@ function PasswordField() {
         setPasswordShow((show) => !show);
     };
 
-    const handlePasswordChange = (e) => {
-        setPassword(() => e.target.value);
-    };
-
     return (
         <FormControl variant="outlined" fullWidth>
             <InputLabel htmlFor="outlined-adornment-password">
-                Password
+                {label}
             </InputLabel>
             <OutlinedInput
                 id="outlined-adornment-password"
                 type={isPasswordShow ? 'text' : 'password'}
-                value={password}
-                onChange={handlePasswordChange}
+                value={value}
+                onChange={onChange}
                 endAdornment={
                     <InputAdornment position="end">
                         <IconButton
