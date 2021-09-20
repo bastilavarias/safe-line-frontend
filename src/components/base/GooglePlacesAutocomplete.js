@@ -22,6 +22,8 @@ function loadScript(src, position, id) {
 
 const autocompleteService = { current: null };
 
+const geoCoderService = { current: null };
+
 const useStyles = makeStyles((theme) => ({
     icon: {
         color: theme.palette.text.secondary,
@@ -39,7 +41,7 @@ function GooglePlacesAutocomplete() {
     if (typeof window !== 'undefined' && !loaded.current) {
         if (!document.querySelector('#google-maps')) {
             loadScript(
-                'https://maps.googleapis.com/maps/api/js?key=AIzaSyCEta2KM6t39rbJ2PuKQvP1OjPKwimtl7g&libraries=places',
+                'https://maps.googleapis.com/maps/api/js?key=AIzaSyDksdbqnNWl73-PMGqsXxe8dD67s0G0dpY&libraries=places',
                 document.querySelector('head'),
                 'google-maps'
             );
@@ -66,6 +68,11 @@ function GooglePlacesAutocomplete() {
             autocompleteService.current =
                 new window.google.maps.places.AutocompleteService();
         }
+
+        if (!geoCoderService.current && window.google) {
+            geoCoderService.current = new window.google.maps.Geocoder();
+        }
+
         if (!autocompleteService.current) {
             return undefined;
         }
@@ -110,6 +117,16 @@ function GooglePlacesAutocomplete() {
             filterSelectedOptions
             value={value}
             onChange={(event, newValue) => {
+                geoCoderService.current.geocode(
+                    {
+                        address: newValue.description,
+                    },
+                    function (results) {
+                        const latitude = results[0].geometry.location.lat();
+                        const longitude = results[0].geometry.location.lng();
+                        console.log({ latitude, longitude });
+                    }
+                );
                 setOptions(newValue ? [newValue, ...options] : options);
                 setValue(newValue);
             }}
