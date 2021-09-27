@@ -6,15 +6,9 @@
         <v-card-text>
             <v-row dense>
                 <v-col cols="12">
-                    <vuetify-google-autocomplete
-                        id="map"
-                        append-icon="mdi-search"
-                        placeholder="Search Location"
-                        v-on:placechanged="getAddressData"
-                        outlined
+                    <places-autocomplete
                         v-model="samplevalue"
-                    >
-                    </vuetify-google-autocomplete>
+                    ></places-autocomplete>
                 </v-col>
             </v-row>
         </v-card-text>
@@ -36,23 +30,22 @@
     </v-card>
 </template>
 <script>
+import PlacesAutocomplete from "@/components/base/PlacesAutocomplete";
 export default {
+    components: { PlacesAutocomplete },
     props: {
         changeStep: Function,
     },
 
     data() {
         return {
-            samplevalue:
-                "406 Sta. Fe, Tondo, Manila, 1013 Metro Manila, Philippines",
+            samplevalue: {
+                address:
+                    "406 Sta. Fe, Tondo, Manila, 1013 Metro Manila, Philippines",
+                longitude: "120.9612243",
+                latitude: "14.6142909",
+            },
         };
-    },
-
-    methods: {
-        getAddressData(value, place) {
-            console.log(value);
-            console.log(place);
-        },
     },
 };
 </script>
