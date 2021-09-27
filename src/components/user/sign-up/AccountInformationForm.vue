@@ -6,25 +6,43 @@
         <v-card-text>
             <v-row dense>
                 <v-col cols="12" md="6">
-                    <v-text-field outlined label="First Name"></v-text-field>
+                    <v-text-field
+                        outlined
+                        label="First Name"
+                        v-model="firstNameLocal"
+                    ></v-text-field>
                 </v-col>
                 <v-col cols="12" md="6">
-                    <v-text-field outlined label="Last Name"></v-text-field>
+                    <v-text-field
+                        outlined
+                        label="Last Name"
+                        v-model="lastNameLocal"
+                    ></v-text-field>
                 </v-col>
                 <v-col cols="12">
-                    <v-text-field outlined label="Email"></v-text-field>
+                    <v-text-field
+                        outlined
+                        label="Email"
+                        v-model="emailLocal"
+                    ></v-text-field>
                 </v-col>
                 <v-col cols="12">
                     <b-password-field
                         outlined
                         label="Password"
-                        v-model="samplevalue"
+                        v-model="passwordLocal"
                     ></b-password-field>
                 </v-col>
                 <v-col cols="12">
                     <b-password-field
                         outlined
                         label="Confirm Password"
+                        v-model="confirmPassword"
+                        :rules="[
+                            (value) =>
+                                value === passwordLocal ||
+                                `Passwords you entered don't match don't match`,
+                        ]"
                     ></b-password-field>
                 </v-col>
             </v-row>
@@ -49,11 +67,16 @@ export default {
 
     props: {
         changeStep: Function,
+        form: Object,
     },
 
     data() {
         return {
-            samplevalue: "test me",
+            firstNameLocal: this.form.firstName,
+            lastNameLocal: this.form.lastName,
+            emailLocal: this.form.email,
+            passwordLocal: this.form.password,
+            confirmPassword: null,
         };
     },
 };

@@ -7,6 +7,7 @@
         @click:append="isPasswordShow = !isPasswordShow"
         @input="$emit('input', valueLocal)"
         v-model="valueLocal"
+        :rules="rules"
     ></v-text-field>
 </template>
 
@@ -18,6 +19,7 @@ export default {
         value: String,
         label: String,
         outlined: Boolean,
+        rules: Array,
     },
 
     data() {

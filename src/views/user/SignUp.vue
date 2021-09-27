@@ -75,6 +75,7 @@
                                                         :change-step="
                                                             changeStep
                                                         "
+                                                        :form="form"
                                                     ></account-information-form>
                                                 </v-stepper-content>
                                                 <v-stepper-content :step="2">
@@ -82,6 +83,7 @@
                                                         :change-step="
                                                             changeStep
                                                         "
+                                                        :form="form"
                                                     ></personal-information-form>
                                                 </v-stepper-content>
                                                 <v-stepper-content :step="3">
@@ -89,6 +91,7 @@
                                                         :change-step="
                                                             changeStep
                                                         "
+                                                        :form="form"
                                                     ></address-information-form>
                                                 </v-stepper-content>
                                             </v-stepper-items>
@@ -109,7 +112,20 @@ import AccountInformationForm from "@/components/user/sign-up/AccountInformation
 import PersonalInformationForm from "@/components/user/sign-up/PersonalInformationForm";
 import AddressInformationForm from "@/components/user/sign-up/AddressInformationForm";
 
-const defaultForm = {};
+const defaultForm = {
+    firstName: null,
+    lastName: null,
+    email: null,
+    password: null,
+    gender: null,
+    birthDate: null,
+    phoneNumber: null,
+    address: {
+        address: null,
+        longitude: null,
+        latitude: null,
+    },
+};
 
 export default {
     components: {
@@ -121,6 +137,7 @@ export default {
     data() {
         return {
             currentStep: 1,
+            form: Object.assign({}, defaultForm),
         };
     },
 
