@@ -41,7 +41,7 @@
                         :rules="[
                             (value) =>
                                 value === passwordLocal ||
-                                `Passwords you entered don't match don't match`,
+                                `Passwords you entered don't match don't match.`,
                         ]"
                     ></b-password-field>
                 </v-col>
@@ -54,6 +54,7 @@
                 class="text-capitalize"
                 depressed
                 @click="changeStep(2)"
+                :disabled="!isFormValid"
                 >Next</v-btn
             >
         </v-card-actions>
@@ -83,23 +84,21 @@ export default {
         };
     },
 
+    computed: {
+        isFormValid() {
+            const isPasswordsMatched =
+                this.passwordLocal === this.confirmPassword;
+            return (
+                this.firstNameLocal &&
+                this.lastNameLocal &&
+                this.emailLocal &&
+                this.passwordLocal &&
+                isPasswordsMatched
+            );
+        },
+    },
+
     watch: {
-        firstName(value) {
-            this.firstNameLocal = value;
-        },
-
-        lastName(value) {
-            this.lastNameLocal = value;
-        },
-
-        email(value) {
-            this.emailLocal = value;
-        },
-
-        password(value) {
-            this.passwordLocal = value;
-        },
-
         firstNameLocal(value) {
             this.$emit("update:firstName", value);
         },
