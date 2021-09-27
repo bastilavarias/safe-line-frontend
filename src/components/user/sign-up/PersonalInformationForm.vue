@@ -13,7 +13,11 @@
                     ></v-select>
                 </v-col>
                 <v-col cols="12">
-                    <b-date-picker label="Birth Date" outlined></b-date-picker>
+                    <b-date-picker
+                        v-model="sampleDate"
+                        label="Birth Date"
+                        outlined
+                    ></b-date-picker>
                 </v-col>
                 <v-col cols="12">
                     <v-text-field label="Phone Number" outlined></v-text-field>
@@ -57,6 +61,8 @@ export default {
                 "Other (probably with an input field to specify)",
                 "I'd rather not say",
             ],
+
+            sampleDate: "2021-09-30",
         };
     },
 };

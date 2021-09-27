@@ -20,16 +20,16 @@
                 <v-col cols="9" class="base-grid__right-side">
                     <section class="fill-height">
                         <v-toolbar absolute flat width="100%">
-                            <v-toolbar-title
-                                class="font-weight-bold d-flex align-center"
-                            >
+                            <v-toolbar-title class="d-flex align-center">
                                 <v-img
                                     width="40"
                                     height="auto"
                                     :src="require('@/assets/logo-violet.png')"
                                     class="mr-2"
                                 ></v-img>
-                                Safe Line
+                                <span class="font-weight-bold">
+                                    Safe Line
+                                </span>
                             </v-toolbar-title>
                             <v-spacer></v-spacer>
                             <v-btn

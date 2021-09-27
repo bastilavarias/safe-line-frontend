@@ -5,6 +5,8 @@
         :append-icon="isPasswordShow ? 'mdi-eye' : 'mdi-eye-off'"
         :type="isPasswordShow ? 'text' : 'password'"
         @click:append="isPasswordShow = !isPasswordShow"
+        @input="$emit('input', valueLocal)"
+        v-model="valueLocal"
     ></v-text-field>
 </template>
 
@@ -13,7 +15,7 @@ export default {
     name: "b-password-field",
 
     props: {
-        modelValue: String,
+        value: String,
         label: String,
         outlined: Boolean,
     },
@@ -21,6 +23,7 @@ export default {
     data() {
         return {
             isPasswordShow: false,
+            valueLocal: this.value,
         };
     },
 };

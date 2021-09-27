@@ -18,6 +18,7 @@
                     <b-password-field
                         outlined
                         label="Password"
+                        v-model="samplevalue"
                     ></b-password-field>
                 </v-col>
                 <v-col cols="12">
@@ -48,6 +49,12 @@ export default {
 
     props: {
         changeStep: Function,
+    },
+
+    data() {
+        return {
+            samplevalue: "test me",
+        };
     },
 };
 </script>

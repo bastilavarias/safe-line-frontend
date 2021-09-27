@@ -9,7 +9,7 @@
     >
         <template v-slot:activator="{ on, attrs }">
             <v-text-field
-                v-model="date"
+                v-model="valueLocal"
                 :label="label"
                 :outlined="outlined"
                 append-icon="mdi-calendar"
@@ -18,7 +18,10 @@
                 v-on="on"
             ></v-text-field>
         </template>
-        <v-date-picker v-model="date" @input="menu = false"></v-date-picker>
+        <v-date-picker
+            v-model="valueLocal"
+            @input="handleInput"
+        ></v-date-picker>
     </v-menu>
 </template>
 
@@ -27,18 +30,23 @@ export default {
     name: "b-date-picker",
 
     props: {
-        modelValue: String,
+        value: String,
         label: String,
         outlined: Boolean,
     },
 
     data() {
         return {
-            date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
-                .toISOString()
-                .substr(0, 10),
+            valueLocal: this.value,
             menu: false,
         };
+    },
+
+    methods: {
+        handleInput(e) {
+            this.$emit("input", e);
+            this.menu = false;
+        },
     },
 };
 </script>
