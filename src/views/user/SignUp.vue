@@ -75,7 +75,16 @@
                                                         :change-step="
                                                             changeStep
                                                         "
-                                                        :form="form"
+                                                        :first-name.sync="
+                                                            form.firstName
+                                                        "
+                                                        :last-name.sync="
+                                                            form.lastName
+                                                        "
+                                                        :email.sync="form.email"
+                                                        :password.sync="
+                                                            form.password
+                                                        "
                                                     ></account-information-form>
                                                 </v-stepper-content>
                                                 <v-stepper-content :step="2">
@@ -83,7 +92,6 @@
                                                         :change-step="
                                                             changeStep
                                                         "
-                                                        :form="form"
                                                     ></personal-information-form>
                                                 </v-stepper-content>
                                                 <v-stepper-content :step="3">
@@ -91,7 +99,6 @@
                                                         :change-step="
                                                             changeStep
                                                         "
-                                                        :form="form"
                                                     ></address-information-form>
                                                 </v-stepper-content>
                                             </v-stepper-items>

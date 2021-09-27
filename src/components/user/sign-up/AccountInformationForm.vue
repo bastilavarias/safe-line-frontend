@@ -67,17 +67,54 @@ export default {
 
     props: {
         changeStep: Function,
-        form: Object,
+        firstName: String,
+        lastName: String,
+        email: String,
+        password: String,
     },
 
     data() {
         return {
-            firstNameLocal: this.form.firstName,
-            lastNameLocal: this.form.lastName,
-            emailLocal: this.form.email,
-            passwordLocal: this.form.password,
+            firstNameLocal: this.firstName,
+            lastNameLocal: this.lastName,
+            emailLocal: this.email,
+            passwordLocal: this.password,
             confirmPassword: null,
         };
+    },
+
+    watch: {
+        firstName(value) {
+            this.firstNameLocal = value;
+        },
+
+        lastName(value) {
+            this.lastNameLocal = value;
+        },
+
+        email(value) {
+            this.emailLocal = value;
+        },
+
+        password(value) {
+            this.passwordLocal = value;
+        },
+
+        firstNameLocal(value) {
+            this.$emit("update:firstName", value);
+        },
+
+        lastNameLocal(value) {
+            this.$emit("update:lastName", value);
+        },
+
+        emailLocal(value) {
+            this.$emit("update:email", value);
+        },
+
+        passwordLocal(value) {
+            this.$emit("update:password", value);
+        },
     },
 };
 </script>
