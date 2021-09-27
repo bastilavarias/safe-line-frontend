@@ -17,53 +17,80 @@
                     placeat porro possimus quasi rerum sequi tempora velit vero
                     voluptate voluptatibus voluptatum? Cum illo itaque suscipit!
                 </v-col>
-                <v-col
-                    cols="9"
-                    class="base-grid__right-side d-flex align-center"
-                >
-                    <v-container>
-                        <v-row justify="center">
-                            <v-col cols="8">
-                                <v-stepper
-                                    alt-labels
-                                    v-model="currentStep"
-                                    :elevation="0"
-                                >
-                                    <v-stepper-header class="shadow-none">
-                                        <v-stepper-step
-                                            :complete="currentStep > 1"
-                                            :step="1"
+                <v-col cols="9" class="base-grid__right-side">
+                    <section class="fill-height">
+                        <v-toolbar absolute flat width="100%">
+                            <v-toolbar-title
+                                class="font-weight-bold d-flex align-center"
+                            >
+                                <v-img
+                                    width="40"
+                                    height="auto"
+                                    :src="require('@/assets/logo-violet.png')"
+                                    class="mr-2"
+                                ></v-img>
+                                Safe Line
+                            </v-toolbar-title>
+                            <v-spacer></v-spacer>
+                            <v-btn
+                                color="primary"
+                                depressed
+                                class="text-capitalize"
+                                >Sign In</v-btn
+                            >
+                        </v-toolbar>
+                        <div class="fill-height d-flex align-center">
+                            <v-container>
+                                <v-row justify="center">
+                                    <v-col cols="8">
+                                        <v-stepper
+                                            alt-labels
+                                            v-model="currentStep"
+                                            :elevation="0"
                                         >
-                                            Account Info
-                                        </v-stepper-step>
-                                        <v-divider></v-divider>
-                                        <v-stepper-step
-                                            :complete="currentStep > 2"
-                                            :step="2"
-                                        >
-                                            Personal Info
-                                        </v-stepper-step>
-                                        <v-divider></v-divider>
-                                        <v-stepper-step :step="3">
-                                            Address Info
-                                        </v-stepper-step>
-                                    </v-stepper-header>
-                                    <v-stepper-items>
-                                        <v-stepper-content :step="1">
-                                            <account-information-form
-                                                :change-step="changeStep"
-                                            ></account-information-form>
-                                        </v-stepper-content>
-                                        <v-stepper-content :step="2">
-                                            <personal-information-form
-                                                :change-step="changeStep"
-                                            ></personal-information-form>
-                                        </v-stepper-content>
-                                    </v-stepper-items>
-                                </v-stepper>
-                            </v-col>
-                        </v-row>
-                    </v-container>
+                                            <v-stepper-header
+                                                class="shadow-none"
+                                            >
+                                                <v-stepper-step
+                                                    :complete="currentStep > 1"
+                                                    :step="1"
+                                                >
+                                                    Account Info
+                                                </v-stepper-step>
+                                                <v-divider></v-divider>
+                                                <v-stepper-step
+                                                    :complete="currentStep > 2"
+                                                    :step="2"
+                                                >
+                                                    Personal Info
+                                                </v-stepper-step>
+                                                <v-divider></v-divider>
+                                                <v-stepper-step :step="3">
+                                                    Address Info
+                                                </v-stepper-step>
+                                            </v-stepper-header>
+                                            <v-stepper-items>
+                                                <v-stepper-content :step="1">
+                                                    <account-information-form
+                                                        :change-step="
+                                                            changeStep
+                                                        "
+                                                    ></account-information-form>
+                                                </v-stepper-content>
+                                                <v-stepper-content :step="2">
+                                                    <personal-information-form
+                                                        :change-step="
+                                                            changeStep
+                                                        "
+                                                    ></personal-information-form>
+                                                </v-stepper-content>
+                                            </v-stepper-items>
+                                        </v-stepper>
+                                    </v-col>
+                                </v-row>
+                            </v-container>
+                        </div>
+                    </section>
                 </v-col>
             </v-row>
         </v-main>
@@ -97,6 +124,10 @@ export default {
     &__left-side,
     &__right-side {
         height: 100%;
+
+        section {
+            position: relative;
+        }
     }
 }
 
