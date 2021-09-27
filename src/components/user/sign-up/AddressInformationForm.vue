@@ -7,7 +7,7 @@
             <v-row dense>
                 <v-col cols="12">
                     <places-autocomplete
-                        v-model="samplevalue"
+                        v-model="locationLocal"
                     ></places-autocomplete>
                 </v-col>
             </v-row>
@@ -23,7 +23,11 @@
             >
             <v-spacer></v-spacer>
             <v-spacer></v-spacer>
-            <v-btn color="primary" class="text-capitalize" depressed disabled
+            <v-btn
+                color="primary"
+                class="text-capitalize"
+                depressed
+                :disabled="!isFormValid"
                 >Sign Up</v-btn
             >
         </v-card-actions>
@@ -33,19 +37,29 @@
 import PlacesAutocomplete from "@/components/base/PlacesAutocomplete";
 export default {
     components: { PlacesAutocomplete },
+
     props: {
         changeStep: Function,
+        location: Object,
     },
 
     data() {
         return {
-            samplevalue: {
-                address:
-                    "406 Sta. Fe, Tondo, Manila, 1013 Metro Manila, Philippines",
-                longitude: "120.9612243",
-                latitude: "14.6142909",
-            },
+            locationLocal: Object.assign({}, this.location),
         };
+    },
+
+    computed: {
+        isFormValid() {
+            const { address, latitude, longitude } = this.locationLocal;
+            return address && latitude && longitude;
+        },
+    },
+
+    watch: {
+        locationLocal(value) {
+            this.$emit("update:location", value);
+        },
     },
 };
 </script>

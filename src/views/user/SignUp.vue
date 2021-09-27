@@ -108,6 +108,9 @@
                                                         :change-step="
                                                             changeStep
                                                         "
+                                                        :location.sync="
+                                                            form.location
+                                                        "
                                                     ></address-information-form>
                                                 </v-stepper-content>
                                             </v-stepper-items>
@@ -136,7 +139,7 @@ const defaultForm = {
     gender: null,
     birthDate: null,
     phoneNumber: null,
-    address: {
+    location: {
         address: null,
         longitude: null,
         latitude: null,
