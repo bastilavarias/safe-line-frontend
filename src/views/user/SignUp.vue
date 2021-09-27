@@ -84,6 +84,13 @@
                                                         "
                                                     ></personal-information-form>
                                                 </v-stepper-content>
+                                                <v-stepper-content :step="3">
+                                                    <address-information-form
+                                                        :change-step="
+                                                            changeStep
+                                                        "
+                                                    ></address-information-form>
+                                                </v-stepper-content>
                                             </v-stepper-items>
                                         </v-stepper>
                                     </v-col>
@@ -100,8 +107,13 @@
 <script>
 import AccountInformationForm from "@/components/user/sign-up/AccountInformationForm";
 import PersonalInformationForm from "@/components/user/sign-up/PersonalInformationForm";
+import AddressInformationForm from "@/components/user/sign-up/AddressInformationForm";
 export default {
-    components: { PersonalInformationForm, AccountInformationForm },
+    components: {
+        AddressInformationForm,
+        PersonalInformationForm,
+        AccountInformationForm,
+    },
 
     data() {
         return {
