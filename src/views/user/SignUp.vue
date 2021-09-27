@@ -108,6 +108,9 @@
 import AccountInformationForm from "@/components/user/sign-up/AccountInformationForm";
 import PersonalInformationForm from "@/components/user/sign-up/PersonalInformationForm";
 import AddressInformationForm from "@/components/user/sign-up/AddressInformationForm";
+
+const defaultForm = {};
+
 export default {
     components: {
         AddressInformationForm,

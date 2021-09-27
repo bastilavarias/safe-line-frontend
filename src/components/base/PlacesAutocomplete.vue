@@ -24,14 +24,11 @@ export default {
 
     methods: {
         getAddressData(value, place) {
-            const location = Object.assign(
-                {},
-                {
-                    address: place.formatted_address,
-                    longitude: `${value.longitude}`,
-                    latitude: `${value.latitude}`,
-                }
-            );
+            const location = {
+                address: place.formatted_address,
+                longitude: `${value.longitude}`,
+                latitude: `${value.latitude}`,
+            };
             this.$emit("input", location);
         },
     },
