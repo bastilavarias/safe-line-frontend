@@ -30,7 +30,11 @@
         </v-card-text>
         <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary" class="text-capitalize" depressed
+            <v-btn
+                color="primary"
+                class="text-capitalize"
+                depressed
+                @click="changeStep(2)"
                 >Next</v-btn
             >
         </v-card-actions>
@@ -38,7 +42,12 @@
 </template>
 <script>
 import BPasswordField from "@/components/base/PasswordField";
+
 export default {
     components: { BPasswordField },
+
+    props: {
+        changeStep: Function,
+    },
 };
 </script>

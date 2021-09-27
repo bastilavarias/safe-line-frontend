@@ -48,23 +48,16 @@
                                             Address Info
                                         </v-stepper-step>
                                     </v-stepper-header>
-                                    <v-stepper-items v-model="currentStep">
+                                    <v-stepper-items>
                                         <v-stepper-content :step="1">
-                                            <account-information-form></account-information-form>
+                                            <account-information-form
+                                                :change-step="changeStep"
+                                            ></account-information-form>
                                         </v-stepper-content>
                                         <v-stepper-content :step="2">
-                                            <v-card
-                                                class="mb-12"
-                                                color="grey lighten-1"
-                                                height="200px"
-                                            ></v-card>
-                                        </v-stepper-content>
-                                        <v-stepper-content :step="3">
-                                            <v-card
-                                                class="mb-12"
-                                                color="grey lighten-1"
-                                                height="200px"
-                                            ></v-card>
+                                            <personal-information-form
+                                                :change-step="changeStep"
+                                            ></personal-information-form>
                                         </v-stepper-content>
                                     </v-stepper-items>
                                 </v-stepper>
@@ -79,13 +72,20 @@
 
 <script>
 import AccountInformationForm from "@/components/user/sign-up/AccountInformationForm";
+import PersonalInformationForm from "@/components/user/sign-up/PersonalInformationForm";
 export default {
-    components: { AccountInformationForm },
+    components: { PersonalInformationForm, AccountInformationForm },
 
     data() {
         return {
             currentStep: 1,
         };
+    },
+
+    methods: {
+        changeStep(step) {
+            this.currentStep = step;
+        },
     },
 };
 </script>
