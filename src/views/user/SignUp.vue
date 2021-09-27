@@ -92,6 +92,15 @@
                                                         :change-step="
                                                             changeStep
                                                         "
+                                                        :gender.sync="
+                                                            form.gender
+                                                        "
+                                                        :birth-date.sync="
+                                                            form.birthDate
+                                                        "
+                                                        :phone-number.sync="
+                                                            form.phoneNumber
+                                                        "
                                                     ></personal-information-form>
                                                 </v-stepper-content>
                                                 <v-stepper-content :step="3">

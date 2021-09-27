@@ -10,17 +10,22 @@
                         outlined
                         label="Gender"
                         :items="genders"
+                        v-model="genderLocal"
                     ></v-select>
                 </v-col>
                 <v-col cols="12">
                     <b-date-picker
-                        v-model="sampleDate"
+                        v-model="birthDateLocal"
                         label="Birth Date"
                         outlined
                     ></b-date-picker>
                 </v-col>
                 <v-col cols="12">
-                    <v-text-field label="Phone Number" outlined></v-text-field>
+                    <v-text-field
+                        label="Phone Number"
+                        outlined
+                        v-model="phoneNumberLocal"
+                    ></v-text-field>
                 </v-col>
             </v-row>
         </v-card-text>
@@ -39,6 +44,7 @@
                 class="text-capitalize"
                 depressed
                 @click="changeStep(3)"
+                :disabled="!isFormValid"
                 >Next</v-btn
             >
         </v-card-actions>
@@ -51,19 +57,40 @@ export default {
 
     props: {
         changeStep: Function,
+        gender: String,
+        birthDate: String,
+        phoneNumber: String,
     },
 
     data() {
         return {
-            genders: [
-                "Female",
-                "Male",
-                "Other (probably with an input field to specify)",
-                "I'd rather not say",
-            ],
-
-            sampleDate: "2021-09-30",
+            genders: ["Female", "Male", "I'd rather not say"],
+            genderLocal: this.gender,
+            birthDateLocal: this.birthDate,
+            phoneNumberLocal: this.phoneNumber,
         };
+    },
+
+    computed: {
+        isFormValid() {
+            return (
+                this.genderLocal && this.birthDateLocal && this.phoneNumberLocal
+            );
+        },
+    },
+
+    watch: {
+        genderLocal(value) {
+            this.$emit("update:gender", value);
+        },
+
+        birthDateLocal(value) {
+            this.$emit("update:birthDate", value);
+        },
+
+        phoneNumberLocal(value) {
+            this.$emit("update:phoneNumber", value);
+        },
     },
 };
 </script>
