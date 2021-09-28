@@ -4,11 +4,14 @@ import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
 import VuetifyGoogleAutocomplete from "vuetify-google-autocomplete";
+import apiService from "@/services/api";
 
 Vue.config.productionTip = false;
 
+apiService.init();
+
 Vue.use(VuetifyGoogleAutocomplete, {
-    apiKey: "AIzaSyDksdbqnNWl73-PMGqsXxe8dD67s0G0dpY",
+    apiKey: process.env.VUE_APP_GOOGLE_API_KEY,
     installComponents: true,
 });
 
