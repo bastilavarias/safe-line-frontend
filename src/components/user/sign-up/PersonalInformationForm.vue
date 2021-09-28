@@ -15,8 +15,8 @@
                 </v-col>
                 <v-col cols="12">
                     <b-date-picker
-                        v-model="birthDateLocal"
-                        label="Birth Date"
+                        v-model="birthdayLocal"
+                        label="Birthday"
                         outlined
                     ></b-date-picker>
                 </v-col>
@@ -58,7 +58,7 @@ export default {
     props: {
         changeStep: Function,
         gender: String,
-        birthDate: String,
+        birthday: String,
         phoneNumber: String,
     },
 
@@ -66,7 +66,7 @@ export default {
         return {
             genders: ["Female", "Male", "I'd rather not say"],
             genderLocal: this.gender,
-            birthDateLocal: this.birthDate,
+            birthdayLocal: this.birthday,
             phoneNumberLocal: this.phoneNumber,
         };
     },
@@ -74,7 +74,7 @@ export default {
     computed: {
         isFormValid() {
             return (
-                this.genderLocal && this.birthDateLocal && this.phoneNumberLocal
+                this.genderLocal && this.birthdayLocal && this.phoneNumberLocal
             );
         },
     },
@@ -84,8 +84,8 @@ export default {
             this.$emit("update:gender", value);
         },
 
-        birthDateLocal(value) {
-            this.$emit("update:birthDate", value);
+        birthdayLocal(value) {
+            this.$emit("update:birthday", value);
         },
 
         phoneNumberLocal(value) {

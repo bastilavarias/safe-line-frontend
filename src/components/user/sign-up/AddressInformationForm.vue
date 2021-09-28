@@ -28,6 +28,7 @@
                 class="text-capitalize"
                 depressed
                 :disabled="!isFormValid"
+                @click="signUp"
                 >Sign Up</v-btn
             >
         </v-card-actions>
@@ -41,11 +42,13 @@ export default {
     props: {
         changeStep: Function,
         location: Object,
+        form: Object,
     },
 
     data() {
         return {
             locationLocal: Object.assign({}, this.location),
+            isSignUpStart: false,
         };
     },
 
@@ -59,6 +62,38 @@ export default {
     watch: {
         locationLocal(value) {
             this.$emit("update:location", value);
+        },
+    },
+
+    methods: {
+        async signUp() {
+            this.isSignUpStart = true;
+
+            const {
+                firstName,
+                lastName,
+                email,
+                password,
+                gender,
+                birthday,
+                phoneNumber,
+                location,
+            } = this.form;
+
+            const payload = {
+                user_type: "patient",
+                first_name: firstName,
+                last_name: lastName,
+                email: email,
+                password: password,
+                gender: gender,
+                birthday: birthday,
+                contacts: [`phone_number:${phoneNumber}`],
+                latitude: location.latitude,
+                longitude: location.longitude,
+            };
+
+            console.log(payload);
         },
     },
 };

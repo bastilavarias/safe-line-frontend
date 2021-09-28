@@ -95,8 +95,8 @@
                                                         :gender.sync="
                                                             form.gender
                                                         "
-                                                        :birth-date.sync="
-                                                            form.birthDate
+                                                        :birthday.sync="
+                                                            form.birthday
                                                         "
                                                         :phone-number.sync="
                                                             form.phoneNumber
@@ -111,6 +111,7 @@
                                                         :location.sync="
                                                             form.location
                                                         "
+                                                        :form="form"
                                                     ></address-information-form>
                                                 </v-stepper-content>
                                             </v-stepper-items>
@@ -137,7 +138,7 @@ const defaultForm = {
     email: null,
     password: null,
     gender: null,
-    birthDate: null,
+    birthday: null,
     phoneNumber: null,
     location: {
         address: null,
