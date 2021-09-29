@@ -7,3 +7,5 @@ export default {
     name: "App",
 };
 </script>
+
+<style lang="scss" src="./scss/app.scss"></style>

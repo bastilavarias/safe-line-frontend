@@ -25,7 +25,10 @@
                 <v-col cols="9" class="base-grid__right-side">
                     <section class="fill-height">
                         <v-toolbar absolute flat width="100%">
-                            <v-toolbar-title class="d-flex align-center">
+                            <v-toolbar-title
+                                class="d-flex align-center cursor-pointer"
+                                @click="$router.push({ name: 'home' })"
+                            >
                                 <v-img
                                     width="40"
                                     height="auto"
@@ -225,9 +228,5 @@ export default {
             position: relative;
         }
     }
-}
-
-.shadow-none {
-    box-shadow: none !important;
 }
 </style>
