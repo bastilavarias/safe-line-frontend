@@ -100,18 +100,18 @@ export default {
                 password: password,
                 gender: gender,
                 birthday: birthday,
-                contacts: [`phone_number:${phoneNumber}`],
+                contacts: `phone_number:${phoneNumber}`,
+                address: location.address,
                 latitude: location.latitude,
                 longitude: location.longitude,
             };
 
             const result = await this.$store.dispatch(USER_SIGN_UP, payload);
-
             if (!result.success) {
-                this.errorLocal = result.message;
                 this.isSignUpStart = false;
-                return;
+                return (this.errorLocal = result.message);
             }
+            this.$emit("success");
         },
     },
 };

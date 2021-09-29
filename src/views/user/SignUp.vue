@@ -120,10 +120,30 @@
                                                         "
                                                         :form="form"
                                                         :error.sync="error"
+                                                        @success="signUpSuccess"
                                                     ></address-information-form>
                                                 </v-stepper-content>
                                             </v-stepper-items>
                                         </v-stepper>
+                                        <v-snackbar
+                                            v-model="isSnackbarShow"
+                                            color="success"
+                                            :timeout="3000"
+                                        >
+                                            Account sign up complete.
+                                            <template v-slot:action="{ attrs }">
+                                                <v-btn
+                                                    color="white"
+                                                    text
+                                                    v-bind="attrs"
+                                                    @click="
+                                                        isSnackbarShow = false
+                                                    "
+                                                >
+                                                    Close
+                                                </v-btn>
+                                            </template>
+                                        </v-snackbar>
                                     </v-col>
                                 </v-row>
                             </v-container>
@@ -167,12 +187,22 @@ export default {
             currentStep: 1,
             form: Object.assign({}, defaultForm),
             error: null,
+            isSnackbarShow: false,
         };
     },
 
     methods: {
         changeStep(step) {
             this.currentStep = step;
+        },
+
+        signUpSuccess() {
+            this.isSnackbarShow = true;
+            setTimeout(
+                async () =>
+                    await this.$router.push({ name: "patient-dashboard" }),
+                2000
+            );
         },
     },
 };
