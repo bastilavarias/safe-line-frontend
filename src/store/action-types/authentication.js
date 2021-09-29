@@ -1,1 +1,1 @@
-export const USER_SIGN_UP = "authentication/user-sign-up";
+export const USER_SIGN_UP = "authentication/patient-sign-up";

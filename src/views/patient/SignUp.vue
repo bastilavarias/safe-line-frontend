@@ -156,9 +156,9 @@
 </template>
 
 <script>
-import AccountInformationForm from "@/components/user/sign-up/AccountInformationForm";
-import PersonalInformationForm from "@/components/user/sign-up/PersonalInformationForm";
-import AddressInformationForm from "@/components/user/sign-up/AddressInformationForm";
+import AccountInformationForm from "@/components/patient/sign-up/AccountInformationForm";
+import PersonalInformationForm from "@/components/patient/sign-up/PersonalInformationForm";
+import AddressInformationForm from "@/components/patient/sign-up/AddressInformationForm";
 
 const defaultForm = {
     firstName: null,
