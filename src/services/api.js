@@ -6,7 +6,7 @@ import tokenService from "@/services/token";
 const apiService = {
     init() {
         Vue.use(vueAxios, axios);
-        Vue.axios.defaults.baseURL = "/api";
+        Vue.axios.defaults.baseURL = `${process.env.VUE_APP_BACK_END_URL}/api`;
     },
 
     setHeader() {

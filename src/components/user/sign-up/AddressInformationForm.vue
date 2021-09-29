@@ -29,6 +29,7 @@
                 depressed
                 :disabled="!isFormValid"
                 @click="signUp"
+                :loading="isSignUpStart"
                 >Sign Up</v-btn
             >
         </v-card-actions>
@@ -36,6 +37,7 @@
 </template>
 <script>
 import PlacesAutocomplete from "@/components/base/PlacesAutocomplete";
+import { USER_SIGN_UP } from "@/store/action-types/authentication";
 export default {
     components: { PlacesAutocomplete },
 
@@ -43,12 +45,14 @@ export default {
         changeStep: Function,
         location: Object,
         form: Object,
+        error: String,
     },
 
     data() {
         return {
             locationLocal: Object.assign({}, this.location),
             isSignUpStart: false,
+            errorLocal: this.error,
         };
     },
 
@@ -62,6 +66,14 @@ export default {
     watch: {
         locationLocal(value) {
             this.$emit("update:location", value);
+        },
+
+        error(value) {
+            this.errorLocal = value;
+        },
+
+        errorLocal(value) {
+            this.$emit("update:error", value);
         },
     },
 
@@ -93,7 +105,13 @@ export default {
                 longitude: location.longitude,
             };
 
-            console.log(payload);
+            const result = await this.$store.dispatch(USER_SIGN_UP, payload);
+
+            if (!result.success) {
+                this.errorLocal = result.message;
+                this.isSignUpStart = false;
+                return;
+            }
         },
     },
 };

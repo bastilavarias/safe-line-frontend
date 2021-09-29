@@ -69,6 +69,13 @@
                                                     Address Info
                                                 </v-stepper-step>
                                             </v-stepper-header>
+                                            <v-alert
+                                                outlined
+                                                type="error"
+                                                v-if="error"
+                                            >
+                                                {{ error }}
+                                            </v-alert>
                                             <v-stepper-items>
                                                 <v-stepper-content :step="1">
                                                     <account-information-form
@@ -112,6 +119,7 @@
                                                             form.location
                                                         "
                                                         :form="form"
+                                                        :error.sync="error"
                                                     ></address-information-form>
                                                 </v-stepper-content>
                                             </v-stepper-items>
@@ -158,6 +166,7 @@ export default {
         return {
             currentStep: 1,
             form: Object.assign({}, defaultForm),
+            error: null,
         };
     },
 
