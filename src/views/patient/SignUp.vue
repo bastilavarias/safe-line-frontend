@@ -2,20 +2,25 @@
     <v-app>
         <v-main>
             <v-row class="base-grid" no-gutters>
-                <v-col cols="3" class="base-grid__left-side primary">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    Consectetur ex fugiat libero tempora? Commodi hic illo ipsa
-                    ipsam porro quibusdam, reiciendis repellat voluptas?
-                    Accusamus aliquam aperiam architecto assumenda at, aut autem
-                    consequatur debitis doloremque expedita fugiat harum iste,
-                    itaque iure laboriosam maiores molestias non, obcaecati odio
-                    omnis quod suscipit totam ullam vel vero vitae voluptas
-                    voluptate. Aliquam asperiores assumenda, consectetur culpa
-                    deleniti distinctio dolor, dolore dolores doloribus eligendi
-                    eos et expedita facilis, harum inventore laboriosam laborum
-                    magni natus nulla numquam obcaecati odio odit pariatur
-                    placeat porro possimus quasi rerum sequi tempora velit vero
-                    voluptate voluptatibus voluptatum? Cum illo itaque suscipit!
+                <v-col cols="3" class="fill-height primary white--text">
+                    <v-container class="fill-height">
+                        <div>
+                            <h1 class="font-weight-bold display-1">
+                                Safe Line
+                            </h1>
+                            <div class="mb-5"></div>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur
+                                adipisicing elit. A accusantium aliquam beatae
+                                cum cupiditate enim illum in, ipsum iste itaque
+                                laudantium nemo neque nesciunt perferendis
+                                quaerat quia quod recusandae unde veniam
+                                voluptatum? Alias autem culpa cum, debitis error
+                                est eum fugiat fugit non placeat quisquam
+                                repellat rerum sunt suscipit temporibus?
+                            </p>
+                        </div>
+                    </v-container>
                 </v-col>
                 <v-col cols="9" class="base-grid__right-side">
                     <section class="fill-height">
