@@ -167,6 +167,7 @@
 import AccountInformationForm from "@/components/patient/sign-up/AccountInformationForm";
 import PersonalInformationForm from "@/components/patient/sign-up/PersonalInformationForm";
 import AddressInformationForm from "@/components/patient/sign-up/AddressInformationForm";
+import tokenService from "@/services/token";
 
 const defaultForm = {
     firstName: null,
@@ -204,7 +205,8 @@ export default {
             this.currentStep = step;
         },
 
-        signUpSuccess() {
+        signUpSuccess(token) {
+            tokenService.save(token);
             this.isSnackbarShow = true;
             setTimeout(
                 async () =>

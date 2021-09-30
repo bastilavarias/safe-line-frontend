@@ -113,8 +113,7 @@ export default {
                 return (this.errorLocal = result.message);
             }
 
-            tokenService.save(result.data.access_token);
-            this.$emit("success");
+            this.$emit("success", result.data.access_token);
         },
     },
 };
