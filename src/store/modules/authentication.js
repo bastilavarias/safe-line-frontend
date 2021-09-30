@@ -17,7 +17,7 @@ const storeDetails = ({ user, clinic }) => {
 const authenticationModule = {
     state: {
         isAuthenticated: !!tokenService.get(),
-        details: null,
+        details: JSON.parse(window.localStorage.getItem("details")) || null,
     },
 
     mutations: {

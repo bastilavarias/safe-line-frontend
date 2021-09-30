@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import store from "@/store";
 import { AUTHENTICATE_USER } from "@/store/action-types/authentication";
+import routingMixin from "@/mixins/routing";
 
 Vue.use(VueRouter);
 
@@ -32,6 +33,24 @@ const routes = [
             requiresAuth: true,
         },
     },
+
+    {
+        path: "/dashboard/clinic-member",
+        name: "clinic-member-dashboard",
+        component: () => import("@/layouts/dashboard/ClinicMember"),
+        meta: {
+            requiresAuth: true,
+        },
+    },
+
+    {
+        path: "/dashboard/super-admin",
+        name: "super-admin-dashboard",
+        component: () => import("@/layouts/dashboard/SuperAdmin"),
+        meta: {
+            requiresAuth: true,
+        },
+    },
 ];
 
 const router = new VueRouter({
@@ -42,18 +61,19 @@ const router = new VueRouter({
 
 router.beforeEach(async (to, from, next) => {
     await store.dispatch(AUTHENTICATE_USER);
-    const { isAuthenticated } = store.state.authentication;
-    const redirectTo = isAuthenticated
-        ? { name: "patient-dashboard" }
-        : { name: "patient-dashboard" }; // change this once user object is fixed.
+    const { isAuthenticated, details } = store.state.authentication;
     const isProtectedRoute = to.matched.some(
         (record) => record.meta.requiresAuth
     );
     const unProtectedRoutes = ["patient-sign-up", "sign-in"];
 
     if (isProtectedRoute && !isAuthenticated) return next({ name: "sign-in" });
-    if (unProtectedRoutes.includes(to.name) && isAuthenticated)
-        return next(redirectTo);
+    if (unProtectedRoutes.includes(to.name) && isAuthenticated) {
+        const redirectTo = routingMixin.methods.redirectTo(
+            details.user.user_type
+        );
+        return next({ name: redirectTo });
+    }
     next();
 });
 

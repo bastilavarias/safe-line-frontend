@@ -136,6 +136,7 @@
 import BPasswordField from "@/components/base/PasswordField";
 import { SIGN_IN } from "@/store/action-types/authentication";
 import tokenService from "@/services/token";
+import routingMixin from "@/mixins/routing";
 
 const defaultForm = {
     email: null,
@@ -144,6 +145,8 @@ const defaultForm = {
 
 export default {
     components: { BPasswordField },
+
+    mixins: [routingMixin],
 
     data() {
         return {
@@ -173,7 +176,10 @@ export default {
 
             this.isSnackbarShow = true;
             setTimeout(async () => {
-                await this.$router.push({ name: "patient-dashboard" });
+                const user = result.data.user;
+                await this.$router.push({
+                    name: this.redirectTo(user.user_type),
+                });
             }, 2000);
         },
     },

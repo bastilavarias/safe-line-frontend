@@ -205,13 +205,11 @@ export default {
             this.currentStep = step;
         },
 
-        signUpSuccess() {
+        async signUpSuccess(user) {
             this.isSnackbarShow = true;
-            setTimeout(
-                async () =>
-                    await this.$router.push({ name: "patient-dashboard" }),
-                2000
-            );
+            await this.$router.push({
+                name: this.redirectTo(user.user_type),
+            });
         },
     },
 };
