@@ -22,9 +22,15 @@
                 </v-col>
                 <v-col cols="12">
                     <v-text-field
-                        label="Phone Number"
+                        label="Cellphone Number (11 Digits)"
                         outlined
                         v-model="phoneNumberLocal"
+                        :counter="11"
+                        :rules="[
+                            (v) =>
+                                v.length === 11 ||
+                                'You must enter 11 digits cellphone number',
+                        ]"
                     ></v-text-field>
                 </v-col>
             </v-row>
@@ -74,7 +80,10 @@ export default {
     computed: {
         isFormValid() {
             return (
-                this.genderLocal && this.birthdayLocal && this.phoneNumberLocal
+                this.genderLocal &&
+                this.birthdayLocal &&
+                this.phoneNumberLocal &&
+                this.phoneNumberLocal.length === 11
             );
         },
     },

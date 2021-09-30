@@ -102,7 +102,7 @@ export default {
                 password: password,
                 gender: gender,
                 birthday: birthday,
-                contacts: `phone_number:${phoneNumber}`,
+                contacts: `cellphone_number:${phoneNumber}`,
                 address: location.address,
                 latitude: location.latitude,
                 longitude: location.longitude,
