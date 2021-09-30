@@ -113,7 +113,7 @@ export default {
                 return (this.errorLocal = result.message);
             }
 
-            this.$emit("success", result.data.data.user);
+            this.$emit("success", result.data.user);
         },
     },
 };

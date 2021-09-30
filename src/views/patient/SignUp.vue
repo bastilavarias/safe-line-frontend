@@ -168,6 +168,7 @@ import AccountInformationForm from "@/components/patient/sign-up/AccountInformat
 import PersonalInformationForm from "@/components/patient/sign-up/PersonalInformationForm";
 import AddressInformationForm from "@/components/patient/sign-up/AddressInformationForm";
 import tokenService from "@/services/token";
+import routingMixin from "@/mixins/routing";
 
 const defaultForm = {
     firstName: null,
@@ -191,6 +192,8 @@ export default {
         AccountInformationForm,
     },
 
+    mixins: [routingMixin],
+
     data() {
         return {
             currentStep: 1,
@@ -207,6 +210,7 @@ export default {
 
         async signUpSuccess(user) {
             this.isSnackbarShow = true;
+            console.log(this.redirectTo(user.user_type));
             await this.$router.push({
                 name: this.redirectTo(user.user_type),
             });
