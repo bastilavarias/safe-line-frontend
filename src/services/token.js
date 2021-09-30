@@ -1,6 +1,6 @@
 const tokenService = {
     save(token) {
-        window.localStorage.set("token", token);
+        window.localStorage.setItem("token", token);
     },
 
     get() {
