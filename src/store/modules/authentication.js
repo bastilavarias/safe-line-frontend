@@ -26,7 +26,7 @@ const authenticationModule = {
     mutations: {
         [SET_AUTHENTICATION](state, payload) {
             state.isAuthenticated = true;
-            // storeDetails(payload.details);
+            storeDetails(payload.details);
             tokenService.save(payload.access_token);
             apiService.setHeader();
         },
@@ -47,10 +47,18 @@ const authenticationModule = {
             }
         },
 
-        async [SIGN_IN]({ commit }, payload) {
+        async [SIGN_IN]({ commit }, formPayload) {
             try {
-                const response = await apiService.post("/auth/login", payload);
-                commit(SET_AUTHENTICATION, response.data.data);
+                const response = await apiService.post(
+                    "/auth/login",
+                    formPayload
+                );
+                const { access_token, user, clinic } = response.data.data;
+                const authPayload = {
+                    access_token,
+                    details: { user, clinic },
+                };
+                commit(SET_AUTHENTICATION, authPayload);
                 return await response.data;
             } catch (error) {
                 return error.response.data;
