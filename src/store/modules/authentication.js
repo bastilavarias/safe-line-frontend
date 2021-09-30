@@ -36,9 +36,15 @@ const authenticationModule = {
     },
 
     actions: {
-        async [PATIENT_SIGN_UP](_, payload) {
+        async [PATIENT_SIGN_UP]({ commit }, payload) {
             try {
                 const response = await apiService.post("/auth/signup", payload);
+                const { access_token, user } = response.data.data;
+                const authPayload = {
+                    access_token,
+                    details: { user },
+                };
+                commit(SET_AUTHENTICATION, authPayload);
                 return await response.data;
             } catch (error) {
                 return error.response.data;
