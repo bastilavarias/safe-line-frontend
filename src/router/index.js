@@ -1,5 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import store from "@/store";
+import { AUTHENTICATE_USER } from "@/store/action-types/authentication";
 
 Vue.use(VueRouter);
 
@@ -26,6 +28,9 @@ const routes = [
         path: "/dashboard/patient",
         name: "patient-dashboard",
         component: () => import("@/layouts/dashboard/Patient"),
+        meta: {
+            requiresAuth: true,
+        },
     },
 ];
 
@@ -33,6 +38,20 @@ const router = new VueRouter({
     mode: "history",
     base: process.env.BASE_URL,
     routes,
+});
+
+router.beforeEach(async (to, from, next) => {
+    await store.dispatch(AUTHENTICATE_USER);
+    const { isAuthenticated } = store.state.authentication;
+    const redirectTo = isAuthenticated
+        ? { name: "patient-dashboard" }
+        : { name: "sign-in" }; // change this once user object is fixed.
+    const isProtectedRoute = to.matched.some(
+        (record) => record.meta.requiresAuth
+    );
+    if (isProtectedRoute && !isAuthenticated) return next({ name: "sign-in" });
+    if (to.name === "sign-in" && isAuthenticated) return next(redirectTo);
+    next();
 });
 
 export default router;

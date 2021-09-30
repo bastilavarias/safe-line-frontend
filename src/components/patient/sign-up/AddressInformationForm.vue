@@ -37,7 +37,8 @@
 </template>
 <script>
 import PlacesAutocomplete from "@/components/base/PlacesAutocomplete";
-import { USER_SIGN_UP } from "@/store/action-types/authentication";
+import { PATIENT_SIGN_UP } from "@/store/action-types/authentication";
+import tokenService from "@/services/token";
 export default {
     components: { PlacesAutocomplete },
 
@@ -106,11 +107,13 @@ export default {
                 longitude: location.longitude,
             };
 
-            const result = await this.$store.dispatch(USER_SIGN_UP, payload);
+            const result = await this.$store.dispatch(PATIENT_SIGN_UP, payload);
             if (!result.success) {
                 this.isSignUpStart = false;
                 return (this.errorLocal = result.message);
             }
+
+            tokenService.save(result.data.access_token);
             this.$emit("success");
         },
     },

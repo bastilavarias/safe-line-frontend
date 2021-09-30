@@ -4,7 +4,7 @@ const tokenService = {
     },
 
     get() {
-        return window.localStorage.get("token") || null;
+        return window.localStorage.getItem("token") || null;
     },
 
     remove() {

@@ -1,7 +1,31 @@
-import { PATIENT_SIGN_UP, SIGN_IN } from "@/store/action-types/authentication";
+import {
+    AUTHENTICATE_USER,
+    PATIENT_SIGN_UP,
+    PURGE_AUTHENTICATION,
+    SET_AUTHENTICATION,
+    SIGN_IN,
+} from "@/store/action-types/authentication";
 import apiService from "@/services/api";
+import tokenService from "@/services/token";
 
 const authenticationModule = {
+    state: {
+        isAuthenticated: !!tokenService.get(),
+    },
+
+    mutations: {
+        [SET_AUTHENTICATION](state, token) {
+            state.isAuthenticated = true;
+            tokenService.save(token);
+            apiService.setHeader();
+        },
+
+        [PURGE_AUTHENTICATION](state) {
+            state.isAuthenticated = false;
+            tokenService.remove();
+        },
+    },
+
     actions: {
         async [PATIENT_SIGN_UP](_, payload) {
             try {
@@ -19,6 +43,12 @@ const authenticationModule = {
             } catch (error) {
                 return error.response.data;
             }
+        },
+
+        async [AUTHENTICATE_USER]({ commit }) {
+            const token = tokenService.get();
+            if (token) return commit(SET_AUTHENTICATION, token);
+            commit(PURGE_AUTHENTICATION);
         },
     },
 };
