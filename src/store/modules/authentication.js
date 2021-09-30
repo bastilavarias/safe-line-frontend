@@ -8,15 +8,26 @@ import {
 import apiService from "@/services/api";
 import tokenService from "@/services/token";
 
+const storeDetails = ({ user, clinic }) => {
+    if (user.user_type === "patient")
+        return window.localStorage.setItem("details", JSON.stringify({ user }));
+    window.localStorage.setItem("details", JSON.stringify({ user, clinic }));
+};
+
 const authenticationModule = {
     state: {
         isAuthenticated: !!tokenService.get(),
+        details: {
+            patient: null,
+            clinicMember: null,
+        },
     },
 
     mutations: {
-        [SET_AUTHENTICATION](state, token) {
+        [SET_AUTHENTICATION](state, payload) {
             state.isAuthenticated = true;
-            tokenService.save(token);
+            // storeDetails(payload.details);
+            tokenService.save(payload.access_token);
             apiService.setHeader();
         },
 
@@ -36,9 +47,10 @@ const authenticationModule = {
             }
         },
 
-        async [SIGN_IN](_, payload) {
+        async [SIGN_IN]({ commit }, payload) {
             try {
                 const response = await apiService.post("/auth/login", payload);
+                commit(SET_AUTHENTICATION, response.data.data);
                 return await response.data;
             } catch (error) {
                 return error.response.data;
@@ -46,8 +58,10 @@ const authenticationModule = {
         },
 
         async [AUTHENTICATE_USER]({ commit }) {
-            const token = tokenService.get();
-            if (token) return commit(SET_AUTHENTICATION, token);
+            const accessToken = tokenService.get();
+            const details = JSON.parse(window.localStorage.getItem("details"));
+            const payload = { access_token: accessToken, details };
+            if (accessToken) return commit(SET_AUTHENTICATION, payload);
             commit(PURGE_AUTHENTICATION);
         },
     },

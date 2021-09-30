@@ -49,7 +49,7 @@ router.beforeEach(async (to, from, next) => {
     const isProtectedRoute = to.matched.some(
         (record) => record.meta.requiresAuth
     );
-    const unProtectedRoutes = ["home", "patient-sign-up", "sign-in"];
+    const unProtectedRoutes = ["patient-sign-up", "sign-in"];
 
     if (isProtectedRoute && !isAuthenticated) return next({ name: "sign-in" });
     if (unProtectedRoutes.includes(to.name) && isAuthenticated)

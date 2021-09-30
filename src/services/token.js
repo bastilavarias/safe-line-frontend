@@ -1,14 +1,14 @@
 const tokenService = {
     save(token) {
-        window.localStorage.setItem("token", token);
+        window.localStorage.setItem("access_token", token);
     },
 
     get() {
-        return window.localStorage.getItem("token") || null;
+        return window.localStorage.getItem("access_token") || null;
     },
 
     remove() {
-        window.localStorage.removeItem("token");
+        window.localStorage.removeItem("access_token");
     },
 };
 

@@ -205,8 +205,7 @@ export default {
             this.currentStep = step;
         },
 
-        signUpSuccess(token) {
-            tokenService.save(token);
+        signUpSuccess() {
             this.isSnackbarShow = true;
             setTimeout(
                 async () =>

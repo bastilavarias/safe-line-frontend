@@ -113,7 +113,7 @@ export default {
                 return (this.errorLocal = result.message);
             }
 
-            this.$emit("success", result.data.access_token);
+            this.$emit("success");
         },
     },
 };

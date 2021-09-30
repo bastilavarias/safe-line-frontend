@@ -171,7 +171,6 @@ export default {
                 return (this.error = result.message);
             }
 
-            tokenService.save(result.data.access_token);
             this.isSnackbarShow = true;
             setTimeout(async () => {
                 await this.$router.push({ name: "patient-dashboard" });
