@@ -45,12 +45,15 @@ router.beforeEach(async (to, from, next) => {
     const { isAuthenticated } = store.state.authentication;
     const redirectTo = isAuthenticated
         ? { name: "patient-dashboard" }
-        : { name: "sign-in" }; // change this once user object is fixed.
+        : { name: "patient-dashboard" }; // change this once user object is fixed.
     const isProtectedRoute = to.matched.some(
         (record) => record.meta.requiresAuth
     );
+    const unProtectedRoutes = ["home", "patient-sign-up", "sign-in"];
+
     if (isProtectedRoute && !isAuthenticated) return next({ name: "sign-in" });
-    if (to.name === "sign-in" && isAuthenticated) return next(redirectTo);
+    if (unProtectedRoutes.includes(to.name) && isAuthenticated)
+        return next(redirectTo);
     next();
 });
 
