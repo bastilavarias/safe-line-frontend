@@ -17,15 +17,13 @@ const storeDetails = ({ user, clinic }) => {
 const authenticationModule = {
     state: {
         isAuthenticated: !!tokenService.get(),
-        details: {
-            patient: null,
-            clinicMember: null,
-        },
+        details: null,
     },
 
     mutations: {
         [SET_AUTHENTICATION](state, payload) {
             state.isAuthenticated = true;
+            this.details = Object.assign({}, payload.details);
             storeDetails(payload.details);
             tokenService.save(payload.access_token);
             apiService.setHeader();
