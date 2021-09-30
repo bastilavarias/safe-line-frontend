@@ -1,12 +1,13 @@
 <template>
     <v-card flat>
         <v-card-title class="display-1 font-weight-bold"
-            >Address Information</v-card-title
+            >Home Address</v-card-title
         >
         <v-card-text>
             <v-row dense>
                 <v-col cols="12">
                     <places-autocomplete
+                        placeholder="Search Address"
                         v-model="locationLocal"
                     ></places-autocomplete>
                 </v-col>

@@ -210,7 +210,6 @@ export default {
 
         async signUpSuccess(user) {
             this.isSnackbarShow = true;
-            console.log(this.redirectTo(user.user_type));
             await this.$router.push({
                 name: this.redirectTo(user.user_type),
             });

@@ -2,7 +2,7 @@
     <vuetify-google-autocomplete
         id="map"
         append-icon="mdi-search"
-        placeholder="Search Location"
+        :placeholder="placeholder"
         v-on:placechanged="getAddressData"
         outlined
         :value="valueLocal.address"
@@ -14,6 +14,7 @@
 export default {
     props: {
         value: Object,
+        placeholder: String,
     },
 
     data() {
