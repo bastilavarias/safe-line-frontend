@@ -9,8 +9,8 @@ const apiService = {
         Vue.axios.defaults.baseURL = `${process.env.VUE_APP_BACK_END_URL}/api`;
     },
 
-    setHeader() {
-        Vue.axios.defaults.headers.common["Authorization"] = tokenService.get();
+    setHeader(token) {
+        Vue.axios.defaults.headers.common["Authorization"] = token;
     },
 
     async get(route, body) {
