@@ -33,13 +33,6 @@ export default {
 
                 {
                     to: {
-                        name: "super-admin-clinics",
-                    },
-                    icon: "mdi-application",
-                },
-
-                {
-                    to: {
                         name: "super-admin-clinic-services",
                     },
                     icon: "mdi-application-cog",

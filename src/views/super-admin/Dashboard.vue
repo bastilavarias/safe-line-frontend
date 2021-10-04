@@ -3,7 +3,10 @@
         <v-row>
             <v-col cols="12">
                 <v-sheet color="transparent">
-                    <h1 class="title font-weight-bold text-truncate mb-5">
+                    <h1
+                        class="title font-weight-bold text-truncate mb-5"
+                        v-if="user"
+                    >
                         Welcome {{ user.profile.first_name }}
                         {{ user.profile.last_name }}!
                     </h1>
@@ -21,12 +24,22 @@
                 </v-sheet>
             </v-col>
             <v-col cols="12">
-                <v-card rounded>
-                    <v-card>
-                        <v-card-title class="font-weight-bold"
-                            >Clinics
-                        </v-card-title>
-                    </v-card>
+                <v-card rounded color="white">
+                    <v-toolbar flat>
+                        <v-toolbar-title class="font-weight-bold"
+                            >Clinics</v-toolbar-title
+                        >
+                        <v-spacer></v-spacer>
+                        <v-text-field
+                            filled
+                            hide-details
+                            placeholder="Search Clinic"
+                            dense
+                            rounded
+                            prepend-inner-icon="mdi-magnify"
+                        ></v-text-field>
+                    </v-toolbar>
+                    <v-data-table :headers="table.headers"></v-data-table>
                 </v-card>
             </v-col>
         </v-row>
@@ -37,6 +50,35 @@
 import SuperAdminDashboardInformationCard from "@/components/super-admin/dashboard/InformationCard";
 export default {
     components: { SuperAdminDashboardInformationCard },
+
+    data() {
+        return {
+            table: {
+                headers: [
+                    {
+                        text: "Clinic Name",
+                    },
+
+                    {
+                        text: "Address",
+                    },
+
+                    {
+                        text: "Status",
+                    },
+
+                    {
+                        text: "Created At",
+                    },
+
+                    {
+                        text: "Action",
+                    },
+                ],
+            },
+        };
+    },
+
     computed: {
         user() {
             const details = this.$store.state.authentication.details;

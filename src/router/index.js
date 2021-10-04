@@ -58,12 +58,6 @@ const routes = [
             },
 
             {
-                path: "clinics",
-                name: "super-admin-clinics",
-                component: () => import("@/views/super-admin/Clinics"),
-            },
-
-            {
                 path: "clinic-services",
                 name: "super-admin-clinic-services",
                 component: () => import("@/views/super-admin/ClinicServices"),
