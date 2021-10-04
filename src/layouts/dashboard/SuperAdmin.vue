@@ -1,7 +1,11 @@
 <template>
     <v-app>
         <dashboard-app-bar></dashboard-app-bar>
-        <v-main>
+        <v-main
+            :style="{
+                backgroundColor: '#F5F5F5',
+            }"
+        >
             <v-container>
                 <router-view></router-view>
             </v-container>
