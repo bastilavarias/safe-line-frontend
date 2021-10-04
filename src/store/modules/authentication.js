@@ -9,9 +9,13 @@ import apiService from "@/services/api";
 import tokenService from "@/services/token";
 
 const storeDetails = ({ user, clinic }) => {
-    if (user.user_type === "patient")
+    if (user.user_type === "patient" || user.user_type === "super_admin")
         return window.localStorage.setItem("details", JSON.stringify({ user }));
     window.localStorage.setItem("details", JSON.stringify({ user, clinic }));
+};
+
+const removeDetails = () => {
+    window.localStorage.removeItem("details");
 };
 
 const authenticationModule = {
@@ -23,14 +27,16 @@ const authenticationModule = {
     mutations: {
         [SET_AUTHENTICATION](state, payload) {
             state.isAuthenticated = true;
-            this.details = Object.assign({}, payload.details);
+            state.details = Object.assign({}, payload.details);
             storeDetails(payload.details);
             tokenService.save(payload.access_token);
-            apiService.setHeader();
+            apiService.setHeader(payload.access_token);
         },
 
         [PURGE_AUTHENTICATION](state) {
             state.isAuthenticated = false;
+            state.details = null;
+            removeDetails();
             tokenService.remove();
         },
     },

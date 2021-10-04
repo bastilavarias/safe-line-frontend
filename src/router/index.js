@@ -45,11 +45,35 @@ const routes = [
 
     {
         path: "/dashboard/super-admin",
-        name: "super-admin-dashboard",
-        component: () => import("@/layouts/dashboard/SuperAdmin"),
         meta: {
             requiresAuth: true,
         },
+        component: () => import("@/layouts/dashboard/SuperAdmin"),
+
+        children: [
+            {
+                path: "",
+                name: "super-admin-dashboard",
+                component: () => import("@/views/super-admin/Dashboard"),
+            },
+
+            {
+                path: "clinics",
+                name: "super-admin-clinics",
+                component: () => import("@/views/super-admin/Clinics"),
+            },
+
+            {
+                path: "clinic-services",
+                name: "super-admin-clinic-services",
+                component: () => import("@/views/super-admin/ClinicServices"),
+            },
+            {
+                path: "accounts",
+                name: "super-admin-accounts",
+                component: () => import("@/views/super-admin/Accounts"),
+            },
+        ],
     },
 ];
 
