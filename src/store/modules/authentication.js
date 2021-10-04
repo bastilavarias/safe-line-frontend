@@ -35,7 +35,6 @@ const authenticationModule = {
 
         [PURGE_AUTHENTICATION](state) {
             state.isAuthenticated = false;
-            state.details = null;
             removeDetails();
             tokenService.remove();
         },

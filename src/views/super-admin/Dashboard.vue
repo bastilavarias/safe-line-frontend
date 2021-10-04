@@ -3,10 +3,7 @@
         <v-row>
             <v-col cols="12">
                 <v-sheet color="transparent">
-                    <h1
-                        class="title font-weight-bold text-truncate mb-5"
-                        v-if="user"
-                    >
+                    <h1 class="title font-weight-bold text-truncate mb-5">
                         Welcome {{ user.profile.first_name }}
                         {{ user.profile.last_name }}!
                     </h1>

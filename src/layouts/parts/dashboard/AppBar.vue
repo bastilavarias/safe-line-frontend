@@ -3,7 +3,7 @@
         <v-container>
             <v-row>
                 <v-spacer></v-spacer>
-                <v-menu offset-y v-if="user">
+                <v-menu offset-y>
                     <template v-slot:activator="{ on, attrs }">
                         <v-btn text v-bind="attrs" v-on="on">
                             <v-avatar :size="25" class="mr-2">
