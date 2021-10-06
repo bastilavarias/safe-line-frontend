@@ -96,7 +96,7 @@
 </template>
 
 <script>
-import SignPopUp from "./SignPopUp.vue";
+import SignPopUp from "../components/SignPopUp.vue";
 export default {
     components: { SignPopUp },
 };
