@@ -42,6 +42,9 @@
                         :items="table.items"
                         :server-items-length="table.pagination.total"
                     >
+                        <template v-slot:item.created_at="{ item }">
+                            {{ formatSimpleDate(item.created_at) }}
+                        </template>
                         <template v-slot:item.status="{ item }">
                             <generic-status-chip
                                 type="clinic-registration"
@@ -71,8 +74,11 @@
 import SuperAdminDashboardInformationCard from "@/components/super-admin/dashboard/InformationCard";
 import { FETCH_CLINICS } from "@/store/action-types/clinic";
 import GenericStatusChip from "@/components/generic/StatusChip";
+import dateMixin from "@/mixins/date";
 export default {
     components: { GenericStatusChip, SuperAdminDashboardInformationCard },
+
+    mixins: [dateMixin],
 
     data() {
         return {
