@@ -38,7 +38,7 @@
                         ></v-text-field>
                     </v-toolbar>
                     <v-data-table
-                        :loading="isFetchClinicsStart"
+                        :loading="table.loading"
                         :headers="table.headers"
                         :items="table.items"
                         :server-items-length="table.pagination.total"
@@ -61,12 +61,13 @@
                                 >{{ item.status }}</generic-status-chip
                             >
                         </template>
-                        <template v-slot:item.action>
+                        <template v-slot:item.action="{ item }">
                             <v-btn
                                 color="primary"
                                 outlined
                                 class="text-capitalize"
                                 small
+                                @click="openClinicInformationDialog(item)"
                                 >Open</v-btn
                             >
                         </template>
@@ -74,6 +75,10 @@
                 </v-card>
             </v-col>
         </v-row>
+        <super-admin-dashboard-clinic-information-dialog
+            :is-open.sync="isClinicInformationDialogOpen"
+            :information="selectedClinicInformation"
+        ></super-admin-dashboard-clinic-information-dialog>
     </section>
 </template>
 
@@ -83,9 +88,14 @@ import { FETCH_CLINICS } from "@/store/action-types/clinic";
 import GenericStatusChip from "@/components/generic/StatusChip";
 import dateMixin from "@/mixins/date";
 import { debounce } from "@/helpers";
+import SuperAdminDashboardClinicInformationDialog from "@/components/super-admin/dashboard/ClinicInformationDialog";
 
 export default {
-    components: { GenericStatusChip, SuperAdminDashboardInformationCard },
+    components: {
+        SuperAdminDashboardClinicInformationDialog,
+        GenericStatusChip,
+        SuperAdminDashboardInformationCard,
+    },
 
     mixins: [dateMixin],
 
@@ -126,8 +136,10 @@ export default {
                 },
                 search: null,
                 items: [],
+                loading: false,
             },
-            isFetchClinicsStart: false,
+            selectedClinicInformation: null,
+            isClinicInformationDialogOpen: false,
         };
     },
 
@@ -162,13 +174,17 @@ export default {
                 search: this.table.search || null,
             };
 
-            console.log(payload);
-
-            this.isFetchClinicsStart = true;
+            this.table.loading = true;
             const result = await this.$store.dispatch(FETCH_CLINICS, payload);
             this.table.pagination.total = result.pagination.total;
             this.table.items = result.data;
-            this.isFetchClinicsStart = false;
+            this.table.loading = false;
+        },
+
+        openClinicInformationDialog(clinic) {
+            this.selectedClinicInformation = Object.assign({}, clinic);
+            console.log(this.selectedClinicInformation);
+            this.isClinicInformationDialogOpen = true;
         },
     },
 
