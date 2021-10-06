@@ -150,7 +150,7 @@ export default {
             }
         },
 
-        ["table.search"]: debounce(async function (value) {
+        ["table.search"]: debounce(async function () {
             await this.fetchClinics();
         }, 500),
     },
