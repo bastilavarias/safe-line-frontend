@@ -34,6 +34,7 @@
                             dense
                             rounded
                             prepend-inner-icon="mdi-magnify"
+                            v-model="table.search"
                         ></v-text-field>
                     </v-toolbar>
                     <v-data-table
@@ -41,6 +42,12 @@
                         :headers="table.headers"
                         :items="table.items"
                         :server-items-length="table.pagination.total"
+                        :items-per-page.sync="table.pagination.perPage"
+                        :page.sync="table.pagination.page"
+                        :footer-props="{
+                            'items-per-page-options':
+                                table.pagination.itemsPerPageOptions,
+                        }"
                     >
                         <template v-slot:item.created_at="{ item }">
                             {{ formatSimpleDate(item.created_at) }}
@@ -75,6 +82,8 @@ import SuperAdminDashboardInformationCard from "@/components/super-admin/dashboa
 import { FETCH_CLINICS } from "@/store/action-types/clinic";
 import GenericStatusChip from "@/components/generic/StatusChip";
 import dateMixin from "@/mixins/date";
+import { debounce } from "@/helpers";
+
 export default {
     components: { GenericStatusChip, SuperAdminDashboardInformationCard },
 
@@ -111,8 +120,9 @@ export default {
                 ],
                 pagination: {
                     page: 1,
-                    perPage: 10,
+                    perPage: 5,
                     total: 0,
+                    itemsPerPageOptions: [5, 10, 15, 20],
                 },
                 search: null,
                 items: [],
@@ -128,12 +138,31 @@ export default {
         },
     },
 
+    watch: {
+        async "table.pagination.page"(value) {
+            if (value) await this.fetchClinics();
+        },
+
+        async "table.pagination.perPage"(value) {
+            if (value) {
+                this.table.pagination.page = 1;
+                await this.fetchClinics();
+            }
+        },
+
+        ["table.search"]: debounce(async function (value) {
+            await this.fetchClinics();
+        }, 500),
+    },
+
     methods: {
         async fetchClinics() {
             const payload = {
                 ...this.table.pagination,
-                search: null,
+                search: this.table.search || null,
             };
+
+            console.log(payload);
 
             this.isFetchClinicsStart = true;
             const result = await this.$store.dispatch(FETCH_CLINICS, payload);

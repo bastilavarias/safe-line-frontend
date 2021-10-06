@@ -11,7 +11,7 @@ export default {
     props: {
         type: String,
         status: String,
-        small: String,
+        small: Boolean,
         className: String,
     },
 
