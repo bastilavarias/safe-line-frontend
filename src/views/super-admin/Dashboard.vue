@@ -42,6 +42,15 @@
                         :items="table.items"
                         :server-items-length="table.pagination.total"
                     >
+                        <template v-slot:item.status="{ item }">
+                            <generic-status-chip
+                                type="clinic-registration"
+                                :status="item.status"
+                                class-name="text-uppercase"
+                                small
+                                >{{ item.status }}</generic-status-chip
+                            >
+                        </template>
                         <template v-slot:item.action>
                             <v-btn
                                 color="primary"
@@ -61,8 +70,9 @@
 <script>
 import SuperAdminDashboardInformationCard from "@/components/super-admin/dashboard/InformationCard";
 import { FETCH_CLINICS } from "@/store/action-types/clinic";
+import GenericStatusChip from "@/components/generic/StatusChip";
 export default {
-    components: { SuperAdminDashboardInformationCard },
+    components: { GenericStatusChip, SuperAdminDashboardInformationCard },
 
     data() {
         return {
@@ -79,13 +89,13 @@ export default {
                     },
 
                     {
-                        text: "Status",
-                        value: "status",
+                        text: "Created At",
+                        value: "created_at",
                     },
 
                     {
-                        text: "Created At",
-                        value: "created_at",
+                        text: "Status",
+                        value: "status",
                     },
 
                     {
