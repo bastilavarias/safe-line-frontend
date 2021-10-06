@@ -87,6 +87,41 @@
                     </v-list-item-subtitle>
                 </v-list-item-content>
             </v-list-item>
+            <v-tabs v-model="currentTab" fixed-tabs>
+                <template v-for="(tab, index) in tabs">
+                    <v-tab :key="index" class="text-capitalize">{{
+                        tab
+                    }}</v-tab>
+                </template>
+            </v-tabs>
+            <v-tabs-items v-model="currentTab">
+                <v-tab-item>
+                    <v-card-text>
+                        <v-row>
+                            <v-col cols="12">
+                                <v-card-title class="font-weight-bold"
+                                    >Services Offered</v-card-title
+                                >
+                            </v-col>
+                            <v-col cols="12">
+                                <v-card-title class="font-weight-bold"
+                                    >Doctors</v-card-title
+                                >
+                            </v-col>
+                        </v-row>
+                    </v-card-text>
+                </v-tab-item>
+                <v-tab-item>
+                    <v-card-text>{{ currentTab }}</v-card-text>
+                </v-tab-item>
+            </v-tabs-items>
+            <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="primary" outlined class="text-capitalize mr-2"
+                    >Reject</v-btn
+                >
+                <v-btn color="primary" class="text-capitalize">Approve</v-btn>
+            </v-card-actions>
         </v-card>
     </v-dialog>
 </template>
@@ -97,7 +132,9 @@ import GenericStatusChip from "@/components/generic/StatusChip";
 
 export default {
     name: "super-admin-dashboard-clinic-information-dialog",
+
     components: { GenericStatusChip },
+
     props: {
         isOpen: Boolean,
         information: Object,
@@ -106,10 +143,17 @@ export default {
     data() {
         return {
             isOpenLocal: this.isOpen,
+            currentTab: 0,
         };
     },
 
     mixins: [timeMixin],
+
+    computed: {
+        tabs() {
+            return ["General Information", "Files"];
+        },
+    },
 
     watch: {
         isOpen(value) {
