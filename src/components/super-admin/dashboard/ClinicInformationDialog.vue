@@ -2,6 +2,13 @@
     <v-dialog v-model="isOpenLocal" width="800">
         <v-card>
             <v-card-title>
+                <generic-status-chip
+                    type="clinic-registration"
+                    :status="information.status"
+                    label
+                    class-name="text-capitalize"
+                    >{{ information.status }}</generic-status-chip
+                >
                 <v-spacer></v-spacer>
                 <v-btn icon @click="isOpenLocal = false">
                     <v-icon>mdi-close</v-icon>
@@ -59,7 +66,22 @@
                                         </v-list-item-content>
                                     </v-list-item>
                                 </v-col>
-                                <v-col cols="6"></v-col>
+                                <v-col cols="6">
+                                    <v-list-item>
+                                        <v-list-item-icon>
+                                            <v-icon color="primary"
+                                                >mdi-map-marker</v-icon
+                                            >
+                                        </v-list-item-icon>
+                                        <v-list-item-content>
+                                            <v-list-item-title>
+                                                <v-card>{{
+                                                    information.location.address
+                                                }}</v-card>
+                                            </v-list-item-title>
+                                        </v-list-item-content>
+                                    </v-list-item>
+                                </v-col>
                             </v-row>
                         </div>
                     </v-list-item-subtitle>
@@ -71,10 +93,11 @@
 
 <script>
 import timeMixin from "@/mixins/timeMixin";
+import GenericStatusChip from "@/components/generic/StatusChip";
 
 export default {
     name: "super-admin-dashboard-clinic-information-dialog",
-
+    components: { GenericStatusChip },
     props: {
         isOpen: Boolean,
         information: Object,

@@ -78,6 +78,7 @@
         <super-admin-dashboard-clinic-information-dialog
             :is-open.sync="isClinicInformationDialogOpen"
             :information="selectedClinicInformation"
+            v-if="selectedClinicInformation"
         ></super-admin-dashboard-clinic-information-dialog>
     </section>
 </template>

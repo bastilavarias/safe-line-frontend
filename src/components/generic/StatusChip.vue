@@ -1,5 +1,5 @@
 <template>
-    <v-chip :color="color" :small="small" :class="className"
+    <v-chip :color="color" :small="small" :class="className" :label="label"
         ><slot></slot
     ></v-chip>
 </template>
@@ -12,6 +12,7 @@ export default {
         type: String,
         status: String,
         small: Boolean,
+        label: Boolean,
         className: String,
     },
 
