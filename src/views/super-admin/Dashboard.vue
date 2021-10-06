@@ -36,7 +36,22 @@
                             prepend-inner-icon="mdi-magnify"
                         ></v-text-field>
                     </v-toolbar>
-                    <v-data-table :headers="table.headers"></v-data-table>
+                    <v-data-table
+                        :loading="isFetchClinicsStart"
+                        :headers="table.headers"
+                        :items="table.items"
+                        :server-items-length="table.pagination.total"
+                    >
+                        <template v-slot:item.action>
+                            <v-btn
+                                color="primary"
+                                outlined
+                                class="text-capitalize"
+                                small
+                                >Open</v-btn
+                            >
+                        </template>
+                    </v-data-table>
                 </v-card>
             </v-col>
         </v-row>
@@ -45,6 +60,7 @@
 
 <script>
 import SuperAdminDashboardInformationCard from "@/components/super-admin/dashboard/InformationCard";
+import { FETCH_CLINICS } from "@/store/action-types/clinic";
 export default {
     components: { SuperAdminDashboardInformationCard },
 
@@ -54,25 +70,38 @@ export default {
                 headers: [
                     {
                         text: "Clinic Name",
+                        value: "name",
                     },
 
                     {
                         text: "Address",
+                        value: "location.address",
                     },
 
                     {
                         text: "Status",
+                        value: "status",
                     },
 
                     {
                         text: "Created At",
+                        value: "created_at",
                     },
 
                     {
                         text: "Action",
+                        value: "action",
                     },
                 ],
+                pagination: {
+                    page: 1,
+                    perPage: 10,
+                    total: 0,
+                },
+                search: null,
+                items: [],
             },
+            isFetchClinicsStart: false,
         };
     },
 
@@ -81,6 +110,25 @@ export default {
             const details = this.$store.state.authentication.details;
             return details.user || null;
         },
+    },
+
+    methods: {
+        async fetchClinics() {
+            const payload = {
+                ...this.table.pagination,
+                search: null,
+            };
+
+            this.isFetchClinicsStart = true;
+            const result = await this.$store.dispatch(FETCH_CLINICS, payload);
+            this.table.pagination.total = result.pagination.total;
+            this.table.items = result.data;
+            this.isFetchClinicsStart = false;
+        },
+    },
+
+    async created() {
+        await this.fetchClinics();
     },
 };
 </script>

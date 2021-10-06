@@ -9,7 +9,7 @@ const apiService = {
     },
 
     setHeader(token) {
-        Vue.axios.defaults.headers.common["Authorization"] = token;
+        Vue.axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     },
 
     async get(route, body) {
@@ -26,6 +26,10 @@ const apiService = {
 
     async delete(route, body) {
         return await Vue.axios.delete(route, body);
+    },
+
+    baseURL() {
+        return `${process.env.VUE_APP_BACK_END_URL}/api`;
     },
 };
 
