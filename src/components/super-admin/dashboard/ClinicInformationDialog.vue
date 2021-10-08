@@ -2,13 +2,6 @@
     <v-dialog v-model="isOpenLocal" width="800">
         <v-card>
             <v-card-title>
-                <generic-status-chip
-                    type="clinic-registration"
-                    :status="information.status"
-                    label
-                    class-name="text-capitalize"
-                    >{{ information.status }}</generic-status-chip
-                >
                 <v-spacer></v-spacer>
                 <v-btn icon @click="isOpenLocal = false">
                     <v-icon>mdi-close</v-icon>
@@ -23,9 +16,23 @@
                     ></v-img>
                 </v-list-item-avatar>
                 <v-list-item-content>
-                    <v-list-item-title class="display-1 font-weight-bold">{{
-                        information.name
-                    }}</v-list-item-title>
+                    <v-list-item-title
+                        class="
+                            display-1
+                            font-weight-bold
+                            d-flex
+                            justify-space-between
+                        "
+                        >{{ information.name }}
+
+                        <generic-status-chip
+                            type="clinic-registration"
+                            :status="information.status"
+                            label
+                            class-name="text-capitalize"
+                            >{{ information.status }}</generic-status-chip
+                        >
+                    </v-list-item-title>
                     <v-list-item-subtitle>
                         <div>
                             <v-row dense>
