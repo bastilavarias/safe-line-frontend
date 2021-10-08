@@ -27,11 +27,30 @@ const routes = [
 
     {
         path: "/dashboard/patient",
-        name: "patient-dashboard",
         component: () => import("@/layouts/dashboard/Patient"),
         meta: {
             requiresAuth: true,
         },
+
+        children: [
+            {
+                path: "",
+                name: "patient-dashboard",
+                component: () => import("@/views/patient/Dashboard"),
+            },
+
+            {
+                path: "chat",
+                name: "patient-chat",
+                component: () => import("@/views/patient/Chat"),
+            },
+
+            {
+                path: "map",
+                name: "patient-map",
+                component: () => import("@/views/patient/Map"),
+            },
+        ],
     },
 
     {
