@@ -1,4 +1,7 @@
-import { FETCH_CLINICS } from "@/store/action-types/clinic";
+import {
+    FETCH_CLINICS,
+    UPDATE_CLINIC_STATUS,
+} from "@/store/action-types/clinic";
 import apiService from "@/services/api";
 
 const clinicModule = {
@@ -12,6 +15,16 @@ const clinicModule = {
                 params.set("per_page", perPage);
                 if (search) params.set("search", search);
                 const response = await apiService.get(`/clinics?${params}`);
+                return response.data;
+            } catch (error) {
+                console.log(error);
+                return error.response.data;
+            }
+        },
+
+        async [UPDATE_CLINIC_STATUS](_, payload) {
+            try {
+                const response = await apiService.put("/clinics", payload);
                 return response.data;
             } catch (error) {
                 console.log(error);

@@ -1,6 +1,6 @@
 <template>
     <v-dialog v-model="isOpenLocal" width="800">
-        <v-card>
+        <v-card :loading="isUpdateClinicStatusStart">
             <v-card-title>
                 <v-spacer></v-spacer>
                 <v-btn icon @click="isOpenLocal = false">
@@ -153,7 +153,10 @@
                                     </v-slide-group>
                                 </v-card-text>
                             </v-col>
-                            <v-col cols="12">
+                            <v-col
+                                cols="12"
+                                v-if="information.clinic_members.length > 0"
+                            >
                                 <v-card-title class="font-weight-bold"
                                     >Members</v-card-title
                                 >
@@ -233,10 +236,23 @@
             </v-tabs-items>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="primary" outlined class="text-capitalize mr-2"
+                <v-btn
+                    color="primary"
+                    :outlined="isStatusPending"
+                    class="text-capitalize mr-2"
+                    :disabled="!isStatusPending"
+                    :loading="isUpdateClinicStatusStart"
+                    @click="updateClinicStatus('rejected')"
                     >Reject</v-btn
                 >
-                <v-btn color="primary" class="text-capitalize">Approve</v-btn>
+                <v-btn
+                    color="primary"
+                    class="text-capitalize"
+                    :disabled="!isStatusPending"
+                    :loading="isUpdateClinicStatusStart"
+                    @click="updateClinicStatus('approved')"
+                    >Approve</v-btn
+                >
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -245,6 +261,7 @@
 <script>
 import timeMixin from "@/mixins/timeMixin";
 import GenericStatusChip from "@/components/generic/StatusChip";
+import { UPDATE_CLINIC_STATUS } from "@/store/action-types/clinic";
 
 export default {
     name: "super-admin-dashboard-clinic-information-dialog",
@@ -254,12 +271,15 @@ export default {
     props: {
         isOpen: Boolean,
         information: Object,
+        fetchClinics: Function,
     },
 
     data() {
         return {
             isOpenLocal: this.isOpen,
             currentTab: 0,
+            isUpdateClinicStatusStart: false,
+            informationLocal: Object.assign({}, this.information),
         };
     },
 
@@ -268,6 +288,10 @@ export default {
     computed: {
         tabs() {
             return ["General Information", "Files"];
+        },
+
+        isStatusPending() {
+            return this.information.status === "pending";
         },
     },
 
@@ -278,6 +302,34 @@ export default {
 
         isOpenLocal(value) {
             this.$emit("update:isOpen", value);
+        },
+
+        information(value) {
+            this.informationLocal = value;
+        },
+
+        informationLocal(value) {
+            this.$emit("update:information", value);
+        },
+    },
+
+    methods: {
+        async updateClinicStatus(status) {
+            this.isUpdateClinicStatusStart = true;
+
+            const payload = {
+                clinic_id: this.informationLocal.id,
+                status,
+            };
+
+            const result = await this.$store.dispatch(
+                UPDATE_CLINIC_STATUS,
+                payload
+            );
+            console.log(result);
+
+            await this.fetchClinics();
+            this.isUpdateClinicStatusStart = false;
         },
     },
 };

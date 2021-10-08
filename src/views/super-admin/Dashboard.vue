@@ -77,7 +77,8 @@
         </v-row>
         <super-admin-dashboard-clinic-information-dialog
             :is-open.sync="isClinicInformationDialogOpen"
-            :information="selectedClinicInformation"
+            :information.sync="selectedClinicInformation"
+            :fetch-clinics="fetchClinics"
             v-if="selectedClinicInformation"
         ></super-admin-dashboard-clinic-information-dialog>
     </section>

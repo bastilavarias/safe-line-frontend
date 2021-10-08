@@ -23,6 +23,7 @@ export default {
                 const status = this.status;
                 if (status === "approved") color = "success";
                 if (status === "pending") color = "primary";
+                if (status === "rejected") color = "error";
             }
 
             return color;
