@@ -7,93 +7,96 @@
                     <v-icon>mdi-close</v-icon>
                 </v-btn>
             </v-card-title>
-            <v-list-item two-line>
-                <v-list-item-avatar :size="150">
-                    <v-img
-                        :src="
-                            require('@/assets/placeholder/clinic-information.png')
-                        "
-                    ></v-img>
-                </v-list-item-avatar>
-                <v-list-item-content>
-                    <v-list-item-title
-                        class="
-                            display-1
-                            font-weight-bold
-                            d-flex
-                            justify-space-between
-                        "
-                        >{{ information.name }}
+            <v-card-text>
+                <v-list-item two-line>
+                    <v-list-item-avatar :size="150">
+                        <v-img
+                            :src="
+                                require('@/assets/placeholder/clinic-information.png')
+                            "
+                        ></v-img>
+                    </v-list-item-avatar>
+                    <v-list-item-content>
+                        <v-list-item-title
+                            class="
+                                display-1
+                                font-weight-bold
+                                d-flex
+                                justify-space-between
+                            "
+                            >{{ information.name }}
 
-                        <generic-status-chip
-                            type="clinic-registration"
-                            :status="information.status"
-                            label
-                            class-name="text-capitalize"
-                            >{{ information.status }}</generic-status-chip
-                        >
-                    </v-list-item-title>
-                    <v-list-item-subtitle>
-                        <div>
-                            <v-row dense>
-                                <v-col cols="6">
-                                    <v-list-item two-line>
-                                        <v-list-item-icon>
-                                            <v-icon color="primary"
-                                                >mdi-clock-outline</v-icon
-                                            >
-                                        </v-list-item-icon>
-                                        <v-list-item-content>
-                                            <v-list-item-title
-                                                class="
-                                                    success--text
-                                                    mb-2
-                                                    font-weight-bold
-                                                "
-                                                >Opens at:
-                                                {{
-                                                    formatSimpleTime(
-                                                        information.opening_time
-                                                    )
-                                                }}</v-list-item-title
-                                            >
-                                            <v-list-item-title
-                                                class="
-                                                    error--text
-                                                    mb-2
-                                                    font-weight-bold
-                                                "
-                                                >Closes at:
-                                                {{
-                                                    formatSimpleTime(
-                                                        information.closing_time
-                                                    )
-                                                }}</v-list-item-title
-                                            >
-                                        </v-list-item-content>
-                                    </v-list-item>
-                                </v-col>
-                                <v-col cols="6">
-                                    <v-list-item>
-                                        <v-list-item-icon>
-                                            <v-icon color="primary"
-                                                >mdi-map-marker</v-icon
-                                            >
-                                        </v-list-item-icon>
-                                        <v-list-item-content>
-                                            <v-list-item-title>
-                                                <v-card>{{
-                                                    information.location.address
-                                                }}</v-card>
-                                            </v-list-item-title>
-                                        </v-list-item-content>
-                                    </v-list-item>
-                                </v-col>
-                            </v-row>
-                        </div>
-                    </v-list-item-subtitle>
-                </v-list-item-content>
-            </v-list-item>
+                            <generic-status-chip
+                                type="clinic-registration"
+                                :status="information.status"
+                                label
+                                class-name="text-capitalize"
+                                >{{ information.status }}</generic-status-chip
+                            >
+                        </v-list-item-title>
+                        <v-list-item-subtitle>
+                            <div>
+                                <v-row dense>
+                                    <v-col cols="6">
+                                        <v-list-item two-line>
+                                            <v-list-item-icon>
+                                                <v-icon color="primary"
+                                                    >mdi-clock-outline</v-icon
+                                                >
+                                            </v-list-item-icon>
+                                            <v-list-item-content>
+                                                <v-list-item-title
+                                                    class="
+                                                        success--text
+                                                        mb-2
+                                                        font-weight-bold
+                                                    "
+                                                    >Opens at:
+                                                    {{
+                                                        formatSimpleTime(
+                                                            information.opening_time
+                                                        )
+                                                    }}</v-list-item-title
+                                                >
+                                                <v-list-item-title
+                                                    class="
+                                                        error--text
+                                                        mb-2
+                                                        font-weight-bold
+                                                    "
+                                                    >Closes at:
+                                                    {{
+                                                        formatSimpleTime(
+                                                            information.closing_time
+                                                        )
+                                                    }}</v-list-item-title
+                                                >
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                    </v-col>
+                                    <v-col cols="6">
+                                        <v-list-item>
+                                            <v-list-item-icon>
+                                                <v-icon color="primary"
+                                                    >mdi-map-marker</v-icon
+                                                >
+                                            </v-list-item-icon>
+                                            <v-list-item-content>
+                                                <v-list-item-title>
+                                                    <v-card>{{
+                                                        information.location
+                                                            .address
+                                                    }}</v-card>
+                                                </v-list-item-title>
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                    </v-col>
+                                </v-row>
+                            </div>
+                        </v-list-item-subtitle>
+                    </v-list-item-content>
+                </v-list-item>
+            </v-card-text>
             <v-tabs v-model="currentTab" fixed-tabs>
                 <template v-for="(tab, index) in tabs">
                     <v-tab :key="index" class="text-capitalize">{{
@@ -109,11 +112,117 @@
                                 <v-card-title class="font-weight-bold"
                                     >Services Offered</v-card-title
                                 >
+                                <v-card-text>
+                                    <v-slide-group show-arrows>
+                                        <template
+                                            v-for="(
+                                                service, index
+                                            ) in information.clinic_services"
+                                        >
+                                            <v-slide-item :key="service.id">
+                                                <div
+                                                    :class="`
+                                                        d-flex
+                                                        justify-center
+                                                        align-center
+                                                        flex-column
+                                                        ${
+                                                            index !==
+                                                            information
+                                                                .clinic_services
+                                                                .length -
+                                                                1
+                                                                ? 'mr-5'
+                                                                : ''
+                                                        }
+                                                    `"
+                                                >
+                                                    <v-avatar
+                                                        :size="50"
+                                                        class="mb-3"
+                                                        color="#C3C3C3"
+                                                    ></v-avatar>
+                                                    <span class="subtitle-2">
+                                                        {{
+                                                            service.service.name
+                                                        }}
+                                                    </span>
+                                                </div>
+                                            </v-slide-item>
+                                        </template>
+                                    </v-slide-group>
+                                </v-card-text>
                             </v-col>
                             <v-col cols="12">
                                 <v-card-title class="font-weight-bold"
-                                    >Doctors</v-card-title
+                                    >Members</v-card-title
                                 >
+                                <v-card-text>
+                                    <v-slide-group show-arrows>
+                                        <template
+                                            v-for="(
+                                                member, index
+                                            ) in information.clinic_members"
+                                        >
+                                            <v-slide-item :key="member.id">
+                                                <div
+                                                    :class="`
+                                                        d-flex
+                                                        justify-center
+                                                        align-center
+                                                        flex-column
+                                                        ${
+                                                            index !==
+                                                            information
+                                                                .clinic_members
+                                                                .length -
+                                                                1
+                                                                ? 'mr-5'
+                                                                : ''
+                                                        }
+                                                    `"
+                                                >
+                                                    <v-avatar
+                                                        :size="50"
+                                                        class="mb-3"
+                                                        color="#C3C3C3"
+                                                    >
+                                                        <v-img
+                                                            :src="
+                                                                member.user
+                                                                    .profile
+                                                                    .image_url
+                                                            "
+                                                        ></v-img>
+                                                    </v-avatar>
+                                                    <span
+                                                        class="
+                                                            subtitle-2
+                                                            text-capitalize
+                                                        "
+                                                    >
+                                                        {{
+                                                            member.user.profile
+                                                                .first_name
+                                                        }}
+                                                        {{
+                                                            member.user.profile
+                                                                .last_name
+                                                        }}
+                                                    </span>
+                                                    <span
+                                                        class="
+                                                            caption
+                                                            text-uppercase
+                                                        "
+                                                    >
+                                                        {{ member.member_type }}
+                                                    </span>
+                                                </div>
+                                            </v-slide-item>
+                                        </template>
+                                    </v-slide-group>
+                                </v-card-text>
                             </v-col>
                         </v-row>
                     </v-card-text>
