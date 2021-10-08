@@ -1,6 +1,9 @@
 <template>
     <v-dialog v-model="isOpenLocal" width="800">
         <v-card :loading="isUpdateClinicStatusStart">
+            <v-alert outlined type="error" v-if="error">
+                {{ error }}
+            </v-alert>
             <v-card-title>
                 <v-spacer></v-spacer>
                 <v-btn icon @click="isOpenLocal = false">
@@ -24,14 +27,16 @@
                                 d-flex
                                 justify-space-between
                             "
-                            >{{ information.name }}
+                            >{{ informationLocal.name }}
 
                             <generic-status-chip
                                 type="clinic-registration"
-                                :status="information.status"
+                                :status="informationLocal.status"
                                 label
                                 class-name="text-capitalize"
-                                >{{ information.status }}</generic-status-chip
+                                >{{
+                                    informationLocal.status
+                                }}</generic-status-chip
                             >
                         </v-list-item-title>
                         <v-list-item-subtitle>
@@ -54,7 +59,7 @@
                                                     >Opens at:
                                                     {{
                                                         formatSimpleTime(
-                                                            information.opening_time
+                                                            informationLocal.opening_time
                                                         )
                                                     }}</v-list-item-title
                                                 >
@@ -67,7 +72,7 @@
                                                     >Closes at:
                                                     {{
                                                         formatSimpleTime(
-                                                            information.closing_time
+                                                            informationLocal.closing_time
                                                         )
                                                     }}</v-list-item-title
                                                 >
@@ -84,8 +89,8 @@
                                             <v-list-item-content>
                                                 <v-list-item-title>
                                                     <v-card>{{
-                                                        information.location
-                                                            .address
+                                                        informationLocal
+                                                            .location.address
                                                     }}</v-card>
                                                 </v-list-item-title>
                                             </v-list-item-content>
@@ -117,7 +122,7 @@
                                         <template
                                             v-for="(
                                                 service, index
-                                            ) in information.clinic_services"
+                                            ) in informationLocal.clinic_services"
                                         >
                                             <v-slide-item :key="service.id">
                                                 <div
@@ -155,7 +160,9 @@
                             </v-col>
                             <v-col
                                 cols="12"
-                                v-if="information.clinic_members.length > 0"
+                                v-if="
+                                    informationLocal.clinic_members.length > 0
+                                "
                             >
                                 <v-card-title class="font-weight-bold"
                                     >Members</v-card-title
@@ -165,7 +172,7 @@
                                         <template
                                             v-for="(
                                                 member, index
-                                            ) in information.clinic_members"
+                                            ) in informationLocal.clinic_members"
                                         >
                                             <v-slide-item :key="member.id">
                                                 <div
@@ -280,6 +287,7 @@ export default {
             currentTab: 0,
             isUpdateClinicStatusStart: false,
             informationLocal: Object.assign({}, this.information),
+            error: null,
         };
     },
 
@@ -291,7 +299,7 @@ export default {
         },
 
         isStatusPending() {
-            return this.information.status === "pending";
+            return this.informationLocal.status === "pending";
         },
     },
 
@@ -322,13 +330,20 @@ export default {
                 status,
             };
 
-            const result = await this.$store.dispatch(
+            const { success, data, message } = await this.$store.dispatch(
                 UPDATE_CLINIC_STATUS,
                 payload
             );
-            console.log(result);
-
-            await this.fetchClinics();
+            if (success) {
+                this.informationLocal = {
+                    ...this.informationLocal,
+                    status: data.status,
+                };
+                await this.fetchClinics();
+                this.isUpdateClinicStatusStart = false;
+                return;
+            }
+            this.error = message;
             this.isUpdateClinicStatusStart = false;
         },
     },
