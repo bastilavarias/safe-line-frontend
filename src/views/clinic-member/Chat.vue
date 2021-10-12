@@ -1,119 +1,116 @@
 <template>
     <v-row no-gutters>
-        <v-col cols="12" md="4" lg="3" xl="2" class="rooms">
-            <v-row no-gutters class="rooms__sticky-content">
-                <v-col cols="12" class="rooms__sticky-content__toolbar">
-                    <v-card flat tile>
-                        <v-card-title>Messages</v-card-title>
-                        <v-card-text>
-                            <v-text-field
-                                outlined
-                                placeholder="Search"
-                                dense
-                                prepend-inner-icon="mdi-magnify"
-                                hide-details
-                            ></v-text-field>
-                        </v-card-text>
-                    </v-card>
-                </v-col>
-                <v-col cols="12">
-                    <v-card flat>
-                        <v-card-subtitle>
-                            <v-icon>mdi-chevron-down</v-icon>
-                            <span class="font-weight-bold">
-                                Clinic Name Chats
-                            </span>
-                        </v-card-subtitle>
-                        <v-list rounded v-model="list1">
-                            <v-list-item two-line>
-                                <v-list-item-avatar :size="50">
-                                    <v-img
-                                        :src="
-                                            require('@/assets/placeholder/clinic-information.png')
-                                        "
-                                    ></v-img>
-                                </v-list-item-avatar>
-                                <v-list-item-content>
-                                    <v-list-item-title class="font-weight-bold"
-                                        >Clinic Name</v-list-item-title
-                                    >
-                                    <v-list-item-subtitle
-                                        >You: Lorem ipsum dolor sit amet,
-                                        consectetur adipisicing elit.
-                                        Asperiores,
-                                        quaerat?</v-list-item-subtitle
-                                    >
-                                </v-list-item-content>
-                            </v-list-item>
-                        </v-list>
-                    </v-card>
-                </v-col>
-                <v-col cols="12">
-                    <v-card flat>
-                        <v-card-subtitle>
-                            <v-icon>mdi-chevron-down</v-icon>
-                            <span class="font-weight-bold"> Patients </span>
-                        </v-card-subtitle>
-                        <v-list rounded v-model="list1">
-                            <template v-for="n in 10">
-                                <v-list-item two-line :key="n">
-                                    <v-list-item-avatar :size="50">
-                                        <v-img
-                                            :src="
-                                                require('@/assets/placeholder/clinic-information.png')
-                                            "
-                                        ></v-img>
-                                    </v-list-item-avatar>
-                                    <v-list-item-content>
-                                        <v-list-item-title
-                                            class="font-weight-bold"
-                                            >Patient Name</v-list-item-title
-                                        >
-                                        <v-list-item-subtitle
-                                            >You: Lorem ipsum dolor sit amet,
-                                            consectetur adipisicing elit.
-                                            Asperiores,
-                                            quaerat?</v-list-item-subtitle
-                                        >
-                                    </v-list-item-content>
-                                </v-list-item>
-                            </template>
-                        </v-list>
-                    </v-card>
-                </v-col>
-            </v-row>
+        <v-col cols="12" md="4" lg="3" xl="2">
+            <generic-chat-rooms></generic-chat-rooms>
         </v-col>
         <v-col cols="12" md="8" lg="9" xl="10">
-            <h1 class="display-1">Chats</h1>
+            <div class="conversation" ref="conversation">
+                <v-toolbar ref="conversationToolbar">
+                    <v-toolbar-title>
+                        <v-avatar :size="40" class="mr-3">
+                            <v-img
+                                :src="
+                                    require('@/assets/placeholder/clinic-information.png')
+                                "
+                            ></v-img>
+                        </v-avatar>
+                        <span class="font-weight-bold">Clinic Name</span>
+                    </v-toolbar-title>
+                </v-toolbar>
+                <div
+                    class="conversation__messages"
+                    :style="{
+                        height: `${conversationMessagesHeight}px`,
+                    }"
+                >
+                    <template v-for="n in 15">
+                        <div class="mb-5" :key="n">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing
+                            elit. Deleniti earum et, exercitationem hic ipsa,
+                            minus nulla omnis perspiciatis quaerat qui
+                            reiciendis ullam. Ab aliquam debitis, dolorem
+                            doloremque dolores eius error illo incidunt iure
+                            nostrum officia quidem repellendus repudiandae saepe
+                            sed, tenetur vitae! Animi, delectus, exercitationem?
+                            A ad aliquam aliquid aspernatur assumenda
+                            consectetur delectus dignissimos distinctio ducimus
+                            ea, eaque ex inventore ipsum iusto labore laborum
+                            molestias necessitatibus nisi odio odit perferendis
+                            perspiciatis placeat porro quae quia quibusdam sed
+                            sint tenetur voluptas voluptatum. Ad alias ea eaque
+                            earum incidunt ratione, rem. Accusamus atque
+                            corporis cupiditate explicabo facere facilis
+                            laboriosam, rem ut voluptate.
+                        </div>
+                    </template>
+                </div>
+                <div class="conversation__writer" ref="conversationWriter">
+                    <v-card flat>
+                        <v-card-text>
+                            <v-row dense>
+                                <v-col cols="8" md="9" lg="10" xl="11">
+                                    <v-text-field
+                                        rounded
+                                        filled
+                                        hide-details
+                                        placeholder="Type your message here"
+                                    ></v-text-field>
+                                </v-col>
+                            </v-row>
+                        </v-card-text>
+                    </v-card>
+                </div>
+            </div>
         </v-col>
     </v-row>
 </template>
 
 <script>
+import GenericChatRooms from "@/components/generic/chat/Rooms";
+
 export default {
+    components: { GenericChatRooms },
+
     data() {
         return {
-            list1: 1,
+            conversationMessagesHeight: 0,
         };
+    },
+
+    methods: {
+        computeConversationMessagesHeight() {
+            const { conversation, conversationToolbar, conversationWriter } =
+                this.$refs;
+            const conversationHeight = conversation.clientHeight;
+            const toolbarHeight = conversationToolbar.$el.clientHeight;
+            const writerHeight = conversationWriter.clientHeight;
+            this.conversationMessagesHeight =
+                conversationHeight - (toolbarHeight + writerHeight);
+        },
+    },
+
+    created() {
+        this.$nextTick(() => {
+            this.computeConversationMessagesHeight();
+        });
     },
 };
 </script>
 
 <style lang="scss">
-.rooms {
+.conversation {
+    position: relative;
     height: 100vh;
-    border-right: 1px solid #b0b0b0;
-    overflow: auto;
 
-    &__sticky-content {
-        height: 100%;
+    &__messages {
+        overflow: auto;
+    }
 
-        &__toolbar {
-            position: sticky;
-            top: 0;
-            left: 0;
-            z-index: 1;
-        }
+    &__writer {
+        width: 100%;
+        position: absolute;
+        left: 0;
+        bottom: 0;
     }
 }
 </style>
