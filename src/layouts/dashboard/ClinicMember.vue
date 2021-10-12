@@ -1,9 +1,7 @@
 <template>
     <v-app>
         <v-main>
-            <v-container>
-                <h1>Clinic Member Dashboard</h1>
-            </v-container>
+            <router-view></router-view>
         </v-main>
         <dashboard-navigation-drawer
             :navigations="navigations"
@@ -29,9 +27,9 @@ export default {
 
                 {
                     to: {
-                        name: "clinic-member-dashboard",
+                        name: "clinic-member-chat",
                     },
-                    icon: "mdi-messages",
+                    icon: "mdi-message",
                 },
             ],
         };

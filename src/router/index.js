@@ -55,11 +55,24 @@ const routes = [
 
     {
         path: "/dashboard/clinic-member",
-        name: "clinic-member-dashboard",
-        component: () => import("@/layouts/dashboard/ClinicMember"),
         meta: {
             requiresAuth: true,
         },
+        component: () => import("@/layouts/dashboard/ClinicMember"),
+
+        children: [
+            {
+                path: "",
+                name: "clinic-member-dashboard",
+                component: () => import("@/views/clinic-member/Dashboard"),
+            },
+
+            {
+                path: "chat",
+                name: "clinic-member-chat",
+                component: () => import("@/views/clinic-member/Chat"),
+            },
+        ],
     },
 
     {
