@@ -1,9 +1,10 @@
 <template>
     <v-app>
-        <dashboard-app-bar></dashboard-app-bar>
+        <dashboard-app-bar v-if="!isMapPage"></dashboard-app-bar>
         <v-main
             :style="{
                 backgroundColor: '#F5F5F5',
+                position: 'relative',
             }"
         >
             <v-container>
@@ -21,6 +22,7 @@ import DashboardNavigationDrawer from "@/layouts/parts/dashboard/NavigationDrawe
 import DashboardAppBar from "@/layouts/parts/dashboard/AppBar";
 export default {
     components: { DashboardAppBar, DashboardNavigationDrawer },
+
     data() {
         return {
             navigations: [
@@ -46,6 +48,14 @@ export default {
                 },
             ],
         };
+    },
+
+    computed: {
+        isMapPage() {
+            const mapPagesRouteNames = ["patient-map"];
+            const currentRouteName = this.$route.name;
+            return mapPagesRouteNames.includes(currentRouteName);
+        },
     },
 };
 </script>

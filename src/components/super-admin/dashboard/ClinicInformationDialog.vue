@@ -266,7 +266,7 @@
 </template>
 
 <script>
-import timeMixin from "@/mixins/timeMixin";
+import time from "@/mixins/time";
 import GenericStatusChip from "@/components/generic/StatusChip";
 import { UPDATE_CLINIC_STATUS } from "@/store/action-types/clinic";
 
@@ -291,7 +291,7 @@ export default {
         };
     },
 
-    mixins: [timeMixin],
+    mixins: [time],
 
     computed: {
         tabs() {
