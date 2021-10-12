@@ -56,6 +56,17 @@
                                         placeholder="Type your message here"
                                     ></v-text-field>
                                 </v-col>
+                                <v-col
+                                    cols="4"
+                                    md="3"
+                                    lg="2"
+                                    xl="1"
+                                    class="text-center"
+                                >
+                                    <v-btn fab color="primary">
+                                        <v-icon>mdi-send</v-icon>
+                                    </v-btn>
+                                </v-col>
                             </v-row>
                         </v-card-text>
                     </v-card>
