@@ -1,9 +1,8 @@
 <template>
     <v-app>
+        <dashboard-app-bar v-if="!isChatPage"></dashboard-app-bar>
         <v-main>
-            <v-container>
-                <h1>Clinic Member Dashboard</h1>
-            </v-container>
+            <router-view></router-view>
         </v-main>
         <dashboard-navigation-drawer
             :navigations="navigations"
@@ -13,9 +12,10 @@
 
 <script>
 import DashboardNavigationDrawer from "@/layouts/parts/dashboard/NavigationDrawer";
+import DashboardAppBar from "@/layouts/parts/dashboard/AppBar";
 
 export default {
-    components: { DashboardNavigationDrawer },
+    components: { DashboardAppBar, DashboardNavigationDrawer },
 
     data() {
         return {
@@ -29,12 +29,20 @@ export default {
 
                 {
                     to: {
-                        name: "clinic-member-dashboard",
+                        name: "clinic-member-chat",
                     },
-                    icon: "mdi-messages",
+                    icon: "mdi-message",
                 },
             ],
         };
+    },
+
+    computed: {
+        isChatPage() {
+            const chatPagesRouteNames = ["clinic-member-chat"];
+            const currentRouteName = this.$route.name;
+            return chatPagesRouteNames.includes(currentRouteName);
+        },
     },
 };
 </script>
