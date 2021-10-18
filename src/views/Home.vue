@@ -134,9 +134,9 @@
                             <v-card
                                 flat
                                 class="d-flex justify-start"
-                                color="rgba(0, 0, 0, 0)"
+                                color="transparent"
                             >
-                                <v-card flat color="rgba(0, 0, 0, 0)">
+                                <v-card flat color="transparent">
                                     <img
                                         height="450"
                                         width="440"
@@ -148,7 +148,7 @@
                         </v-col>
 
                         <v-col cols="6" class="my-13 py-13">
-                            <v-card flat color="rgba(0, 0, 0, 0)">
+                            <v-card flat color="transparent">
                                 <v-icon
                                     class="mb-2 ml-n1"
                                     color="#4F48EC"
@@ -159,7 +159,7 @@
                                 <v-card
                                     flat
                                     :style="{ width: '500px' }"
-                                    color="rgba(0, 0, 0, 0)"
+                                    color="transparent"
                                 >
                                     <p class="text-justify">
                                         Lorem ipsum dolor sit amet, consectetur
@@ -214,7 +214,7 @@
                             <v-card
                                 flat
                                 width="250px"
-                                color="rgba(0, 0, 0, 0)"
+                                color="transparent"
                                 class="my-4"
                             >
                                 <v-row>
@@ -237,10 +237,7 @@
                                     adipiscing elit.</v-card-text
                                 >
                                 <v-divider></v-divider>
-                                <v-list
-                                    color="rgba(0,0,0,0)"
-                                    class="ml-n4 mt-n3"
-                                >
+                                <v-list color="transparent" class="ml-n4 mt-n3">
                                     <v-list-item-group>
                                         <v-list-item>
                                             <v-list-item-icon>
@@ -280,9 +277,9 @@
                         </v-col>
 
                         <v-col class="mt-5 ml-n16">
-                            <v-card flat color="rgba(0, 0, 0, 0)" width="200px">
+                            <v-card flat color="transparent" width="200px">
                                 <h4 class="white--text">Services</h4>
-                                <v-list color="rgba(0, 0, 0, 0)" class="ml-n4">
+                                <v-list color="transparent" class="ml-n4">
                                     <v-list-item>
                                         <v-list-item-group class="white--text">
                                             <v-list-item-content>
@@ -300,9 +297,9 @@
                             </v-card>
                         </v-col>
                         <v-col class="mt-5 ml-n16">
-                            <v-card flat color="rgba(0, 0, 0, 0)" width="200px">
+                            <v-card flat color="transparent" width="200px">
                                 <h4 class="white--text">Services</h4>
-                                <v-list color="rgba(0, 0, 0, 0)" class="ml-n4">
+                                <v-list color="transparent" class="ml-n4">
                                     <v-list-item>
                                         <v-list-item-group class="white--text">
                                             <v-list-item-content>
