@@ -27,38 +27,43 @@
                                     }})
                                 </span>
                             </v-card-subtitle>
-                            <v-list rounded v-model="clinicChatRoomList.state">
+                            <v-list rounded>
                                 <v-skeleton-loader
                                     type="list-item-avatar-two-line"
                                     v-if="clinicChatRoomList.loading"
                                 ></v-skeleton-loader>
-                                <template
-                                    v-for="clinic in clinicChatRoomList.data"
+                                <v-list-item-group
+                                    v-model="clinicChatRoomList.state"
                                 >
-                                    <v-list-item two-line :key="clinic.id">
-                                        <v-list-item-avatar :size="50">
-                                            <v-img
-                                                :src="
-                                                    require('@/assets/placeholder/clinic-information.png')
-                                                "
-                                            ></v-img>
-                                        </v-list-item-avatar>
-                                        <v-list-item-content>
-                                            <v-list-item-title
-                                                class="font-weight-bold"
-                                                >{{
-                                                    clinic.name
-                                                }}</v-list-item-title
-                                            >
-                                            <v-list-item-subtitle
-                                                >You: Lorem ipsum dolor sit
-                                                amet, consectetur adipisicing
-                                                elit. Asperiores,
-                                                quaerat?</v-list-item-subtitle
-                                            >
-                                        </v-list-item-content>
-                                    </v-list-item>
-                                </template>
+                                    <template
+                                        v-for="clinic in clinicChatRoomList.data"
+                                    >
+                                        <v-list-item two-line :key="clinic.id">
+                                            <v-list-item-avatar :size="50">
+                                                <v-img
+                                                    :src="
+                                                        require('@/assets/placeholder/clinic-information.png')
+                                                    "
+                                                ></v-img>
+                                            </v-list-item-avatar>
+                                            <v-list-item-content>
+                                                <v-list-item-title
+                                                    class="font-weight-bold"
+                                                    >{{
+                                                        clinic.name
+                                                    }}</v-list-item-title
+                                                >
+                                                <v-list-item-subtitle
+                                                    >You: Lorem ipsum dolor sit
+                                                    amet, consectetur
+                                                    adipisicing elit.
+                                                    Asperiores,
+                                                    quaerat?</v-list-item-subtitle
+                                                >
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                    </template>
+                                </v-list-item-group>
                             </v-list>
                         </v-card>
                     </v-col>
@@ -185,6 +190,10 @@ export default {
             return details || null;
         },
 
+        user() {
+            return this.authenticationDetails.user || null;
+        },
+
         clinicInformation() {
             return this.authenticationDetails.clinic || null;
         },
@@ -207,13 +216,30 @@ export default {
             this.clinicChatRoomList.data = result.data;
             this.clinicChatRoomList.loading = false;
         },
+
+        subscribePatientRoomListener() {
+            this.$pusher.subscribe(`user-${this.user.id}`, (channel) => {
+                channel.bind("new-room", (room) => {
+                    console.log(room);
+                });
+            });
+        },
+
+        unsubscribePatientRoomListener() {
+            this.$pusher.unsubscribe("dashboard");
+        },
     },
 
     async created() {
+        if (this.user) this.subscribePatientRoomListener();
         await this.fetchClinicChatRooms();
         this.$nextTick(() => {
             this.computeConversationMessagesHeight();
         });
+    },
+
+    destroyed() {
+        this.unsubscribePatientRoomListener();
     },
 };
 </script>
