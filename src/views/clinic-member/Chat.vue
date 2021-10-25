@@ -18,35 +18,47 @@
                         </v-card>
                     </v-col>
                     <v-col cols="12">
-                        <v-card flat>
+                        <v-card flat :loading="clinicChatRoomList.loading">
                             <v-card-subtitle>
                                 <v-icon>mdi-chevron-down</v-icon>
                                 <span class="font-weight-bold">
-                                    Clinic Name Chats
+                                    {{ clinicInformation.name }} Chats ({{
+                                        clinicChatRoomList.data.length
+                                    }})
                                 </span>
                             </v-card-subtitle>
-                            <v-list rounded v-model="list1">
-                                <v-list-item two-line>
-                                    <v-list-item-avatar :size="50">
-                                        <v-img
-                                            :src="
-                                                require('@/assets/placeholder/clinic-information.png')
-                                            "
-                                        ></v-img>
-                                    </v-list-item-avatar>
-                                    <v-list-item-content>
-                                        <v-list-item-title
-                                            class="font-weight-bold"
-                                            >Clinic Name</v-list-item-title
-                                        >
-                                        <v-list-item-subtitle
-                                            >You: Lorem ipsum dolor sit amet,
-                                            consectetur adipisicing elit.
-                                            Asperiores,
-                                            quaerat?</v-list-item-subtitle
-                                        >
-                                    </v-list-item-content>
-                                </v-list-item>
+                            <v-list rounded v-model="clinicChatRoomList.state">
+                                <v-skeleton-loader
+                                    type="list-item-avatar-two-line"
+                                    v-if="clinicChatRoomList.loading"
+                                ></v-skeleton-loader>
+                                <template
+                                    v-for="clinic in clinicChatRoomList.data"
+                                >
+                                    <v-list-item two-line :key="clinic.id">
+                                        <v-list-item-avatar :size="50">
+                                            <v-img
+                                                :src="
+                                                    require('@/assets/placeholder/clinic-information.png')
+                                                "
+                                            ></v-img>
+                                        </v-list-item-avatar>
+                                        <v-list-item-content>
+                                            <v-list-item-title
+                                                class="font-weight-bold"
+                                                >{{
+                                                    clinic.name
+                                                }}</v-list-item-title
+                                            >
+                                            <v-list-item-subtitle
+                                                >You: Lorem ipsum dolor sit
+                                                amet, consectetur adipisicing
+                                                elit. Asperiores,
+                                                quaerat?</v-list-item-subtitle
+                                            >
+                                        </v-list-item-content>
+                                    </v-list-item>
+                                </template>
                             </v-list>
                         </v-card>
                     </v-col>
@@ -56,7 +68,7 @@
                                 <v-icon>mdi-chevron-down</v-icon>
                                 <span class="font-weight-bold"> Patients </span>
                             </v-card-subtitle>
-                            <v-list rounded v-model="list1">
+                            <v-list rounded v-model="clinicChatRoomListState">
                                 <template v-for="n in 10">
                                     <v-list-item two-line :key="n">
                                         <v-list-item-avatar :size="50">
@@ -150,13 +162,32 @@
 
 <script>
 import GenericChatMessage from "@/components/generic/chat/Message";
+import { FETCH_GROUP_CHAT_ROOMS } from "@/store/action-types/chat";
 export default {
     components: { GenericChatMessage },
+
     data() {
         return {
-            list1: 1,
+            clinicChatRoomListState: 1,
+            patientChatRoomListState: null,
             conversationMessagesHeight: 0,
+            clinicChatRoomList: {
+                state: 1,
+                data: [],
+                loading: false,
+            },
         };
+    },
+
+    computed: {
+        authenticationDetails() {
+            const details = this.$store.state.authentication.details;
+            return details || null;
+        },
+
+        clinicInformation() {
+            return this.authenticationDetails.clinic || null;
+        },
     },
 
     methods: {
@@ -169,9 +200,17 @@ export default {
             this.conversationMessagesHeight =
                 conversationHeight - (toolbarHeight + writerHeight);
         },
+
+        async fetchClinicChatRooms() {
+            this.clinicChatRoomList.loading = true;
+            const result = await this.$store.dispatch(FETCH_GROUP_CHAT_ROOMS);
+            this.clinicChatRoomList.data = result.data;
+            this.clinicChatRoomList.loading = false;
+        },
     },
 
-    created() {
+    async created() {
+        await this.fetchClinicChatRooms();
         this.$nextTick(() => {
             this.computeConversationMessagesHeight();
         });
