@@ -7,9 +7,7 @@
                 position: 'relative',
             }"
         >
-            <v-container>
-                <router-view></router-view>
-            </v-container>
+            <v-container> </v-container>
         </v-main>
         <dashboard-navigation-drawer
             :navigations="navigations"
@@ -18,10 +16,17 @@
 </template>
 
 <script>
+import Calendar from "@/layouts/parts/dashboard/Calendar";
+import Reminders from "@/layouts/parts/dashboard/Reminders";
 import DashboardNavigationDrawer from "@/layouts/parts/dashboard/NavigationDrawer";
 import DashboardAppBar from "@/layouts/parts/dashboard/AppBar";
 export default {
-    components: { DashboardAppBar, DashboardNavigationDrawer },
+    components: {
+        DashboardAppBar,
+        DashboardNavigationDrawer,
+        Reminders,
+        Calendar,
+    },
 
     data() {
         return {
@@ -30,6 +35,7 @@ export default {
                     to: {
                         name: "patient-dashboard",
                     },
+                    description: "Dashboard",
                     icon: "mdi-home",
                 },
 
@@ -37,6 +43,7 @@ export default {
                     to: {
                         name: "patient-chat",
                     },
+                    description: "Messages",
                     icon: "mdi-message",
                 },
 
@@ -44,6 +51,7 @@ export default {
                     to: {
                         name: "patient-map",
                     },
+                    description: "Find Clinics",
                     icon: "mdi-map",
                 },
             ],
