@@ -19,70 +19,67 @@
                     </v-col>
 
                     <v-col cols="12">
-                        <v-card flat :loading="clinicChatRoomList.loading">
-                            <v-card-subtitle>
-                                <v-icon>mdi-chevron-down</v-icon>
-                                <span class="font-weight-bold">
-                                    {{ clinicInformation.name }} Chats ({{
-                                        clinicChatRoomList.data.length
-                                    }})
-                                </span>
-                            </v-card-subtitle>
-                            <v-list rounded>
-                                <v-skeleton-loader
-                                    type="list-item-avatar-two-line"
-                                    v-if="clinicChatRoomList.loading"
-                                ></v-skeleton-loader>
-                                <v-list-item-group
-                                    v-model="clinicChatRoomList.state"
+                        <v-col cols="12">
+                            <v-card flat :loading="clinicChatRoomList.loading">
+                                <v-card-subtitle>
+                                    <v-icon>mdi-chevron-down</v-icon>
+                                    <span class="font-weight-bold">
+                                        {{ clinicInformation.name }} Chats ({{
+                                            clinicChatRoomList.data.length
+                                        }})
+                                    </span>
+                                </v-card-subtitle>
+
+                                <v-list rounded>
+                                    <v-skeleton-loader
+                                        type="list-item-avatar-two-line"
+                                        v-if="clinicChatRoomList.loading"
+                                    ></v-skeleton-loader>
+                                    <v-list-item-group
+                                        v-model="clinicChatRoomList.state"
+                                    >
+                                        <template
+                                            v-for="room in clinicChatRoomList.data"
+                                        >
+                                            <generic-chat-room
+                                                :id="room.id"
+                                                :name="room.name"
+                                                :last-chat="null"
+                                                :key="room.id"
+                                            ></generic-chat-room>
+                                        </template>
+                                    </v-list-item-group>
+                                </v-list>
+                            </v-card>
+                        </v-col>
+
+                        <v-col cols="12">
+                            <v-card flat>
+                                <v-card-subtitle>
+                                    <v-icon>mdi-chevron-down</v-icon>
+                                    <span class="font-weight-bold">
+                                        Patient Chats ({{
+                                            patientChatRoomList.data.length
+                                        }})
+                                    </span>
+                                </v-card-subtitle>
+                                <v-list
+                                    rounded
+                                    v-model="patientChatRoomListState"
                                 >
                                     <template
-                                        v-for="clinic in clinicChatRoomList.data"
+                                        v-for="room in patientChatRoomList.data"
                                     >
                                         <generic-chat-room
-                                            :id="clinic.id"
-                                            :name="clinic.name"
-                                            :last-chat="null"
-                                            :key="clinic.id"
+                                            :id="room.id"
+                                            :name="room.name"
+                                            :last-chat="room.last_chat"
+                                            :key="room.id"
                                         ></generic-chat-room>
                                     </template>
-                                </v-list-item-group>
-                            </v-list>
-                        </v-card>
-                    </v-col>
-
-                    <v-col cols="12">
-                        <v-card flat>
-                            <v-card-subtitle>
-                                <v-icon>mdi-chevron-down</v-icon>
-                                <span class="font-weight-bold"> Patients </span>
-                            </v-card-subtitle>
-                            <v-list rounded v-model="clinicChatRoomListState">
-                                <template v-for="n in 10">
-                                    <v-list-item two-line :key="n">
-                                        <v-list-item-avatar :size="50">
-                                            <v-img
-                                                :src="
-                                                    require('@/assets/placeholder/clinic-information.png')
-                                                "
-                                            ></v-img>
-                                        </v-list-item-avatar>
-                                        <v-list-item-content>
-                                            <v-list-item-title
-                                                class="font-weight-bold"
-                                                >Patient Name</v-list-item-title
-                                            >
-                                            <v-list-item-subtitle
-                                                >You: Lorem ipsum dolor sit
-                                                amet, consectetur adipisicing
-                                                elit. Asperiores,
-                                                quaerat?</v-list-item-subtitle
-                                            >
-                                        </v-list-item-content>
-                                    </v-list-item>
-                                </template>
-                            </v-list>
-                        </v-card>
+                                </v-list>
+                            </v-card>
+                        </v-col>
                     </v-col>
                 </v-row>
             </div>
@@ -256,7 +253,7 @@ export default {
     overflow: auto;
 
     &__sticky-content {
-        height: 100%;
+        //height: 100%;
 
         &__toolbar {
             position: sticky;
