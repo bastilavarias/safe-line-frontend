@@ -19,52 +19,55 @@
                     </v-col>
 
                     <v-col cols="12">
-                        <v-col cols="12">
-                            <v-card flat :loading="clinicChatRoomList.loading">
-                                <v-card-subtitle>
-                                    <v-icon>mdi-chevron-down</v-icon>
-                                    <span class="font-weight-bold">
-                                        {{ clinicInformation.name }} Chats ({{
-                                            clinicChatRoomList.data.length
-                                        }})
-                                    </span>
-                                </v-card-subtitle>
+                        <v-card flat :loading="clinicChatRoomList.loading">
+                            <v-card-subtitle>
+                                <v-icon>mdi-chevron-down</v-icon>
+                                <span class="font-weight-bold">
+                                    {{ clinicInformation.name }} Chats ({{
+                                        clinicChatRoomList.data.length
+                                    }})
+                                </span>
+                            </v-card-subtitle>
 
-                                <v-list rounded>
-                                    <v-skeleton-loader
-                                        type="list-item-avatar-two-line"
-                                        v-if="clinicChatRoomList.loading"
-                                    ></v-skeleton-loader>
-                                    <v-list-item-group
-                                        v-model="clinicChatRoomList.state"
+                            <v-list rounded>
+                                <v-skeleton-loader
+                                    type="list-item-avatar-two-line"
+                                    v-if="clinicChatRoomList.loading"
+                                ></v-skeleton-loader>
+                                <v-list-item-group
+                                    v-model="clinicChatRoomList.state"
+                                >
+                                    <template
+                                        v-for="room in clinicChatRoomList.data"
                                     >
-                                        <template
-                                            v-for="room in clinicChatRoomList.data"
-                                        >
-                                            <generic-chat-room
-                                                :id="room.id"
-                                                :name="room.name"
-                                                :last-chat="null"
-                                                :key="room.id"
-                                            ></generic-chat-room>
-                                        </template>
-                                    </v-list-item-group>
-                                </v-list>
-                            </v-card>
-                        </v-col>
+                                        <generic-chat-room
+                                            :id="room.id"
+                                            :name="room.name"
+                                            :last-chat="null"
+                                            :key="room.id"
+                                        ></generic-chat-room>
+                                    </template>
+                                </v-list-item-group>
+                            </v-list>
+                        </v-card>
+                    </v-col>
 
-                        <v-col cols="12">
-                            <v-card flat>
-                                <v-card-subtitle>
-                                    <v-icon>mdi-chevron-down</v-icon>
-                                    <span class="font-weight-bold">
-                                        Patient Chats ({{
-                                            patientChatRoomList.data.length
-                                        }})
-                                    </span>
-                                </v-card-subtitle>
-                                <v-list
-                                    rounded
+                    <v-col cols="12">
+                        <v-card flat>
+                            <v-card-subtitle>
+                                <v-icon>mdi-chevron-down</v-icon>
+                                <span class="font-weight-bold">
+                                    Patient Chats ({{
+                                        patientChatRoomList.data.length
+                                    }})
+                                </span>
+                            </v-card-subtitle>
+                            <v-list rounded>
+                                <v-skeleton-loader
+                                    type="list-item-avatar-two-line"
+                                    v-if="patientChatRoomList.loading"
+                                ></v-skeleton-loader>
+                                <v-list-item-group
                                     v-model="patientChatRoomListState"
                                 >
                                     <template
@@ -72,14 +75,15 @@
                                     >
                                         <generic-chat-room
                                             :id="room.id"
-                                            :name="room.name"
+                                            :name="`${room.room_members[0].user.profile.first_name} ${room.room_members[0].user.profile.last_name}`"
                                             :last-chat="room.last_chat"
+                                            avatar="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"
                                             :key="room.id"
                                         ></generic-chat-room>
                                     </template>
-                                </v-list>
-                            </v-card>
-                        </v-col>
+                                </v-list-item-group>
+                            </v-list>
+                        </v-card>
                     </v-col>
                 </v-row>
             </div>
@@ -160,7 +164,7 @@ export default {
         return {
             clinicChatRoomListState: 1,
 
-            patientChatRoomListState: null,
+            patientChatRoomListState: 1,
 
             conversationMessagesHeight: 0,
 

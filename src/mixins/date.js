@@ -5,6 +5,10 @@ const dateMixin = {
         formatSimpleDate(date) {
             return moment(new Date(date)).format("MMMM Do YYYY, h:mm:ss A");
         },
+
+        formatDateFromNow(date) {
+            return moment(new Date(date)).startOf("hour").fromNow();
+        },
     },
 };
 
