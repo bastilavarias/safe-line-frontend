@@ -17,6 +17,7 @@
                             </v-card-text>
                         </v-card>
                     </v-col>
+
                     <v-col cols="12">
                         <v-card flat :loading="clinicChatRoomList.loading">
                             <v-card-subtitle>
@@ -49,6 +50,7 @@
                             </v-list>
                         </v-card>
                     </v-col>
+
                     <v-col cols="12">
                         <v-card flat>
                             <v-card-subtitle>
@@ -149,7 +151,10 @@
 
 <script>
 import GenericChatMessage from "@/components/generic/chat/Message";
-import { FETCH_GROUP_CHAT_ROOMS } from "@/store/action-types/chat";
+import {
+    FETCH_DIRECT_CHAT_ROOMS,
+    FETCH_GROUP_CHAT_ROOMS,
+} from "@/store/action-types/chat";
 import GenericChatRoom from "@/components/generic/chat/Room";
 export default {
     components: { GenericChatRoom, GenericChatMessage },
@@ -157,9 +162,18 @@ export default {
     data() {
         return {
             clinicChatRoomListState: 1,
+
             patientChatRoomListState: null,
+
             conversationMessagesHeight: 0,
+
             clinicChatRoomList: {
+                state: 1,
+                data: [],
+                loading: false,
+            },
+
+            patientChatRoomList: {
                 state: 1,
                 data: [],
                 loading: false,
@@ -200,6 +214,13 @@ export default {
             this.clinicChatRoomList.loading = false;
         },
 
+        async fetchPatientChatRooms() {
+            this.patientChatRoomList.loading = true;
+            const result = await this.$store.dispatch(FETCH_DIRECT_CHAT_ROOMS);
+            this.patientChatRoomList.data = result.data;
+            this.patientChatRoomList.loading = false;
+        },
+
         subscribePatientRoomListener() {
             this.$pusher.subscribe(`user-${this.user.id}`, (channel) => {
                 channel.bind("new-room", (room) => {
@@ -216,6 +237,7 @@ export default {
     async created() {
         if (this.user) this.subscribePatientRoomListener();
         await this.fetchClinicChatRooms();
+        await this.fetchPatientChatRooms();
         this.$nextTick(() => {
             this.computeConversationMessagesHeight();
         });

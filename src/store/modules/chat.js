@@ -1,4 +1,7 @@
-import { FETCH_GROUP_CHAT_ROOMS } from "@/store/action-types/chat";
+import {
+    FETCH_DIRECT_CHAT_ROOMS,
+    FETCH_GROUP_CHAT_ROOMS,
+} from "@/store/action-types/chat";
 import apiService from "@/services/api";
 
 const chatModule = {
@@ -6,6 +9,15 @@ const chatModule = {
         async [FETCH_GROUP_CHAT_ROOMS]() {
             try {
                 const response = await apiService.get("/chats/rooms/group");
+                return await response.data;
+            } catch (error) {
+                return error.response.data;
+            }
+        },
+
+        async [FETCH_DIRECT_CHAT_ROOMS]({ page, perPage }) {
+            try {
+                const response = await apiService.get("/chats/rooms/direct");
                 return await response.data;
             } catch (error) {
                 return error.response.data;
