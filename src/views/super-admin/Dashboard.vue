@@ -11,7 +11,7 @@
                         <v-col cols="12" lg="10" xl="8">
                             <v-row dense>
                                 <template v-for="n in 4">
-                                    <v-col cols="12" lg="3" :key="n">
+                                    <v-col cols="12" lg="2" :key="n">
                                         <super-admin-dashboard-information-card></super-admin-dashboard-information-card>
                                     </v-col>
                                 </template>
