@@ -38,30 +38,12 @@
                                     <template
                                         v-for="clinic in clinicChatRoomList.data"
                                     >
-                                        <v-list-item two-line :key="clinic.id">
-                                            <v-list-item-avatar :size="50">
-                                                <v-img
-                                                    :src="
-                                                        require('@/assets/placeholder/clinic-information.png')
-                                                    "
-                                                ></v-img>
-                                            </v-list-item-avatar>
-                                            <v-list-item-content>
-                                                <v-list-item-title
-                                                    class="font-weight-bold"
-                                                    >{{
-                                                        clinic.name
-                                                    }}</v-list-item-title
-                                                >
-                                                <v-list-item-subtitle
-                                                    >You: Lorem ipsum dolor sit
-                                                    amet, consectetur
-                                                    adipisicing elit.
-                                                    Asperiores,
-                                                    quaerat?</v-list-item-subtitle
-                                                >
-                                            </v-list-item-content>
-                                        </v-list-item>
+                                        <generic-chat-room
+                                            :id="clinic.id"
+                                            :name="clinic.name"
+                                            :last-chat="null"
+                                            :key="clinic.id"
+                                        ></generic-chat-room>
                                     </template>
                                 </v-list-item-group>
                             </v-list>
@@ -168,8 +150,9 @@
 <script>
 import GenericChatMessage from "@/components/generic/chat/Message";
 import { FETCH_GROUP_CHAT_ROOMS } from "@/store/action-types/chat";
+import GenericChatRoom from "@/components/generic/chat/Room";
 export default {
-    components: { GenericChatMessage },
+    components: { GenericChatRoom, GenericChatMessage },
 
     data() {
         return {
