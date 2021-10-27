@@ -1,7 +1,25 @@
 <template>
     <v-app-bar flat color="transparent" app>
+        <v-card flat color="transparent">
+            <v-btn icon @click="drawer" class="ml-5">
+                <v-icon>mdi-menu</v-icon>
+            </v-btn>
+        </v-card>
         <v-container>
             <v-row>
+                <v-card flat color="transparent" class="ml-n7">
+                    <img
+                        class="mr-2"
+                        height="32px"
+                        width="35px"
+                        src="@/assets/home/logoViolet.png"
+                    />
+                </v-card>
+                <v-card flat color="transparent">
+                    <v-toolbar-title class="black--text"
+                        >Safe Line</v-toolbar-title
+                    >
+                </v-card>
                 <v-spacer></v-spacer>
                 <v-menu offset-y>
                     <template v-slot:activator="{ on, attrs }">
@@ -47,9 +65,13 @@
 </template>
 
 <script>
+import DashboardNavigationDrawer from "@/layouts/parts/dashboard/NavigationDrawer";
 import { PURGE_AUTHENTICATION } from "@/store/action-types/authentication";
+import { DRAWER_SHOW } from "@/store/action-types/interfaceModule";
 
 export default {
+    components: { DashboardNavigationDrawer },
+
     name: "dashboard-app-bar",
 
     computed: {
@@ -73,6 +95,9 @@ export default {
         async signOut() {
             this.$store.commit(PURGE_AUTHENTICATION);
             await this.$router.push({ name: "sign-in" });
+        },
+        drawer() {
+            this.$store.commit(DRAWER_SHOW, true);
         },
     },
 };

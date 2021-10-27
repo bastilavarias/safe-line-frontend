@@ -1,6 +1,6 @@
 <template>
-    <v-card rounded height="150">
-        <v-card-text class="fill-height d-flex flex-column justify-center">
+    <v-card rounded height="152" width="152">
+        <v-card-text class="fill-height d-flex flex-column justify-center pt-7">
             <div>
                 <v-sheet
                     color="primary"

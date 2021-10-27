@@ -28,6 +28,7 @@ export default {
                     to: {
                         name: "super-admin-dashboard",
                     },
+                    description: "Dashboard",
                     icon: "mdi-home",
                 },
 
@@ -35,6 +36,7 @@ export default {
                     to: {
                         name: "super-admin-clinic-services",
                     },
+                    description: "Services",
                     icon: "mdi-application-cog",
                 },
 
@@ -42,6 +44,7 @@ export default {
                     to: {
                         name: "super-admin-accounts",
                     },
+                    description: "Accounts",
                     icon: "mdi-account",
                 },
             ],

@@ -24,6 +24,7 @@ export default {
                     to: {
                         name: "clinic-member-dashboard",
                     },
+                    description: "Dashboard",
                     icon: "mdi-home",
                 },
 
@@ -31,6 +32,7 @@ export default {
                     to: {
                         name: "clinic-member-chat",
                     },
+                    description: "Chat",
                     icon: "mdi-message",
                 },
             ],
