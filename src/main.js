@@ -6,11 +6,12 @@ import vuetify from "./plugins/vuetify";
 import VuetifyGoogleAutocomplete from "vuetify-google-autocomplete";
 import * as VueGoogleMaps from "vue2-google-maps";
 import apiService from "@/services/api";
-import pusher from "vue-pusher";
+import pusherService from "@/services/pusher";
 
 Vue.config.productionTip = false;
 
 apiService.init();
+pusherService.init();
 
 Vue.use(VueGoogleMaps, {
     load: {
@@ -21,14 +22,6 @@ Vue.use(VueGoogleMaps, {
 
 Vue.use(VuetifyGoogleAutocomplete, {
     vueGoogleMapsCompatibility: true,
-});
-
-Vue.use(pusher, {
-    api_key: process.env.VUE_APP_PUSHER_API_KEY,
-    options: {
-        cluster: "ap1",
-        encrypted: false,
-    },
 });
 
 new Vue({

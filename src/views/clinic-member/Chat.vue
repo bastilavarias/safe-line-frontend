@@ -157,6 +157,8 @@ import {
     FETCH_GROUP_CHAT_ROOMS,
 } from "@/store/action-types/chat";
 import GenericChatRoom from "@/components/generic/chat/Room";
+import pusherService from "@/services/pusher";
+
 export default {
     components: { GenericChatRoom, GenericChatMessage },
 
@@ -223,15 +225,15 @@ export default {
         },
 
         subscribePatientRoomListener() {
-            this.$pusher.subscribe(`user-${this.user.id}`, (channel) => {
-                channel.bind("new-room", (room) => {
-                    console.log(room);
-                });
+            pusherService.instance().subscribe(`user-${this.user.id}`);
+
+            pusherService.instance().bind("new-room", (data) => {
+                console.log(data);
             });
         },
 
         unsubscribePatientRoomListener() {
-            this.$pusher.unsubscribe("dashboard");
+            pusherService.instance().unsubscribe(`user-${this.user.id}`);
         },
     },
 
