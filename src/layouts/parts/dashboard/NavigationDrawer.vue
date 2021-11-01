@@ -2,6 +2,8 @@
     <v-navigation-drawer
         absolute
         temporary
+        :mini-variant="mini"
+        mini-variant-width="200"
         :expand-on-hover="false"
         v-model="drawerStateLocal"
     >
@@ -62,6 +64,7 @@ export default {
 
     data() {
         return {
+            mini: true,
             drawerStateLocal: this.$store.state.interface.drawer,
         };
     },

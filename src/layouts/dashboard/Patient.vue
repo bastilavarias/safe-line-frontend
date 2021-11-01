@@ -7,7 +7,7 @@
                 position: 'relative',
             }"
         >
-            <v-container> </v-container>
+            <router-view></router-view>
         </v-main>
         <dashboard-navigation-drawer
             :navigations="navigations"
@@ -16,16 +16,12 @@
 </template>
 
 <script>
-import Calendar from "@/layouts/parts/dashboard/Calendar";
-import Reminders from "@/layouts/parts/dashboard/Reminders";
 import DashboardNavigationDrawer from "@/layouts/parts/dashboard/NavigationDrawer";
 import DashboardAppBar from "@/layouts/parts/dashboard/AppBar";
 export default {
     components: {
         DashboardAppBar,
         DashboardNavigationDrawer,
-        Reminders,
-        Calendar,
     },
 
     data() {
@@ -63,6 +59,20 @@ export default {
             const mapPagesRouteNames = ["patient-map"];
             const currentRouteName = this.$route.name;
             return mapPagesRouteNames.includes(currentRouteName);
+        },
+        user() {
+            const details = this.$store.state.authentication.details;
+            return details.user || null;
+        },
+
+        userType() {
+            if (!this.user) return null;
+            const types = {
+                super_admin: "Super Admin",
+                clinic_member: "Clinic Member",
+                patient: "Patient",
+            };
+            return types[this.user.user_type];
         },
     },
 };

@@ -1,6 +1,12 @@
 <template>
     <v-row>
-        <v-date-picker v-model="picker"></v-date-picker>
+        <v-card>
+            <v-date-picker
+                header-color="primary"
+                color="primary"
+                v-model="picker"
+            ></v-date-picker>
+        </v-card>
     </v-row>
 </template>
 
