@@ -1,15 +1,13 @@
 <template>
-    <v-card flat outlined height="83" width="320">
-        <v-row>
-            <v-col class="my-auto">
-                <v-card-title>Video Consultation</v-card-title>
-                <v-card-subtitle> 12:30PM ● in 4 Hours </v-card-subtitle>
+    <v-card flat outlined class="card container">
+        <v-row class="mr-2">
+            <v-col>
+                <p class="h6">Video Consultation</p>
+                <p class="caption mt-n2">12:30PM ● in 4 Hours</p>
             </v-col>
-            <v-col cols="3">
-                <v-chip class="mt-5 ml-n2" color="red" text-color="white" small>
-                    HIGH
-                </v-chip>
-            </v-col>
+            <v-chip class="mt-3 chip" color="red" text-color="white" small>
+                HIGH
+            </v-chip>
         </v-row>
     </v-card>
 </template>
@@ -20,4 +18,16 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.card {
+    height: 80px;
+    width: 250px;
+}
+.container {
+    position: relative;
+}
+.chip {
+    position: absolute;
+    right: 10px;
+}
+</style>
