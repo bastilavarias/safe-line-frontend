@@ -1,6 +1,5 @@
 <template>
     <v-app>
-        <dashboard-app-bar v-if="!isMapPage"></dashboard-app-bar>
         <v-main
             :style="{
                 backgroundColor: '#F5F5F5',
@@ -10,6 +9,7 @@
             <router-view></router-view>
         </v-main>
         <dashboard-navigation-drawer
+            v-if="!isMapPage"
             :navigations="navigations"
         ></dashboard-navigation-drawer>
     </v-app>

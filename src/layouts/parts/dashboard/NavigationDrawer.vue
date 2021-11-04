@@ -1,34 +1,50 @@
 <template>
     <v-navigation-drawer
         absolute
-        temporary
+        permanent
         :mini-variant="mini"
         mini-variant-width="200"
         :expand-on-hover="false"
         v-model="drawerStateLocal"
+        app
     >
         <div>
-            <div justify="center" align="center" class="mt-5">
-                <v-list-item-group>
-                    <v-list>
-                        <v-list-item-avatar size="75" class="ml-4">
-                            <v-img :src="user.profile.image_url"></v-img>
-                        </v-list-item-avatar>
-                    </v-list>
-                </v-list-item-group>
-                <v-list-item-group class="mb-4">
-                    <v-list-item-title class="text-h6">
-                        {{ user.profile.first_name }}
-                        {{ user.profile.last_name }}
-                    </v-list-item-title>
-                </v-list-item-group>
-                <v-btn class="mb-6 text-capitalize" color="primary" plain
-                    ><v-icon>mdi-pencil</v-icon>Edit Profile</v-btn
-                >
-                <v-divider class="mb-7"></v-divider>
-            </div>
             <v-row class="fill-height" justify="center" align="center">
-                <v-col cols="12" class="ml-10">
+                <v-col cols="12" class="mt-5">
+                    <div align="center">
+                        <img
+                            src="@/assets/sidenavlogo-alt.png"
+                            alt=""
+                            height="34px"
+                            width="36px"
+                        />
+                        <h4 class="mb-5">Safe Line</h4>
+                        <v-divider width="150px"></v-divider>
+                    </div>
+                </v-col>
+                <v-col cols="12" class="mb-3 ml-3">
+                    <v-row>
+                        <v-card flat class="d-flex flex-row">
+                            <v-col cols="4" class="ml-5">
+                                <v-list-item-avatar>
+                                    <v-img
+                                        :src="user.profile.image_url"
+                                    ></v-img>
+                                </v-list-item-avatar>
+                            </v-col>
+                            <v-col cols="8" class="mt-1">
+                                <h4>
+                                    {{ user.profile.first_name }}
+                                    {{ user.profile.name_name }}
+                                </h4>
+                                <v-list-item-subtitle>
+                                    {{ userType }}
+                                </v-list-item-subtitle>
+                            </v-col>
+                        </v-card>
+                    </v-row>
+                </v-col>
+                <v-col cols="12" class="ml-5 mb-2">
                     <template v-for="(navigation, index) in navigations">
                         <v-btn
                             :key="index"
@@ -42,11 +58,19 @@
                             active-class="white primary--text"
                         >
                             <v-icon>{{ navigation.icon }}</v-icon>
-                            <p class="mt-4 ml-3 text-capitalize">
+                            <p class="text-capitalize mt-3 ml-3">
                                 {{ navigation.description }}
                             </p>
                         </v-btn>
                     </template>
+                </v-col>
+                <div align="center">
+                    <v-divider width="150px"></v-divider>
+                </div>
+                <v-col cols="12" class="ml-5">
+                    <v-btn text plain @click="signOut" class="text-capitalize"
+                        ><v-icon class="mr-3">mdi-pencil</v-icon>Sign Out</v-btn
+                    >
                 </v-col>
             </v-row>
         </div>
@@ -54,6 +78,7 @@
 </template>
 
 <script>
+import { PURGE_AUTHENTICATION } from "@/store/action-types/authentication";
 import { DRAWER_SHOW } from "@/store/action-types/interfaceModule";
 export default {
     name: "dashboard-navigation-drawer",
@@ -89,7 +114,12 @@ export default {
         },
     },
 
-    methods: {},
+    methods: {
+        async signOut() {
+            this.$store.commit(PURGE_AUTHENTICATION);
+            await this.$router.push({ name: "sign-in" });
+        },
+    },
 
     watch: {
         drawerState(value) {

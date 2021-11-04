@@ -1,86 +1,88 @@
 <template>
     <section>
-        <v-row>
-            <v-col cols="12">
-                <v-sheet color="transparent">
-                    <h1 class="title font-weight-bold text-truncate mb-5">
-                        Welcome {{ user.profile.first_name }}
-                        {{ user.profile.last_name }}!
-                    </h1>
-                    <v-row>
-                        <v-col cols="12" lg="10" xl="8">
-                            <v-row dense>
-                                <template v-for="n in 4">
-                                    <v-col cols="12" lg="2" :key="n">
-                                        <super-admin-dashboard-information-card></super-admin-dashboard-information-card>
-                                    </v-col>
-                                </template>
-                            </v-row>
-                        </v-col>
-                    </v-row>
-                </v-sheet>
-            </v-col>
-            <v-col cols="12">
-                <v-card rounded color="white">
-                    <v-toolbar flat>
-                        <v-toolbar-title class="font-weight-bold"
-                            >Clinics</v-toolbar-title
+        <div>
+            <v-row>
+                <v-col cols="12">
+                    <v-sheet color="transparent">
+                        <h1 class="title font-weight-bold text-truncate mb-5">
+                            Welcome {{ user.profile.first_name }}
+                            {{ user.profile.last_name }}!
+                        </h1>
+                        <v-row>
+                            <v-col cols="12" lg="10" xl="8">
+                                <v-row dense>
+                                    <template v-for="n in 4">
+                                        <v-col cols="12" lg="2" :key="n">
+                                            <super-admin-dashboard-information-card></super-admin-dashboard-information-card>
+                                        </v-col>
+                                    </template>
+                                </v-row>
+                            </v-col>
+                        </v-row>
+                    </v-sheet>
+                </v-col>
+                <v-col cols="12">
+                    <v-card rounded color="white">
+                        <v-toolbar flat>
+                            <v-toolbar-title class="font-weight-bold"
+                                >Clinics</v-toolbar-title
+                            >
+                            <v-spacer></v-spacer>
+                            <v-text-field
+                                filled
+                                hide-details
+                                placeholder="Search Clinic"
+                                dense
+                                rounded
+                                prepend-inner-icon="mdi-magnify"
+                                v-model="table.search"
+                            ></v-text-field>
+                        </v-toolbar>
+                        <v-data-table
+                            :loading="table.loading"
+                            :headers="table.headers"
+                            :items="table.items"
+                            :server-items-length="table.pagination.total"
+                            :items-per-page.sync="table.pagination.perPage"
+                            :page.sync="table.pagination.page"
+                            :footer-props="{
+                                'items-per-page-options':
+                                    table.pagination.itemsPerPageOptions,
+                            }"
                         >
-                        <v-spacer></v-spacer>
-                        <v-text-field
-                            filled
-                            hide-details
-                            placeholder="Search Clinic"
-                            dense
-                            rounded
-                            prepend-inner-icon="mdi-magnify"
-                            v-model="table.search"
-                        ></v-text-field>
-                    </v-toolbar>
-                    <v-data-table
-                        :loading="table.loading"
-                        :headers="table.headers"
-                        :items="table.items"
-                        :server-items-length="table.pagination.total"
-                        :items-per-page.sync="table.pagination.perPage"
-                        :page.sync="table.pagination.page"
-                        :footer-props="{
-                            'items-per-page-options':
-                                table.pagination.itemsPerPageOptions,
-                        }"
-                    >
-                        <template v-slot:item.created_at="{ item }">
-                            {{ formatSimpleDate(item.created_at) }}
-                        </template>
-                        <template v-slot:item.status="{ item }">
-                            <generic-status-chip
-                                type="clinic-registration"
-                                :status="item.status"
-                                class-name="text-uppercase"
-                                small
-                                >{{ item.status }}</generic-status-chip
-                            >
-                        </template>
-                        <template v-slot:item.action="{ item }">
-                            <v-btn
-                                color="primary"
-                                outlined
-                                class="text-capitalize"
-                                small
-                                @click="openClinicInformationDialog(item)"
-                                >Open</v-btn
-                            >
-                        </template>
-                    </v-data-table>
-                </v-card>
-            </v-col>
-        </v-row>
-        <super-admin-dashboard-clinic-information-dialog
-            :is-open.sync="isClinicInformationDialogOpen"
-            :information.sync="selectedClinicInformation"
-            :fetch-clinics="fetchClinics"
-            v-if="selectedClinicInformation"
-        ></super-admin-dashboard-clinic-information-dialog>
+                            <template v-slot:item.created_at="{ item }">
+                                {{ formatSimpleDate(item.created_at) }}
+                            </template>
+                            <template v-slot:item.status="{ item }">
+                                <generic-status-chip
+                                    type="clinic-registration"
+                                    :status="item.status"
+                                    class-name="text-uppercase"
+                                    small
+                                    >{{ item.status }}</generic-status-chip
+                                >
+                            </template>
+                            <template v-slot:item.action="{ item }">
+                                <v-btn
+                                    color="primary"
+                                    outlined
+                                    class="text-capitalize"
+                                    small
+                                    @click="openClinicInformationDialog(item)"
+                                    >Open</v-btn
+                                >
+                            </template>
+                        </v-data-table>
+                    </v-card>
+                </v-col>
+            </v-row>
+            <super-admin-dashboard-clinic-information-dialog
+                :is-open.sync="isClinicInformationDialogOpen"
+                :information.sync="selectedClinicInformation"
+                :fetch-clinics="fetchClinics"
+                v-if="selectedClinicInformation"
+            ></super-admin-dashboard-clinic-information-dialog>
+        </div>
     </section>
 </template>
 

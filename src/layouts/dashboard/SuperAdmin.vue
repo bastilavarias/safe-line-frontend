@@ -1,6 +1,5 @@
 <template>
     <v-app>
-        <dashboard-app-bar></dashboard-app-bar>
         <v-main
             :style="{
                 backgroundColor: '#F5F5F5',

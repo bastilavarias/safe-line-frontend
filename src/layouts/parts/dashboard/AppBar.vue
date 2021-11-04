@@ -2,14 +2,14 @@
     <v-app-bar flat color="transparent" app>
         <v-container>
             <v-row>
-                <v-card flat color="transparent" class="mr-10">
+                <!-- <v-card flat color="transparent" class="mr-10">
                     <v-btn icon @click="drawer">
                         <v-icon>mdi-menu</v-icon>
                     </v-btn>
-                </v-card>
-                <div>
-                    <img class="ml-n7 my-auto" src="@/assets/appbarLogo.png" />
-                </div>
+                </v-card> -->
+                <!-- <div class="ml-2 mt-2">
+                    <h2>Safe Line</h2>
+                </div> -->
                 <v-spacer></v-spacer>
                 <div class="mt-2">
                     <v-menu offset-y>
