@@ -21,14 +21,7 @@
                 >
                     <v-card-text
                         :class="`${self ? 'white--text' : 'black--text'}`"
-                        >Lorem ipsum dolor sit amet, consectetur adipisicing
-                        elit. Alias iste molestiae omnis sequi? Deleniti
-                        distinctio error magnam officia placeat repudiandae. A
-                        alias amet aperiam, aspernatur assumenda commodi eaque
-                        expedita harum illo in, iure mollitia natus nostrum quae
-                        qui recusandae repellendus repudiandae sit tempora
-                        temporibus tenetur unde ut vel voluptates
-                        voluptatibus.</v-card-text
+                        >{{ message }}</v-card-text
                     >
                     <v-card-actions v-if="!self">
                         <v-spacer></v-spacer>
@@ -36,13 +29,16 @@
                             :class="`${
                                 self ? 'white--text' : 'black--text'
                             } caption`"
-                            >2:45 PM</span
+                        >
+                            {{ formatDateFromNow(createdAt) }}</span
                         >
                     </v-card-actions>
                 </v-card>
                 <div class="py-2 d-flex justify-space-between" v-if="self">
                     <p class="d-block body-2">Sent by CSR Name</p>
-                    <p class="d-block body-2">2:45 PM</p>
+                    <p class="d-block body-2">
+                        {{ formatDateFromNow(createdAt) }}
+                    </p>
                 </div>
             </div>
         </div>
@@ -50,11 +46,17 @@
 </template>
 
 <script>
+import dateMixin from "@/mixins/date";
+
 export default {
     name: "generic-chat-message",
 
+    mixins: [dateMixin],
+
     props: {
         className: String,
+        message: String,
+        createdAt: String,
         self: Boolean,
     },
 };

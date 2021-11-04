@@ -69,7 +69,7 @@
                                     v-if="patientChatRoomList.loading"
                                 ></v-skeleton-loader>
                                 <v-list-item-group
-                                    v-model="patientChatRoomListState"
+                                    v-model="patientChatRoomList.state"
                                 >
                                     <template
                                         v-for="room in patientChatRoomList.data"
@@ -106,11 +106,12 @@
                     }"
                 >
                     <div class="px-5 py-5">
-                        <template v-for="n in 15">
+                        <template v-for="chat in chats.data">
                             <generic-chat-message
                                 className="mb-5"
-                                :key="n"
-                                :self="n % 2 === 0"
+                                :message="chat.message"
+                                :created-at="chat.created_at"
+                                :key="chat.id"
                             ></generic-chat-message>
                         </template>
                     </div>
@@ -150,6 +151,7 @@
 <script>
 import GenericChatMessage from "@/components/generic/chat/Message";
 import {
+    FETCH_CHATS,
     FETCH_DIRECT_CHAT_ROOMS,
     FETCH_GROUP_CHAT_ROOMS,
 } from "@/store/action-types/chat";
@@ -161,10 +163,6 @@ export default {
 
     data() {
         return {
-            clinicChatRoomListState: 1,
-
-            patientChatRoomListState: 1,
-
             conversationMessagesHeight: 0,
 
             clinicChatRoomList: {
@@ -175,6 +173,11 @@ export default {
 
             patientChatRoomList: {
                 state: 1,
+                data: [],
+                loading: false,
+            },
+
+            chats: {
                 data: [],
                 loading: false,
             },
@@ -216,6 +219,17 @@ export default {
         },
     },
 
+    watch: {
+        async roomID(value) {
+            if (value) {
+                await this.fetchChats();
+                this.$nextTick(() => {
+                    this.computeConversationMessagesHeight();
+                });
+            }
+        },
+    },
+
     methods: {
         computeConversationMessagesHeight() {
             const { conversation, conversationToolbar, conversationWriter } =
@@ -241,6 +255,16 @@ export default {
             this.patientChatRoomList.loading = false;
         },
 
+        async fetchChats() {
+            this.chats.loading = true;
+            const payload = {
+                roomID: this.roomID,
+            };
+            const result = await this.$store.dispatch(FETCH_CHATS, payload);
+            this.chats.data = result.data;
+            this.chats.loading = false;
+        },
+
         subscribePatientRoomListener() {
             pusherService.instance().subscribe(`user-${this.user.id}`);
 
@@ -261,13 +285,13 @@ export default {
         if (this.user) this.subscribePatientRoomListener();
         await this.fetchClinicChatRooms();
         await this.fetchPatientChatRooms();
-    },
 
-    updated() {
-        if (this.roomID)
+        if (this.roomID) {
+            await this.fetchChats();
             this.$nextTick(() => {
                 this.computeConversationMessagesHeight();
             });
+        }
     },
 
     destroyed() {
