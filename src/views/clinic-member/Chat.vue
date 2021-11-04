@@ -44,6 +44,7 @@
                                             :id="room.id"
                                             :name="room.name"
                                             :last-chat="null"
+                                            route-name="clinic-member-chat"
                                             :key="room.id"
                                         ></generic-chat-room>
                                     </template>
@@ -78,6 +79,7 @@
                                             :name="`${room.room_members[0].user.profile.first_name} ${room.room_members[0].user.profile.last_name}`"
                                             :last-chat="room.last_chat"
                                             avatar="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"
+                                            route-name="clinic-member-chat"
                                             :key="room.id"
                                         ></generic-chat-room>
                                     </template>
@@ -89,7 +91,7 @@
             </div>
         </v-col>
         <v-col cols="12" md="8" lg="9" xl="10">
-            <div class="conversation" ref="conversation">
+            <div class="conversation" ref="conversation" v-if="roomID">
                 <v-toolbar ref="conversationToolbar">
                     <v-toolbar-title>
                         <v-avatar :size="40" class="mr-3">
@@ -197,6 +199,10 @@ export default {
         clinicInformation() {
             return this.authenticationDetails.clinic || null;
         },
+
+        roomID() {
+            return this.$route.query.room_id || null;
+        },
     },
 
     methods: {
@@ -244,9 +250,17 @@ export default {
         if (this.user) this.subscribePatientRoomListener();
         await this.fetchClinicChatRooms();
         await this.fetchPatientChatRooms();
-        this.$nextTick(() => {
-            this.computeConversationMessagesHeight();
-        });
+        if (this.roomID)
+            this.$nextTick(() => {
+                this.computeConversationMessagesHeight();
+            });
+    },
+
+    updated() {
+        if (this.roomID)
+            this.$nextTick(() => {
+                this.computeConversationMessagesHeight();
+            });
     },
 
     destroyed() {

@@ -1,5 +1,10 @@
 <template>
-    <v-list-item :two-line="!lastChat" :three-line="!!lastChat">
+    <v-list-item
+        :two-line="!lastChat"
+        :three-line="!!lastChat"
+        exact
+        :to="{ name: 'clinic-member-chat', query: { room_id: id } }"
+    >
         <v-list-item-avatar :size="50">
             <v-img :src="avatar" v-if="avatar"></v-img>
             <v-img
@@ -40,6 +45,7 @@ export default {
         name: String,
         lastChat: [Object, null],
         avatar: [String, null],
+        routeName: String,
     },
 };
 </script>
