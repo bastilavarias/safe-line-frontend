@@ -1,7 +1,7 @@
 <template>
-    <v-card width="350" height="248">
-        <v-card-title> Reminders </v-card-title>
-        <div class="py-3 ml-4">
+    <v-card width="290" height="248">
+        <v-card-title class="ml-1"> Reminders </v-card-title>
+        <div class="mx-auto">
             <reminder-content></reminder-content>
         </div>
     </v-card>
