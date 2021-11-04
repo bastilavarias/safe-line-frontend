@@ -227,8 +227,11 @@ export default {
         subscribePatientRoomListener() {
             pusherService.instance().subscribe(`user-${this.user.id}`);
 
-            pusherService.instance().bind("new-room", (data) => {
-                console.log(data);
+            pusherService.instance().bind("new-room", ({ data }) => {
+                this.patientChatRoomList.data = [
+                    data,
+                    ...this.patientChatRoomList.data,
+                ];
             });
         },
 

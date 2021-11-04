@@ -7,7 +7,7 @@ const dateMixin = {
         },
 
         formatDateFromNow(date) {
-            return moment(new Date(date)).startOf("hour").fromNow();
+            return moment(new Date(date)).fromNow();
         },
     },
 };
