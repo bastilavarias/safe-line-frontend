@@ -93,15 +93,10 @@
         <v-col cols="12" md="8" lg="9" xl="10">
             <div class="conversation" ref="conversation" v-if="roomID">
                 <v-toolbar ref="conversationToolbar">
-                    <v-toolbar-title>
-                        <v-avatar :size="40" class="mr-3">
-                            <v-img
-                                :src="
-                                    require('@/assets/placeholder/clinic-information.png')
-                                "
-                            ></v-img>
-                        </v-avatar>
-                        <span class="font-weight-bold">Clinic Name</span>
+                    <v-toolbar-title v-if="currentRoom">
+                        <span class="font-weight-bold">{{
+                            currentRoom.name
+                        }}</span>
                     </v-toolbar-title>
                 </v-toolbar>
                 <div
@@ -203,6 +198,22 @@ export default {
         roomID() {
             return this.$route.query.room_id || null;
         },
+
+        currentRoom() {
+            const clinicRooms = this.clinicChatRoomList.data;
+            const patientRooms = this.patientChatRoomList.data;
+            const room =
+                clinicRooms
+                    .concat(patientRooms)
+                    .find((room) => room.id === parseInt(this.roomID)) || null;
+            if (!room) return room;
+            return {
+                name:
+                    room.room_type === "group"
+                        ? room.name
+                        : `${room.room_members[0].user.profile.first_name} ${room.room_members[0].user.profile.last_name}`,
+            };
+        },
     },
 
     methods: {
@@ -250,10 +261,6 @@ export default {
         if (this.user) this.subscribePatientRoomListener();
         await this.fetchClinicChatRooms();
         await this.fetchPatientChatRooms();
-        if (this.roomID)
-            this.$nextTick(() => {
-                this.computeConversationMessagesHeight();
-            });
     },
 
     updated() {
