@@ -220,8 +220,12 @@ export default {
     },
 
     watch: {
-        async roomID(value) {
-            if (value) {
+        async roomID(newValue, oldValue) {
+            this.chats.data = [];
+
+            if (oldValue) this.unsubscribeRoomChatListener(oldValue);
+            if (newValue) {
+                this.subscribeRoomChatListener(newValue);
                 await this.fetchChats();
                 this.$nextTick(() => {
                     this.computeConversationMessagesHeight();
@@ -265,7 +269,7 @@ export default {
             this.chats.loading = false;
         },
 
-        subscribePatientRoomListener() {
+        subscribeClinicMemberChatRoomListener() {
             pusherService.instance().subscribe(`user-${this.user.id}`);
 
             pusherService.instance().bind("new-room", ({ data }) => {
@@ -276,17 +280,31 @@ export default {
             });
         },
 
-        unsubscribePatientRoomListener() {
+        unsubscribeClinicMemberChatRoomListener() {
             pusherService.instance().unsubscribe(`user-${this.user.id}`);
+        },
+
+        subscribeRoomChatListener(roomID) {
+            pusherService.instance().subscribe(`room-${roomID}`);
+
+            pusherService.instance().bind("create-chat", ({ data }) => {
+                if (!this.chats.data.map((chat) => chat.id).includes(data.id))
+                    this.chats.data = [...this.chats.data, data];
+            });
+        },
+
+        unsubscribeRoomChatListener(roomID) {
+            pusherService.instance().unsubscribe(`room-${roomID}`);
         },
     },
 
     async created() {
-        if (this.user) this.subscribePatientRoomListener();
+        if (this.user) this.subscribeClinicMemberChatRoomListener();
         await this.fetchClinicChatRooms();
         await this.fetchPatientChatRooms();
 
         if (this.roomID) {
+            this.subscribeRoomChatListener(this.roomID);
             await this.fetchChats();
             this.$nextTick(() => {
                 this.computeConversationMessagesHeight();
@@ -295,7 +313,8 @@ export default {
     },
 
     destroyed() {
-        this.unsubscribePatientRoomListener();
+        this.unsubscribeClinicMemberChatRoomListener();
+        if (this.roomID) this.unsubscribeRoomChatListener(this.roomID);
     },
 };
 </script>
