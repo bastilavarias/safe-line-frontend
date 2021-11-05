@@ -101,11 +101,12 @@
                 </v-toolbar>
                 <div
                     class="conversation__messages"
+                    ref="conversationMessagesDiv"
                     :style="{
                         height: `${conversationMessagesHeight}px`,
                     }"
                 >
-                    <div class="px-5 py-5" ref="conversationMessagesDiv">
+                    <div class="px-5 py-5">
                         <template v-for="(chat, index) in chats.data">
                             <generic-chat-message
                                 className="mb-5"
@@ -130,6 +131,7 @@
                                         filled
                                         hide-details
                                         placeholder="Type your message here"
+                                        @keyup.enter="createChat"
                                     ></v-text-field>
                                 </v-col>
                                 <v-col
@@ -139,7 +141,11 @@
                                     xl="1"
                                     class="text-center"
                                 >
-                                    <v-btn fab color="primary">
+                                    <v-btn
+                                        fab
+                                        color="primary"
+                                        @click="createChat"
+                                    >
                                         <v-icon>mdi-send</v-icon>
                                     </v-btn>
                                 </v-col>
@@ -293,6 +299,11 @@ export default {
             this.chats.loading = false;
         },
 
+        createChat() {
+            this.chats.data = [...this.chats.data, this.chats.data[0]];
+            this.scrollBottom();
+        },
+
         subscribeClinicMemberChatRoomListener() {
             pusherService.instance().subscribe(`user-${this.user.id}`);
 
@@ -325,7 +336,6 @@ export default {
         scrollBottom() {
             this.$nextTick(() => {
                 const { conversationMessagesDiv } = this.$refs;
-                console.log(conversationMessagesDiv.scrollHeight);
                 conversationMessagesDiv.scrollTop =
                     conversationMessagesDiv.scrollHeight ||
                     conversationMessagesDiv.clientHeight;
