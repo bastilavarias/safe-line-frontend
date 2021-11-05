@@ -116,9 +116,13 @@
                             ></generic-chat-message>
                         </template>
                         <infinite-loading
+                            :identifier="chats.infiniteId"
                             direction="top"
                             @infinite="fetchChats"
-                        ></infinite-loading>
+                        >
+                            <div slot="no-more"></div>
+                            <div slot="no-results"></div>
+                        </infinite-loading>
                     </div>
                 </div>
                 <div class="conversation__writer" ref="conversationWriter">
