@@ -78,7 +78,7 @@
                                             :id="room.id"
                                             :name="`${room.room_members[0].user.profile.first_name} ${room.room_members[0].user.profile.last_name}`"
                                             :last-chat="room.last_chat"
-                                            avatar="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"
+                                            avatar="https://avatars.githubusercontent.com/u/1024025?v=4"
                                             route-name="clinic-member-chat"
                                             :key="room.id"
                                         ></generic-chat-room>
@@ -105,15 +105,19 @@
                         height: `${conversationMessagesHeight}px`,
                     }"
                 >
-                    <div class="px-5 py-5">
-                        <template v-for="chat in chats.data">
+                    <div class="px-5 py-5" ref="conversationMessagesDiv">
+                        <template v-for="(chat, index) in chats.data">
                             <generic-chat-message
                                 className="mb-5"
                                 :message="chat.message"
                                 :created-at="chat.created_at"
-                                :key="chat.id"
+                                :key="index"
                             ></generic-chat-message>
                         </template>
+                        <infinite-loading
+                            direction="top"
+                            @infinite="fetchChats"
+                        ></infinite-loading>
                     </div>
                 </div>
                 <div class="conversation__writer" ref="conversationWriter">
@@ -180,6 +184,9 @@ export default {
             chats: {
                 data: [],
                 loading: false,
+                page: 1,
+                perPage: 5,
+                infiniteId: +new Date(),
             },
         };
     },
@@ -199,7 +206,7 @@ export default {
         },
 
         roomID() {
-            return this.$route.query.room_id || null;
+            return parseInt(this.$route.query.room_id) || null;
         },
 
         currentRoom() {
@@ -221,16 +228,21 @@ export default {
 
     watch: {
         async roomID(newValue, oldValue) {
-            this.chats.data = [];
-
             if (oldValue) this.unsubscribeRoomChatListener(oldValue);
             if (newValue) {
                 this.subscribeRoomChatListener(newValue);
-                await this.fetchChats();
                 this.$nextTick(() => {
                     this.computeConversationMessagesHeight();
                 });
             }
+
+            this.chats = {
+                ...this.chats,
+                data: [],
+                loading: false,
+                page: 1,
+                infiniteId: (this.chats.infiniteId += 1),
+            };
         },
     },
 
@@ -259,13 +271,25 @@ export default {
             this.patientChatRoomList.loading = false;
         },
 
-        async fetchChats() {
+        async fetchChats($state) {
             this.chats.loading = true;
             const payload = {
+                page: this.chats.page,
+                perPage: this.chats.perPage,
                 roomID: this.roomID,
             };
             const result = await this.$store.dispatch(FETCH_CHATS, payload);
-            this.chats.data = result.data;
+            const chats = result.data;
+            this.chats.data = [...this.chats.data, ...chats];
+            if (this.chats.page === 1) this.scrollBottom();
+
+            if (chats.length === this.chats.perPage) {
+                this.chats.page += 1;
+                $state.loaded();
+            } else {
+                $state.complete();
+            }
+
             this.chats.loading = false;
         },
 
@@ -290,11 +314,22 @@ export default {
             pusherService.instance().bind("create-chat", ({ data }) => {
                 if (!this.chats.data.map((chat) => chat.id).includes(data.id))
                     this.chats.data = [...this.chats.data, data];
+                this.scrollBottom();
             });
         },
 
         unsubscribeRoomChatListener(roomID) {
             pusherService.instance().unsubscribe(`room-${roomID}`);
+        },
+
+        scrollBottom() {
+            this.$nextTick(() => {
+                const { conversationMessagesDiv } = this.$refs;
+                console.log(conversationMessagesDiv.scrollHeight);
+                conversationMessagesDiv.scrollTop =
+                    conversationMessagesDiv.scrollHeight ||
+                    conversationMessagesDiv.clientHeight;
+            });
         },
     },
 
@@ -305,16 +340,24 @@ export default {
 
         if (this.roomID) {
             this.subscribeRoomChatListener(this.roomID);
-            await this.fetchChats();
             this.$nextTick(() => {
                 this.computeConversationMessagesHeight();
             });
         }
+
+        window.addEventListener("scroll", this.scrollBottom);
+        // this.$nextTick(() => {
+        //     this.$refs.conversationMessagesDiv.addEventListener(
+        //         "scroll",
+        //         this.scrollBottom
+        //     );
+        // });
     },
 
     destroyed() {
         this.unsubscribeClinicMemberChatRoomListener();
         if (this.roomID) this.unsubscribeRoomChatListener(this.roomID);
+        window.removeEventListener("scroll", this.scrollBottom);
     },
 };
 </script>
