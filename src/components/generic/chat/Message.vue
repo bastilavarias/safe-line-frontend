@@ -4,14 +4,13 @@
         <div class="d-flex">
             <div class="mr-5" v-if="!self">
                 <v-avatar :size="35">
-                    <v-img
-                        src="https://avatars.githubusercontent.com/u/1024025?v=4"
-                    ></v-img>
+                    <v-img :src="user.profile.image_url"></v-img>
                 </v-avatar>
             </div>
             <div>
                 <span class="subtitle-2 d-block mb-3" v-if="!self"
-                    >John Doe</span
+                    >{{ user.profile.first_name }}
+                    {{ user.profile.last_name }}</span
                 >
                 <v-card
                     rounded
@@ -58,6 +57,7 @@ export default {
         message: String,
         createdAt: String,
         self: Boolean,
+        user: Object,
     },
 };
 </script>

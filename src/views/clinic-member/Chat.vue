@@ -78,7 +78,10 @@
                                             :id="room.id"
                                             :name="`${room.room_members[0].user.profile.first_name} ${room.room_members[0].user.profile.last_name}`"
                                             :last-chat="room.last_chat"
-                                            avatar="https://avatars.githubusercontent.com/u/1024025?v=4"
+                                            :avatar="
+                                                room.room_members[0].user
+                                                    .profile.image_url
+                                            "
                                             route-name="clinic-member-chat"
                                             :key="room.id"
                                         ></generic-chat-room>
@@ -112,6 +115,7 @@
                                 className="mb-5"
                                 :message="chat.message"
                                 :created-at="chat.created_at"
+                                :user="chat.user"
                                 :key="index"
                             ></generic-chat-message>
                         </template>
@@ -290,9 +294,10 @@ export default {
             };
             const result = await this.$store.dispatch(FETCH_CHATS, payload);
             const chats = result.data;
-            this.chats.data = [...this.chats.data, ...chats];
+
             if (this.chats.page === 1) this.scrollBottom();
 
+            this.chats.data = [...chats, ...this.chats.data];
             if (chats.length === this.chats.perPage) {
                 this.chats.page += 1;
                 $state.loaded();
