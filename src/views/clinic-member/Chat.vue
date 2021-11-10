@@ -293,7 +293,10 @@ export default {
                 roomID: this.roomID,
             };
             const result = await this.$store.dispatch(FETCH_CHATS, payload);
-            const chats = result.data;
+            const chats =
+                result.data.length > 0
+                    ? result.data.sort((a, b) => a.id - b.id)
+                    : [];
 
             if (this.chats.page === 1) this.scrollBottom();
 
