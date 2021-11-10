@@ -6,10 +6,13 @@ import vuetify from "./plugins/vuetify";
 import VuetifyGoogleAutocomplete from "vuetify-google-autocomplete";
 import * as VueGoogleMaps from "vue2-google-maps";
 import apiService from "@/services/api";
+import pusherService from "@/services/pusher";
+import InfiniteLoading from "vue-infinite-loading";
 
 Vue.config.productionTip = false;
 
 apiService.init();
+pusherService.init();
 
 Vue.use(VueGoogleMaps, {
     load: {
@@ -20,6 +23,10 @@ Vue.use(VueGoogleMaps, {
 
 Vue.use(VuetifyGoogleAutocomplete, {
     vueGoogleMapsCompatibility: true,
+});
+
+Vue.use(InfiniteLoading, {
+    /* options */
 });
 
 new Vue({

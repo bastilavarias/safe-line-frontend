@@ -1,10 +1,11 @@
 <template>
     <v-app>
         <v-main>
-            <router-view></router-view>
+            <v-container>
+                <router-view></router-view>
+            </v-container>
         </v-main>
         <dashboard-navigation-drawer
-            v-if="!isChatPage"
             :navigations="navigations"
         ></dashboard-navigation-drawer>
     </v-app>

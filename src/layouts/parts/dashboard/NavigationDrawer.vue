@@ -32,7 +32,7 @@
                                     ></v-img>
                                 </v-list-item-avatar>
                             </v-col>
-                            <v-col cols="8" class="mt-1">
+                            <v-col cols="8" class="mt-1 ml-n3">
                                 <h4>
                                     {{ user.profile.first_name }}
                                     {{ user.profile.name_name }}
