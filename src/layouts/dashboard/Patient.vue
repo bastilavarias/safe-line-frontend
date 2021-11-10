@@ -6,7 +6,9 @@
                 position: 'relative',
             }"
         >
-            <router-view></router-view>
+            <v-container>
+                <router-view></router-view>
+            </v-container>
         </v-main>
         <dashboard-navigation-drawer
             v-if="!isMapPage"
