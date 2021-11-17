@@ -2,7 +2,7 @@ import { DRAWER_SHOW } from "@/store/action-types/interfaceModule";
 
 export const userInterface = {
     state: {
-        drawer: false,
+        state: false,
     },
     mutations: {
         [DRAWER_SHOW](state, drawer) {

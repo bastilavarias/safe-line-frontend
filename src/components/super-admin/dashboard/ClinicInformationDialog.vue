@@ -238,7 +238,24 @@
                     </v-card-text>
                 </v-tab-item>
                 <v-tab-item>
-                    <v-card-text>{{ currentTab }}</v-card-text>
+                    <v-row>
+                        <v-col cols="12">
+                            <v-card-title class="font-weight-bold"
+                                >Clinic Files</v-card-title
+                            >
+                            <v-card-text>
+                                <v-card max-width="200" max-height="160">
+                                    <v-img
+                                        src="@/assets/placeholder/dummy.jpg"
+                                        height="110"
+                                    ></v-img>
+                                    <v-card-text class="font-weight-bold">
+                                        Business Permit
+                                    </v-card-text>
+                                </v-card>
+                            </v-card-text>
+                        </v-col>
+                    </v-row>
                 </v-tab-item>
             </v-tabs-items>
             <v-card-actions>
