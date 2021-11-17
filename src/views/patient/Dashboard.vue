@@ -78,11 +78,18 @@
                     </div>
                 </v-col>
             </v-row>
+            <super-admin-dashboard-clinic-information-dialog
+                :is-open.sync="isClinicInformationDialogOpen"
+                :information.sync="selectedClinicInformation"
+                :fetch-clinics="fetchClinics"
+                v-if="selectedClinicInformation"
+            ></super-admin-dashboard-clinic-information-dialog>
         </v-container>
     </section>
 </template>
 
 <script>
+import SuperAdminDashboardClinicInformationDialog from "@/components/super-admin/dashboard/ClinicInformationDialog";
 import { FETCH_CLINICS } from "@/store/action-types/clinic";
 import GenericStatusChip from "@/components/generic/StatusChip";
 import dateMixin from "@/mixins/date";
@@ -91,8 +98,10 @@ import Calendar from "@/layouts/parts/dashboard/Calendar";
 import Reminders from "@/layouts/parts/dashboard/Reminders";
 export default {
     components: {
-        Calendar,
+        Calendar, 
         Reminders,
+        SuperAdminDashboardClinicInformationDialog,
+        GenericStatusChip,
     },
 
     mixins: [dateMixin],
@@ -115,6 +124,10 @@ export default {
                         text: "Status",
                         value: "status",
                     },
+                    {
+                        text: "",
+                        value: "action",
+                    },
                 ],
                 pagination: {
                     page: 1,
@@ -126,6 +139,8 @@ export default {
                 items: [],
                 loading: false,
             },
+            selectedClinicInformation: null,
+            isClinicInformationDialogOpen: false,
         };
     },
 
@@ -183,8 +198,8 @@ export default {
 
         openClinicInformationDialog(clinic) {
             this.selectedClinicInformation = Object.assign({}, clinic);
-            console.log(this.selectedClinicInformation);
             this.isClinicInformationDialogOpen = true;
+            console.log(this.selectedClinicInformation);
         },
     },
 
