@@ -307,6 +307,7 @@ export default {
             if (this.chats.page === 1) this.scrollBottom();
 
             this.chats.data = [...chats, ...this.chats.data];
+            this.scrollBottom();
             if (chats.length === this.chats.perPage) {
                 this.chats.page += 1;
                 $state.loaded();
@@ -346,15 +347,22 @@ export default {
         subscribeRoomChatListener(roomID) {
             pusherService.instance().subscribe(`room-${roomID}`);
 
-            pusherService.instance().bind("create-chat", ({ data }) => {
-                if (!this.chats.data.map((chat) => chat.id).includes(data.id))
-                    this.chats.data = [...this.chats.data, data];
-                this.scrollBottom();
-            });
-
             pusherService.instance().bind("new-chat", ({ data }) => {
-                if (!this.chats.data.map((chat) => chat.id).includes(data.id))
-                    this.chats.data = [...this.chats.data, data];
+                const lastChat = data.last_chat;
+                if (
+                    !this.chats.data
+                        .map((chat) => chat.id)
+                        .includes(lastChat.id)
+                )
+                    this.chats.data = [...this.chats.data, lastChat];
+                this.patientChatRoomList.data =
+                    this.patientChatRoomList.data.filter(
+                        (room) => room.id !== data.id
+                    );
+                this.patientChatRoomList.data = [
+                    data,
+                    ...this.patientChatRoomList.data,
+                ];
                 this.scrollBottom();
             });
         },
