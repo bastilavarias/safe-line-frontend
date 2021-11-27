@@ -116,6 +116,7 @@
                                 :message="chat.message"
                                 :created-at="chat.created_at"
                                 :user="chat.user"
+                                :self="user.id === chat.user.id"
                                 :key="index"
                             ></generic-chat-message>
                         </template>

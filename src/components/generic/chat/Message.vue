@@ -8,7 +8,7 @@
                 </v-avatar>
             </div>
             <div>
-                <span class="subtitle-2 d-block mb-3" v-if="!self"
+                <span class="subtitle-2 d-block mb-3"
                     >{{ user.profile.first_name }}
                     {{ user.profile.last_name }}</span
                 >
@@ -33,12 +33,9 @@
                         >
                     </v-card-actions>
                 </v-card>
-                <div class="py-2 d-flex justify-space-between" v-if="self">
-                    <p class="d-block body-2">Sent by CSR Name</p>
-                    <p class="d-block body-2">
-                        {{ formatDateFromNow(createdAt) }}
-                    </p>
-                </div>
+                <p class="d-block caption mt-1">
+                    Sent {{ formatDateFromNow(createdAt) }}
+                </p>
             </div>
         </div>
     </div>
