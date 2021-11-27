@@ -140,6 +140,7 @@
                                         hide-details
                                         placeholder="Type your message here"
                                         @keyup.enter="createChat"
+                                        v-model="message"
                                     ></v-text-field>
                                 </v-col>
                                 <v-col
@@ -152,6 +153,7 @@
                                     <v-btn
                                         fab
                                         color="primary"
+                                        :disabled="!message"
                                         @click="createChat"
                                     >
                                         <v-icon>mdi-send</v-icon>
@@ -169,6 +171,7 @@
 <script>
 import GenericChatMessage from "@/components/generic/chat/Message";
 import {
+    CREATE_CHAT,
     FETCH_CHATS,
     FETCH_DIRECT_CHAT_ROOMS,
     FETCH_GROUP_CHAT_ROOMS,
@@ -202,6 +205,8 @@ export default {
                 perPage: 5,
                 infiniteId: +new Date(),
             },
+
+            message: null,
         };
     },
 
@@ -311,9 +316,15 @@ export default {
             this.chats.loading = false;
         },
 
-        createChat() {
-            this.chats.data = [...this.chats.data, this.chats.data[0]];
-            this.scrollBottom();
+        async createChat() {
+            if (this.message) {
+                const payload = {
+                    room_id: this.roomID,
+                    message: this.message,
+                };
+                this.message = null;
+                await this.$store.dispatch(CREATE_CHAT, payload);
+            }
         },
 
         subscribeClinicMemberChatRoomListener() {
@@ -335,6 +346,12 @@ export default {
             pusherService.instance().subscribe(`room-${roomID}`);
 
             pusherService.instance().bind("create-chat", ({ data }) => {
+                if (!this.chats.data.map((chat) => chat.id).includes(data.id))
+                    this.chats.data = [...this.chats.data, data];
+                this.scrollBottom();
+            });
+
+            pusherService.instance().bind("new-chat", ({ data }) => {
                 if (!this.chats.data.map((chat) => chat.id).includes(data.id))
                     this.chats.data = [...this.chats.data, data];
                 this.scrollBottom();
