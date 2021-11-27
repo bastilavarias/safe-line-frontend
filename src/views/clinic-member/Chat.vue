@@ -78,7 +78,10 @@
                                             :id="room.id"
                                             :name="`${room.room_members[0].user.profile.first_name} ${room.room_members[0].user.profile.last_name}`"
                                             :last-chat="room.last_chat"
-                                            avatar="https://avatars.githubusercontent.com/u/1024025?v=4"
+                                            :avatar="
+                                                room.room_members[0].user
+                                                    .profile.image_url
+                                            "
                                             route-name="clinic-member-chat"
                                             :key="room.id"
                                         ></generic-chat-room>
@@ -112,6 +115,8 @@
                                 className="mb-5"
                                 :message="chat.message"
                                 :created-at="chat.created_at"
+                                :user="chat.user"
+                                :self="user.id === chat.user.id"
                                 :key="index"
                             ></generic-chat-message>
                         </template>
@@ -136,6 +141,7 @@
                                         hide-details
                                         placeholder="Type your message here"
                                         @keyup.enter="createChat"
+                                        v-model="message"
                                     ></v-text-field>
                                 </v-col>
                                 <v-col
@@ -148,6 +154,7 @@
                                     <v-btn
                                         fab
                                         color="primary"
+                                        :disabled="!message"
                                         @click="createChat"
                                     >
                                         <v-icon>mdi-send</v-icon>
@@ -165,6 +172,7 @@
 <script>
 import GenericChatMessage from "@/components/generic/chat/Message";
 import {
+    CREATE_CHAT,
     FETCH_CHATS,
     FETCH_DIRECT_CHAT_ROOMS,
     FETCH_GROUP_CHAT_ROOMS,
@@ -198,6 +206,8 @@ export default {
                 perPage: 5,
                 infiniteId: +new Date(),
             },
+
+            message: null,
         };
     },
 
@@ -289,10 +299,15 @@ export default {
                 roomID: this.roomID,
             };
             const result = await this.$store.dispatch(FETCH_CHATS, payload);
-            const chats = result.data;
-            this.chats.data = [...this.chats.data, ...chats];
+            const chats =
+                result.data.length > 0
+                    ? result.data.sort((a, b) => a.id - b.id)
+                    : [];
+
             if (this.chats.page === 1) this.scrollBottom();
 
+            this.chats.data = [...chats, ...this.chats.data];
+            this.scrollBottom();
             if (chats.length === this.chats.perPage) {
                 this.chats.page += 1;
                 $state.loaded();
@@ -303,9 +318,15 @@ export default {
             this.chats.loading = false;
         },
 
-        createChat() {
-            this.chats.data = [...this.chats.data, this.chats.data[0]];
-            this.scrollBottom();
+        async createChat() {
+            if (this.message) {
+                const payload = {
+                    room_id: this.roomID,
+                    message: this.message,
+                };
+                this.message = null;
+                await this.$store.dispatch(CREATE_CHAT, payload);
+            }
         },
 
         subscribeClinicMemberChatRoomListener() {
@@ -326,9 +347,22 @@ export default {
         subscribeRoomChatListener(roomID) {
             pusherService.instance().subscribe(`room-${roomID}`);
 
-            pusherService.instance().bind("create-chat", ({ data }) => {
-                if (!this.chats.data.map((chat) => chat.id).includes(data.id))
-                    this.chats.data = [...this.chats.data, data];
+            pusherService.instance().bind("new-chat", ({ data }) => {
+                const lastChat = data.last_chat;
+                if (
+                    !this.chats.data
+                        .map((chat) => chat.id)
+                        .includes(lastChat.id)
+                )
+                    this.chats.data = [...this.chats.data, lastChat];
+                this.patientChatRoomList.data =
+                    this.patientChatRoomList.data.filter(
+                        (room) => room.id !== data.id
+                    );
+                this.patientChatRoomList.data = [
+                    data,
+                    ...this.patientChatRoomList.data,
+                ];
                 this.scrollBottom();
             });
         },

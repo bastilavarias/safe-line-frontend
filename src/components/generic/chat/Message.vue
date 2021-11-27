@@ -4,14 +4,13 @@
         <div class="d-flex">
             <div class="mr-5" v-if="!self">
                 <v-avatar :size="35">
-                    <v-img
-                        src="https://avatars.githubusercontent.com/u/1024025?v=4"
-                    ></v-img>
+                    <v-img :src="user.profile.image_url"></v-img>
                 </v-avatar>
             </div>
             <div>
-                <span class="subtitle-2 d-block mb-3" v-if="!self"
-                    >John Doe</span
+                <span class="subtitle-2 d-block mb-3"
+                    >{{ user.profile.first_name }}
+                    {{ user.profile.last_name }}</span
                 >
                 <v-card
                     rounded
@@ -34,12 +33,9 @@
                         >
                     </v-card-actions>
                 </v-card>
-                <div class="py-2 d-flex justify-space-between" v-if="self">
-                    <p class="d-block body-2">Sent by CSR Name</p>
-                    <p class="d-block body-2">
-                        {{ formatDateFromNow(createdAt) }}
-                    </p>
-                </div>
+                <p class="d-block caption mt-1">
+                    Sent {{ formatDateFromNow(createdAt) }}
+                </p>
             </div>
         </div>
     </div>
@@ -58,6 +54,7 @@ export default {
         message: String,
         createdAt: String,
         self: Boolean,
+        user: Object,
     },
 };
 </script>

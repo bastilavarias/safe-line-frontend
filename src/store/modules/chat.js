@@ -1,4 +1,5 @@
 import {
+    CREATE_CHAT,
     FETCH_CHATS,
     FETCH_DIRECT_CHAT_ROOMS,
     FETCH_GROUP_CHAT_ROOMS,
@@ -36,6 +37,15 @@ const chatModule = {
                     `/chats/${roomID}?${params}`
                 );
                 return await response.data;
+            } catch (error) {
+                return error.response.data;
+            }
+        },
+
+        async [CREATE_CHAT](_, payload) {
+            try {
+                const response = await apiService.post("/chats", payload);
+                return response.data;
             } catch (error) {
                 return error.response.data;
             }
