@@ -20,6 +20,12 @@ const routes = [
     },
 
     {
+        path: "/clinic-create-clinic",
+        name: "clinic-create-clinic",
+        component: () => import("@/views/clinic-member/CreateClinic"),
+    },
+
+    {
         path: "/sign-in",
         name: "sign-in",
         component: () => import("@/views/SignIn"),

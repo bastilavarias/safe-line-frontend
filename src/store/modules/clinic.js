@@ -1,8 +1,10 @@
 import {
     FETCH_CLINICS,
     UPDATE_CLINIC_STATUS,
+    CLINIC_SERVICES,
 } from "@/store/action-types/clinic";
 import apiService from "@/services/api";
+import axios from "axios";
 
 const clinicModule = {
     actions: {
@@ -25,6 +27,15 @@ const clinicModule = {
         async [UPDATE_CLINIC_STATUS](_, payload) {
             try {
                 const response = await apiService.put("/clinics", payload);
+                return response.data;
+            } catch (error) {
+                console.log(error);
+                return error.response.data;
+            }
+        },
+        async [CLINIC_SERVICES](_) {
+            try {
+                const response = await apiService.get("/clinics/services");
                 return response.data;
             } catch (error) {
                 console.log(error);
