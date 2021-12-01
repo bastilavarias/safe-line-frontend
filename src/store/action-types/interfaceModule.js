@@ -1,1 +1,1 @@
-export const DRAWER_SHOW = "interfaceModule/drawer_show";
+export const SHOW_SERIVCES = "interfaceModule/show_services";

@@ -37,6 +37,8 @@
                                 prepend-inner-icon="mdi-magnify"
                                 v-model="table.search"
                             ></v-text-field>
+                            <v-spacer></v-spacer>
+                            <ClinicCreation />
                         </v-toolbar>
                         <v-data-table
                             :loading="table.loading"
@@ -87,6 +89,7 @@
 </template>
 
 <script>
+import ClinicCreation from "@/components/super-admin/dashboard/ClinicCreation.vue";
 import SuperAdminDashboardInformationCard from "@/components/super-admin/dashboard/InformationCard";
 import { FETCH_CLINICS } from "@/store/action-types/clinic";
 import GenericStatusChip from "@/components/generic/StatusChip";
@@ -99,6 +102,7 @@ export default {
         SuperAdminDashboardClinicInformationDialog,
         GenericStatusChip,
         SuperAdminDashboardInformationCard,
+        ClinicCreation,
     },
 
     mixins: [dateMixin],

@@ -4,6 +4,7 @@ import {
     PURGE_AUTHENTICATION,
     SET_AUTHENTICATION,
     SIGN_IN,
+    CLINIC_SIGNUP,
 } from "@/store/action-types/authentication";
 import apiService from "@/services/api";
 import tokenService from "@/services/token";
@@ -80,6 +81,21 @@ const authenticationModule = {
             const payload = { access_token: accessToken, details };
             if (accessToken) return commit(SET_AUTHENTICATION, payload);
             commit(PURGE_AUTHENTICATION);
+        },
+
+        async [CLINIC_SIGNUP]({ commit }, payload) {
+            try {
+                const response = await apiService.post("/clinics", payload);
+                const { access_token, clinic } = response.data.data;
+                const authPayload = {
+                    access_token,
+                    details: { clinic },
+                };
+                commit(SET_AUTHENTICATION, authPayload);
+                return await response.data;
+            } catch (error) {
+                error.response.data;
+            }
         },
     },
 };
