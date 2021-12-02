@@ -2,8 +2,9 @@ import Vue from "vue";
 import Vuex from "vuex";
 import authenticationModule from "@/store/modules/authentication";
 import clinicModule from "@/store/modules/clinic";
-import chatModule from  "@/store/modules/chat";
+import chatModule from "@/store/modules/chat";
 import interfaceModule from "@/store/modules/interfaceModule";
+import symptomModule from "@/store/modules/symptom";
 
 Vue.use(Vuex);
 
@@ -13,5 +14,6 @@ export default new Vuex.Store({
         clinic: clinicModule,
         chat: chatModule,
         interface: interfaceModule,
+        symptom: symptomModule,
     },
 });

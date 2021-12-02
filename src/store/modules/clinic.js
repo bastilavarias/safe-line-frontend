@@ -2,6 +2,7 @@ import {
     FETCH_CLINICS,
     UPDATE_CLINIC_STATUS,
     CLINIC_SERVICES,
+    FETCH_NEAREST_CLINICS,
 } from "@/store/action-types/clinic";
 import apiService from "@/services/api";
 import axios from "axios";
@@ -33,9 +34,22 @@ const clinicModule = {
                 return error.response.data;
             }
         },
+
         async [CLINIC_SERVICES](_) {
             try {
                 const response = await apiService.get("/clinics/services");
+                return response.data;
+            } catch (error) {
+                console.log(error);
+                return error.response.data;
+            }
+        },
+
+        async [FETCH_NEAREST_CLINICS](_, { serviceID, latitude, longitude }) {
+            try {
+                const response = await apiService.get(
+                    `/clinics/nearest/${serviceID}?latitude=${latitude}&longitude=${longitude}`
+                );
                 return response.data;
             } catch (error) {
                 console.log(error);
