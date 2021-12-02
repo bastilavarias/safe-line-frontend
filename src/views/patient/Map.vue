@@ -283,12 +283,14 @@ export default {
                 payload
             );
 
-            this.clinics = [result.data];
+            this.clinics = result.data;
             this.map.center = Object.assign(
                 {},
                 {
-                    lat: this.clinics[0].location.latitude,
-                    lng: this.clinics[0].location.longitude,
+                    lat: this.clinics[this.clinics.length - 1].location
+                        .latitude,
+                    lng: this.clinics[this.clinics.length - 1].location
+                        .longitude,
                 }
             );
             this.recommendationResultDialog.open = false;
