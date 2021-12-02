@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export function debounce(fn, delay) {
     let timeoutID = null;
     return function () {
@@ -8,4 +10,8 @@ export function debounce(fn, delay) {
             fn.apply(that, args);
         }, delay);
     };
+}
+
+export function calculateAge(date) {
+    return moment().diff(date, "years");
 }
