@@ -18,19 +18,22 @@
             </v-btn>
         </v-toolbar>
         <GmapMap
-            :center="{ lat: 14.6142909, lng: 120.9612243 }"
-            :zoom="12"
+            :center="map.center"
+            :zoom="map.zoom"
             map-type-id="terrain"
             class="map"
         >
-            <!--        <GmapMarker-->
-            <!--            :key="index"-->
-            <!--            v-for="(m, index) in markers"-->
-            <!--            :position="m.position"-->
-            <!--            :clickable="true"-->
-            <!--            :draggable="true"-->
-            <!--            @click="center = m.position"-->
-            <!--        />-->
+            <template v-for="(clinic, index) in clinics">
+                <GmapMarker
+                    :key="index"
+                    :position="{
+                        lat: clinic.location.latitude,
+                        lng: clinic.location.longitude,
+                    }"
+                    :clickable="true"
+                    :draggable="false"
+                />
+            </template>
         </GmapMap>
 
         <v-dialog
@@ -163,7 +166,11 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="primary" block
+                    <v-btn
+                        color="primary"
+                        block
+                        :loading="isFetchNearestClinicsStart"
+                        @click="fetchNearestClinics"
                         >Find
                         {{ recommendation.recommended_specialist.name }}
                         Clinics</v-btn
@@ -180,6 +187,7 @@ import {
     GET_RECOMMENDATION,
 } from "@/store/action-types/symptom";
 import { calculateAge } from "@/helpers";
+import { FETCH_NEAREST_CLINICS } from "@/store/action-types/clinic";
 
 const defaultForm = {
     sex: null,
@@ -211,6 +219,15 @@ export default {
             recommendation: null,
 
             formSymptomsCopy: [],
+
+            clinics: [],
+
+            isFetchNearestClinicsStart: false,
+
+            map: {
+                center: null,
+                zoom: 15,
+            },
         };
     },
 
@@ -252,12 +269,44 @@ export default {
             this.formSymptomsCopy = this.form.symptoms;
             this.form.symptoms = [];
         },
+
+        async fetchNearestClinics() {
+            const { latitude, longitude } = this.user.profile.location;
+            const payload = {
+                serviceID: this.recommendation.recommended_specialist.id,
+                latitude,
+                longitude,
+            };
+            this.isFetchNearestClinicsStart = true;
+            const result = await this.$store.dispatch(
+                FETCH_NEAREST_CLINICS,
+                payload
+            );
+
+            this.clinics = [result.data];
+            this.map.center = Object.assign(
+                {},
+                {
+                    lat: this.clinics[0].location.latitude,
+                    lng: this.clinics[0].location.longitude,
+                }
+            );
+            this.recommendationResultDialog.open = false;
+            this.isFetchNearestClinicsStart = false;
+        },
     },
 
     async created() {
         this.symptoms = await this.$store.dispatch(FETCH_SYMPTOMS);
         this.form.sex = this.user.profile.gender;
         this.form.age = calculateAge(this.user.profile.birthday) || null;
+        this.map.center = Object.assign(
+            {},
+            {
+                lat: this.user.profile.location.latitude,
+                lng: this.user.profile.location.longitude,
+            }
+        );
         this.shouldRenderPage = true;
     },
 };
