@@ -1,172 +1,174 @@
 <template>
-    <v-row no-gutters>
-        <v-col cols="12" md="4" lg="3" xl="2">
-            <div class="rooms">
-                <v-row no-gutters class="rooms__sticky-content">
-                    <v-col cols="12" class="rooms__sticky-content__toolbar">
-                        <v-card flat tile>
-                            <v-card-title>Messages</v-card-title>
+    <v-app>
+        <v-row no-gutters>
+            <v-col cols="12" md="4" lg="3" xl="2">
+                <div class="rooms">
+                    <v-row no-gutters class="rooms__sticky-content">
+                        <v-col cols="12" class="rooms__sticky-content__toolbar">
+                            <v-card flat tile>
+                                <v-card-title>Messages</v-card-title>
+                                <v-card-text>
+                                    <v-text-field
+                                        outlined
+                                        placeholder="Search"
+                                        dense
+                                        prepend-inner-icon="mdi-magnify"
+                                        hide-details
+                                    ></v-text-field>
+                                </v-card-text>
+                            </v-card>
+                        </v-col>
+
+                        <v-col cols="12">
+                            <v-card flat :loading="clinicChatRoomList.loading">
+                                <v-card-subtitle>
+                                    <v-icon>mdi-chevron-down</v-icon>
+                                    <span class="font-weight-bold">
+                                        {{ clinicInformation.name }} Chats ({{
+                                            clinicChatRoomList.data.length
+                                        }})
+                                    </span>
+                                </v-card-subtitle>
+
+                                <v-list rounded>
+                                    <v-skeleton-loader
+                                        type="list-item-avatar-two-line"
+                                        v-if="clinicChatRoomList.loading"
+                                    ></v-skeleton-loader>
+                                    <v-list-item-group
+                                        v-model="clinicChatRoomList.state"
+                                    >
+                                        <template
+                                            v-for="room in clinicChatRoomList.data"
+                                        >
+                                            <generic-chat-room
+                                                :id="room.id"
+                                                :name="room.name"
+                                                :last-chat="null"
+                                                route-name="clinic-member-chat"
+                                                :key="room.id"
+                                            ></generic-chat-room>
+                                        </template>
+                                    </v-list-item-group>
+                                </v-list>
+                            </v-card>
+                        </v-col>
+
+                        <v-col cols="12">
+                            <v-card flat>
+                                <v-card-subtitle>
+                                    <v-icon>mdi-chevron-down</v-icon>
+                                    <span class="font-weight-bold">
+                                        Patient Chats ({{
+                                            patientChatRoomList.data.length
+                                        }})
+                                    </span>
+                                </v-card-subtitle>
+                                <v-list rounded>
+                                    <v-skeleton-loader
+                                        type="list-item-avatar-two-line"
+                                        v-if="patientChatRoomList.loading"
+                                    ></v-skeleton-loader>
+                                    <v-list-item-group
+                                        v-model="patientChatRoomList.state"
+                                    >
+                                        <template
+                                            v-for="room in patientChatRoomList.data"
+                                        >
+                                            <generic-chat-room
+                                                :id="room.id"
+                                                :name="`${room.room_members[0].user.profile.first_name} ${room.room_members[0].user.profile.last_name}`"
+                                                :last-chat="room.last_chat"
+                                                :avatar="
+                                                    room.room_members[0].user
+                                                        .profile.image_url
+                                                "
+                                                route-name="clinic-member-chat"
+                                                :key="room.id"
+                                            ></generic-chat-room>
+                                        </template>
+                                    </v-list-item-group>
+                                </v-list>
+                            </v-card>
+                        </v-col>
+                    </v-row>
+                </div>
+            </v-col>
+            <v-col cols="12" md="8" lg="9" xl="10">
+                <div class="conversation" ref="conversation" v-if="roomID">
+                    <v-toolbar ref="conversationToolbar">
+                        <v-toolbar-title v-if="currentRoom">
+                            <span class="font-weight-bold">{{
+                                currentRoom.name
+                            }}</span>
+                        </v-toolbar-title>
+                    </v-toolbar>
+                    <div
+                        class="conversation__messages"
+                        ref="conversationMessagesDiv"
+                        :style="{
+                            height: `${conversationMessagesHeight}px`,
+                        }"
+                    >
+                        <div class="px-5 py-5">
+                            <template v-for="(chat, index) in chats.data">
+                                <generic-chat-message
+                                    className="mb-5"
+                                    :message="chat.message"
+                                    :created-at="chat.created_at"
+                                    :user="chat.user"
+                                    :self="user.id === chat.user.id"
+                                    :key="index"
+                                ></generic-chat-message>
+                            </template>
+                            <infinite-loading
+                                :identifier="chats.infiniteId"
+                                direction="top"
+                                @infinite="fetchChats"
+                            >
+                                <div slot="no-more"></div>
+                                <div slot="no-results"></div>
+                            </infinite-loading>
+                        </div>
+                    </div>
+                    <div class="conversation__writer" ref="conversationWriter">
+                        <v-card flat>
                             <v-card-text>
-                                <v-text-field
-                                    outlined
-                                    placeholder="Search"
-                                    dense
-                                    prepend-inner-icon="mdi-magnify"
-                                    hide-details
-                                ></v-text-field>
+                                <v-row dense>
+                                    <v-col cols="8" md="9" lg="10" xl="11">
+                                        <v-text-field
+                                            rounded
+                                            filled
+                                            hide-details
+                                            placeholder="Type your message here"
+                                            @keyup.enter="createChat"
+                                            v-model="message"
+                                        ></v-text-field>
+                                    </v-col>
+                                    <v-col
+                                        cols="4"
+                                        md="3"
+                                        lg="2"
+                                        xl="1"
+                                        class="text-center"
+                                    >
+                                        <v-btn
+                                            fab
+                                            color="primary"
+                                            :disabled="!message"
+                                            @click="createChat"
+                                        >
+                                            <v-icon>mdi-send</v-icon>
+                                        </v-btn>
+                                    </v-col>
+                                </v-row>
                             </v-card-text>
                         </v-card>
-                    </v-col>
-
-                    <v-col cols="12">
-                        <v-card flat :loading="clinicChatRoomList.loading">
-                            <v-card-subtitle>
-                                <v-icon>mdi-chevron-down</v-icon>
-                                <span class="font-weight-bold">
-                                    {{ clinicInformation.name }} Chats ({{
-                                        clinicChatRoomList.data.length
-                                    }})
-                                </span>
-                            </v-card-subtitle>
-
-                            <v-list rounded>
-                                <v-skeleton-loader
-                                    type="list-item-avatar-two-line"
-                                    v-if="clinicChatRoomList.loading"
-                                ></v-skeleton-loader>
-                                <v-list-item-group
-                                    v-model="clinicChatRoomList.state"
-                                >
-                                    <template
-                                        v-for="room in clinicChatRoomList.data"
-                                    >
-                                        <generic-chat-room
-                                            :id="room.id"
-                                            :name="room.name"
-                                            :last-chat="null"
-                                            route-name="clinic-member-chat"
-                                            :key="room.id"
-                                        ></generic-chat-room>
-                                    </template>
-                                </v-list-item-group>
-                            </v-list>
-                        </v-card>
-                    </v-col>
-
-                    <v-col cols="12">
-                        <v-card flat>
-                            <v-card-subtitle>
-                                <v-icon>mdi-chevron-down</v-icon>
-                                <span class="font-weight-bold">
-                                    Patient Chats ({{
-                                        patientChatRoomList.data.length
-                                    }})
-                                </span>
-                            </v-card-subtitle>
-                            <v-list rounded>
-                                <v-skeleton-loader
-                                    type="list-item-avatar-two-line"
-                                    v-if="patientChatRoomList.loading"
-                                ></v-skeleton-loader>
-                                <v-list-item-group
-                                    v-model="patientChatRoomList.state"
-                                >
-                                    <template
-                                        v-for="room in patientChatRoomList.data"
-                                    >
-                                        <generic-chat-room
-                                            :id="room.id"
-                                            :name="`${room.room_members[0].user.profile.first_name} ${room.room_members[0].user.profile.last_name}`"
-                                            :last-chat="room.last_chat"
-                                            :avatar="
-                                                room.room_members[0].user
-                                                    .profile.image_url
-                                            "
-                                            route-name="clinic-member-chat"
-                                            :key="room.id"
-                                        ></generic-chat-room>
-                                    </template>
-                                </v-list-item-group>
-                            </v-list>
-                        </v-card>
-                    </v-col>
-                </v-row>
-            </div>
-        </v-col>
-        <v-col cols="12" md="8" lg="9" xl="10">
-            <div class="conversation" ref="conversation" v-if="roomID">
-                <v-toolbar ref="conversationToolbar">
-                    <v-toolbar-title v-if="currentRoom">
-                        <span class="font-weight-bold">{{
-                            currentRoom.name
-                        }}</span>
-                    </v-toolbar-title>
-                </v-toolbar>
-                <div
-                    class="conversation__messages"
-                    ref="conversationMessagesDiv"
-                    :style="{
-                        height: `${conversationMessagesHeight}px`,
-                    }"
-                >
-                    <div class="px-5 py-5">
-                        <template v-for="(chat, index) in chats.data">
-                            <generic-chat-message
-                                className="mb-5"
-                                :message="chat.message"
-                                :created-at="chat.created_at"
-                                :user="chat.user"
-                                :self="user.id === chat.user.id"
-                                :key="index"
-                            ></generic-chat-message>
-                        </template>
-                        <infinite-loading
-                            :identifier="chats.infiniteId"
-                            direction="top"
-                            @infinite="fetchChats"
-                        >
-                            <div slot="no-more"></div>
-                            <div slot="no-results"></div>
-                        </infinite-loading>
                     </div>
                 </div>
-                <div class="conversation__writer" ref="conversationWriter">
-                    <v-card flat>
-                        <v-card-text>
-                            <v-row dense>
-                                <v-col cols="8" md="9" lg="10" xl="11">
-                                    <v-text-field
-                                        rounded
-                                        filled
-                                        hide-details
-                                        placeholder="Type your message here"
-                                        @keyup.enter="createChat"
-                                        v-model="message"
-                                    ></v-text-field>
-                                </v-col>
-                                <v-col
-                                    cols="4"
-                                    md="3"
-                                    lg="2"
-                                    xl="1"
-                                    class="text-center"
-                                >
-                                    <v-btn
-                                        fab
-                                        color="primary"
-                                        :disabled="!message"
-                                        @click="createChat"
-                                    >
-                                        <v-icon>mdi-send</v-icon>
-                                    </v-btn>
-                                </v-col>
-                            </v-row>
-                        </v-card-text>
-                    </v-card>
-                </div>
-            </div>
-        </v-col>
-    </v-row>
+            </v-col>
+        </v-row>
+    </v-app>
 </template>
 
 <script>
