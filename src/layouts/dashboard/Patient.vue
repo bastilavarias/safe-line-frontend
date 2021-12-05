@@ -11,7 +11,6 @@
             </v-container>
         </v-main>
         <dashboard-navigation-drawer
-            v-if="!isMapPage"
             :navigations="navigations"
         ></dashboard-navigation-drawer>
     </v-app>
