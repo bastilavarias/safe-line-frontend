@@ -9,15 +9,11 @@
                                 Safe Line
                             </h1>
                             <div class="mb-5"></div>
+                            <h3 class="mb-3">Your companion anywhere.</h3>
                             <p>
-                                Lorem ipsum dolor sit amet, consectetur
-                                adipisicing elit. A accusantium aliquam beatae
-                                cum cupiditate enim illum in, ipsum iste itaque
-                                laudantium nemo neque nesciunt perferendis
-                                quaerat quia quod recusandae unde veniam
-                                voluptatum? Alias autem culpa cum, debitis error
-                                est eum fugiat fugit non placeat quisquam
-                                repellat rerum sunt suscipit temporibus?
+                                Get checked with Safe Line anywhere. Safe Line
+                                allows you to find clinics near you to
+                                accomodate what you are feeling.
                             </p>
                         </div>
                     </v-container>
@@ -69,8 +65,8 @@
                                                 >Sign In</v-card-title
                                             >
                                             <v-card-subtitle
-                                                >Lorem ipsum dolor sit
-                                                amet.</v-card-subtitle
+                                                >Sign in to your
+                                                account</v-card-subtitle
                                             >
                                             <v-card-text>
                                                 <v-row dense>

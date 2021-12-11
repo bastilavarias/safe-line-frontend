@@ -32,14 +32,13 @@
                 <v-row no-gutters class="mb-15 pb-15">
                     <v-col cols="6" class="mt-10">
                         <v-card flat>
-                            <h1>Your friendly companion</h1>
+                            <h1>Your companion anywhere</h1>
                             &nbsp;
                             <v-card flat :style="{ width: '500px' }">
                                 <p class="text-justify">
-                                    Lorem ipsum dolor sit amet, consectetur
-                                    adipiscing elit. Nec consectetur neque,
-                                    ultricies in. Cras nisl malesuada et sed
-                                    nibh convallis tellus.
+                                    Get checked with Safe Line anywhere. Safe
+                                    Line allows you to find clinics near you to
+                                    accomodate what you are feeling.
                                 </p>
                             </v-card>
                             <v-card flat class="d-flex justify-start ml-n4">
@@ -74,7 +73,14 @@
                                         </v-list-item-group>
                                     </v-list>
                                     <v-card flat class="mt-5 ml-4">
-                                        <SignPopUp />
+                                        <router-link to="/patient-sign-up">
+                                            <v-btn
+                                                color="primary"
+                                                class="text-capitalize"
+                                            >
+                                                Join Safe Line
+                                            </v-btn>
+                                        </router-link>
                                     </v-card>
                                 </v-card>
                             </v-card>
@@ -103,10 +109,8 @@
                             <h2 class="mb-5">Find a clinic where you are</h2>
                             <v-card flat :style="{ width: '500px' }">
                                 <p class="text-justify">
-                                    Lorem ipsum dolor sit amet, consectetur
-                                    adipiscing elit. Nec consectetur neque,
-                                    ultricies in. Cras nisl malesuada et sed
-                                    nibh convallis tellus.
+                                    Safe Line finds clinic wherever you are
+                                    thanks to its mapping feature.
                                 </p>
                             </v-card>
                         </v-card>
@@ -162,10 +166,8 @@
                                     color="transparent"
                                 >
                                     <p class="text-justify">
-                                        Lorem ipsum dolor sit amet, consectetur
-                                        adipiscing elit. Nec consectetur neque,
-                                        ultricies in. Cras nisl malesuada et sed
-                                        nibh convallis tellus.
+                                        Can't get out? Safe Line allows video
+                                        consultations.
                                     </p>
                                 </v-card>
                             </v-card>
@@ -184,10 +186,9 @@
                             <h2 class="mb-5">Message your doctors anytime</h2>
                             <v-card flat :style="{ width: '500px' }">
                                 <p class="text-justify">
-                                    Lorem ipsum dolor sit amet, consectetur
-                                    adipiscing elit. Nec consectetur neque,
-                                    ultricies in. Cras nisl malesuada et sed
-                                    nibh convallis tellus.
+                                    Safe Line focuses on communications. Get
+                                    connected with the local clinic or doctor
+                                    near you.
                                 </p>
                             </v-card>
                         </v-card>
