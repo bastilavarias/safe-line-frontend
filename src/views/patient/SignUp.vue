@@ -10,14 +10,9 @@
                             </h1>
                             <div class="mb-5"></div>
                             <p>
-                                Lorem ipsum dolor sit amet, consectetur
-                                adipisicing elit. A accusantium aliquam beatae
-                                cum cupiditate enim illum in, ipsum iste itaque
-                                laudantium nemo neque nesciunt perferendis
-                                quaerat quia quod recusandae unde veniam
-                                voluptatum? Alias autem culpa cum, debitis error
-                                est eum fugiat fugit non placeat quisquam
-                                repellat rerum sunt suscipit temporibus?
+                                Connect to us. <br />
+                                Safe Line is a telemedicine platform that cares
+                                for you.
                             </p>
                         </div>
                     </v-container>
