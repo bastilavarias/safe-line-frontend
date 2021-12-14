@@ -3,7 +3,7 @@
         :two-line="!lastChat"
         :three-line="!!lastChat"
         exact
-        :to="{ name: 'clinic-member-chat', query: { room_id: id } }"
+        :to="{ name: routeName, query: { room_id: id } }"
     >
         <v-list-item-avatar :size="50">
             <v-img :src="avatar" v-if="avatar"></v-img>

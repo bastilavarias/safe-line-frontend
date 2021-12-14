@@ -23,6 +23,24 @@
             map-type-id="terrain"
             class="map"
         >
+            <HeatmapLayer
+                :data="userLocationHeatData"
+                :options="{ maxIntensity: 120, dissipating: false }"
+                v-if="shouldRenderHeatmap"
+            />
+            <GmapMarker
+                v-if="userLocation"
+                :position="{
+                    lat: userLocation.latitude,
+                    lng: userLocation.longitude,
+                }"
+                :icon="require('@/assets/map-marker/home.png')"
+            />
+            <HeatmapLayer
+                :data="clinicLocationsHeatData"
+                :options="{ maxIntensity: 120, dissipating: false }"
+                v-if="clinicLocationsHeatData"
+            />
             <template v-for="(clinic, index) in clinics">
                 <GmapMarker
                     :key="index"
@@ -32,6 +50,8 @@
                     }"
                     :clickable="true"
                     :draggable="false"
+                    @click="showClinicInformationDialog(clinic)"
+                    :icon="require('@/assets/map-marker/clinic.png')"
                 />
             </template>
         </GmapMap>
@@ -178,6 +198,12 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
+
+        <patient-clinic-information-dialog
+            v-if="isClinicInformationDialogOpen.open"
+            :is-open.sync="isClinicInformationDialogOpen.open"
+            :information="selectedClinicInformation"
+        ></patient-clinic-information-dialog>
     </section>
 </template>
 
@@ -188,6 +214,8 @@ import {
 } from "@/store/action-types/symptom";
 import { calculateAge } from "@/helpers";
 import { FETCH_NEAREST_CLINICS } from "@/store/action-types/clinic";
+import PatientClinicInformationDialog from "@/components/patient/ClinicInformationDialog";
+import HeatmapLayer from "@/components/google-map/HeatmapLayer";
 
 const defaultForm = {
     sex: null,
@@ -196,6 +224,8 @@ const defaultForm = {
 };
 
 export default {
+    components: { PatientClinicInformationDialog, HeatmapLayer },
+
     data() {
         return {
             shouldRenderPage: false,
@@ -228,6 +258,13 @@ export default {
                 center: null,
                 zoom: 15,
             },
+
+            isClinicInformationDialogOpen: {
+                open: false,
+            },
+            selectedClinicInformation: null,
+
+            shouldRenderHeatmap: false,
         };
     },
 
@@ -235,6 +272,10 @@ export default {
         user() {
             const details = this.$store.state.authentication.details;
             return details.user || null;
+        },
+
+        userLocation() {
+            return this.user.profile.location || null;
         },
 
         isFormValid() {
@@ -247,6 +288,29 @@ export default {
             return symptomsArrayCopy.filter((symptom) =>
                 this.formSymptomsCopy.includes(symptom.id)
             );
+        },
+
+        userLocationHeatData() {
+            return [
+                {
+                    location: new window.google.maps.LatLng(
+                        this.userLocation.latitude,
+                        this.userLocation.longitude
+                    ),
+                    weight: 100,
+                },
+            ];
+        },
+
+        clinicLocationsHeatData() {
+            if (this.clinics.length === 0) return [];
+            return this.clinics.map((clinic) => ({
+                location: new window.google.maps.LatLng(
+                    clinic.location.latitude,
+                    clinic.location.longitude
+                ),
+                weight: 20,
+            }));
         },
     },
 
@@ -284,17 +348,25 @@ export default {
             );
 
             this.clinics = result.data;
-            this.map.center = Object.assign(
-                {},
-                {
-                    lat: this.clinics[this.clinics.length - 1].location
-                        .latitude,
-                    lng: this.clinics[this.clinics.length - 1].location
-                        .longitude,
-                }
-            );
+            // if (this.clinics.length > 0) {
+            //     this.map.center = Object.assign(
+            //         {},
+            //         {
+            //             lat: this.clinics[this.clinics.length - 1].location
+            //                 .latitude,
+            //             lng: this.clinics[this.clinics.length - 1].location
+            //                 .longitude,
+            //         }
+            //     );
+            // }
+
             this.recommendationResultDialog.open = false;
             this.isFetchNearestClinicsStart = false;
+        },
+
+        showClinicInformationDialog(information) {
+            this.selectedClinicInformation = Object.assign({}, information);
+            this.isClinicInformationDialogOpen.open = true;
         },
     },
 
@@ -310,6 +382,16 @@ export default {
             }
         );
         this.shouldRenderPage = true;
+
+        if (window.google) this.shouldRenderHeatmap = true;
+        const timer = (ms) => new Promise((res) => setTimeout(res, ms));
+        while (!window.google) {
+            await timer(1000);
+            if (window.google) {
+                this.shouldRenderHeatmap = true;
+                return;
+            }
+        }
     },
 };
 </script>
