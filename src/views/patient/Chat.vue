@@ -44,11 +44,10 @@
                                         >
                                             <generic-chat-room
                                                 :id="room.id"
-                                                :name="`${room.room_members[0].user.profile.first_name} ${room.room_members[0].user.profile.last_name}`"
+                                                :name="room.clinic.name"
                                                 :last-chat="room.last_chat"
                                                 :avatar="
-                                                    room.room_members[0].user
-                                                        .profile.image_url
+                                                    require('@/assets/placeholder/clinic-information.png')
                                                 "
                                                 route-name="patient-chat"
                                                 :key="room.id"
@@ -66,7 +65,7 @@
                     <v-toolbar ref="conversationToolbar">
                         <v-toolbar-title v-if="currentRoom">
                             <span class="font-weight-bold">{{
-                                currentRoom.name
+                                currentRoom.clinic.name
                             }}</span>
                         </v-toolbar-title>
                     </v-toolbar>
@@ -194,13 +193,7 @@ export default {
                 patientRooms.find(
                     (room) => room.id === parseInt(this.roomID)
                 ) || null;
-            if (!room) return room;
-            return {
-                name:
-                    room.room_type === "group"
-                        ? room.name
-                        : `${room.room_members[0].user.profile.first_name} ${room.room_members[0].user.profile.last_name}`,
-            };
+            return room;
         },
     },
 
@@ -280,21 +273,6 @@ export default {
             }
         },
 
-        subscribeClinicMemberChatRoomListener() {
-            pusherService.instance().subscribe(`user-${this.user.id}`);
-
-            pusherService.instance().bind("new-room", ({ data }) => {
-                this.patientChatRoomList.data = [
-                    data,
-                    ...this.patientChatRoomList.data,
-                ];
-            });
-        },
-
-        unsubscribeClinicMemberChatRoomListener() {
-            pusherService.instance().unsubscribe(`user-${this.user.id}`);
-        },
-
         subscribeRoomChatListener(roomID) {
             pusherService.instance().subscribe(`room-${roomID}`);
 
@@ -343,12 +321,6 @@ export default {
         }
 
         window.addEventListener("scroll", this.scrollBottom);
-        // this.$nextTick(() => {
-        //     this.$refs.conversationMessagesDiv.addEventListener(
-        //         "scroll",
-        //         this.scrollBottom
-        //     );
-        // });
     },
 
     destroyed() {
