@@ -102,6 +102,10 @@
                                 currentRoom.name
                             }}</span>
                         </v-toolbar-title>
+                        <v-spacer></v-spacer>
+                        <v-btn icon @click="isDoctorScheduleDialogOpen = true"
+                            ><v-icon>mdi-calendar-edit</v-icon></v-btn
+                        >
                     </v-toolbar>
                     <div
                         class="conversation__messages"
@@ -168,6 +172,34 @@
                 </div>
             </v-col>
         </v-row>
+        <v-dialog width="800" persistent v-model="isDoctorScheduleDialogOpen">
+            <v-card>
+                <v-card-title>Set Appointment</v-card-title>
+                <v-card-text>
+                    <v-row dense>
+                        <v-col cols="12">
+                            <v-autocomplete label="Doctor"></v-autocomplete>
+                        </v-col>
+                        <v-col cols="12">
+                            <div class="d-flex justify-space-between">
+                                <v-btn color="primary"> Add Schedule </v-btn>
+                            </div>
+                            <v-sheet height="600">
+                                <v-calendar
+                                    ref="calendar"
+                                    color="primary"
+                                    type="category"
+                                    category-show-all
+                                    :categories="categories"
+                                    :events="events"
+                                    @change="fetchEvents"
+                                ></v-calendar>
+                            </v-sheet>
+                        </v-col>
+                    </v-row>
+                </v-card-text>
+            </v-card>
+        </v-dialog>
     </v-app>
 </template>
 
@@ -210,6 +242,30 @@ export default {
             },
 
             message: null,
+
+            isDoctorScheduleDialogOpen: false,
+
+            categories: ["Dr John Doe schedule today"],
+            events: [],
+            colors: [
+                "blue",
+                "indigo",
+                "deep-purple",
+                "cyan",
+                "green",
+                "orange",
+                "grey darken-1",
+            ],
+            names: [
+                "Meeting",
+                "Holiday",
+                "PTO",
+                "Travel",
+                "Event",
+                "Birthday",
+                "Conference",
+                "Party",
+            ],
         };
     },
 
@@ -380,6 +436,55 @@ export default {
                     conversationMessagesDiv.scrollHeight ||
                     conversationMessagesDiv.clientHeight;
             });
+        },
+
+        rnd(a, b) {
+            return Math.floor((b - a + 1) * Math.random()) + a;
+        },
+
+        fetchEvents({ start, end }) {
+            const events = [];
+
+            const min = new Date(`${start.date}T00:00:00`);
+            const max = new Date(`${end.date}T23:59:59`);
+            const days = (max.getTime() - min.getTime()) / 86400000;
+            const eventCount = this.rnd(days, days + 20);
+
+            for (let i = 0; i < eventCount; i++) {
+                const allDay = this.rnd(0, 3) === 0;
+                const firstTimestamp = this.rnd(min.getTime(), max.getTime());
+                const first = new Date(
+                    firstTimestamp - (firstTimestamp % 900000)
+                );
+                const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000;
+                const second = new Date(first.getTime() + secondTimestamp);
+
+                console.log({
+                    name: this.names[this.rnd(0, this.names.length - 1)],
+                    start: first,
+                    end: second,
+                    color: this.colors[this.rnd(0, this.colors.length - 1)],
+                    timed: !allDay,
+                    category:
+                        this.categories[
+                            this.rnd(0, this.categories.length - 1)
+                        ],
+                });
+
+                events.push({
+                    name: this.names[this.rnd(0, this.names.length - 1)],
+                    start: first,
+                    end: second,
+                    color: this.colors[this.rnd(0, this.colors.length - 1)],
+                    timed: !allDay,
+                    category:
+                        this.categories[
+                            this.rnd(0, this.categories.length - 1)
+                        ],
+                });
+            }
+
+            this.events = events;
         },
     },
 
