@@ -378,6 +378,7 @@ export default {
         );
         this.shouldRenderPage = true;
 
+        if (window.google) this.shouldRenderHeatmap = true;
         const timer = (ms) => new Promise((res) => setTimeout(res, ms));
         while (!window.google) {
             await timer(1000);
