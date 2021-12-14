@@ -6,15 +6,17 @@
                     <v-row no-gutters class="rooms__sticky-content">
                         <v-col cols="12" class="rooms__sticky-content__toolbar">
                             <v-card flat tile>
-                                <v-card-title>Messages</v-card-title>
+                                <v-card-title class="font-weight-bold"
+                                    >Messages</v-card-title
+                                >
                                 <v-card-text>
-                                    <v-text-field
-                                        outlined
-                                        placeholder="Search"
-                                        dense
-                                        prepend-inner-icon="mdi-magnify"
-                                        hide-details
-                                    ></v-text-field>
+                                    <!--                                    <v-text-field-->
+                                    <!--                                        outlined-->
+                                    <!--                                        placeholder="Search"-->
+                                    <!--                                        dense-->
+                                    <!--                                        prepend-inner-icon="mdi-magnify"-->
+                                    <!--                                        hide-details-->
+                                    <!--                                    ></v-text-field>-->
                                 </v-card-text>
                             </v-card>
                         </v-col>

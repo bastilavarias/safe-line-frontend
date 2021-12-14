@@ -348,15 +348,18 @@ export default {
             );
 
             this.clinics = result.data;
-            this.map.center = Object.assign(
-                {},
-                {
-                    lat: this.clinics[this.clinics.length - 1].location
-                        .latitude,
-                    lng: this.clinics[this.clinics.length - 1].location
-                        .longitude,
-                }
-            );
+            // if (this.clinics.length > 0) {
+            //     this.map.center = Object.assign(
+            //         {},
+            //         {
+            //             lat: this.clinics[this.clinics.length - 1].location
+            //                 .latitude,
+            //             lng: this.clinics[this.clinics.length - 1].location
+            //                 .longitude,
+            //         }
+            //     );
+            // }
+
             this.recommendationResultDialog.open = false;
             this.isFetchNearestClinicsStart = false;
         },
