@@ -260,7 +260,12 @@
             </v-tabs-items>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="primary">Request Appointment</v-btn>
+                <v-btn
+                    color="primary"
+                    :loading="isRequestAppointmentStart"
+                    @click="requestAppointment"
+                    >Request Appointment</v-btn
+                >
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -269,6 +274,7 @@
 <script>
 import time from "@/mixins/time";
 import GenericStatusChip from "@/components/generic/StatusChip";
+import { REQUEST_APPOINTMENT } from "@/store/action-types/appointment";
 
 export default {
     name: "patient-clinic-information-dialog",
@@ -287,6 +293,7 @@ export default {
             isUpdateClinicStatusStart: false,
             informationLocal: Object.assign({}, this.information),
             error: null,
+            isRequestAppointmentStart: false,
         };
     },
 
@@ -317,6 +324,31 @@ export default {
 
         informationLocal(value) {
             this.$emit("update:information", value);
+        },
+    },
+
+    methods: {
+        async requestAppointment(clinic) {
+            const payload = {
+                message: `Hello ${this.information.name} I would like to request an appointment`,
+                clinic_id: this.information.id,
+            };
+            this.isRequestAppointmentStart = true;
+            const { code, data, message } = await this.$store.dispatch(
+                REQUEST_APPOINTMENT,
+                payload
+            );
+
+            if (code === 200) {
+                await this.$router.push({
+                    name: "patient-chat",
+                    query: { room_id: data.id },
+                });
+                return;
+            }
+
+            alert(message);
+            this.isRequestAppointmentStart = false;
         },
     },
 };

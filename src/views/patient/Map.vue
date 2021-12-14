@@ -200,8 +200,8 @@
         </v-dialog>
 
         <patient-clinic-information-dialog
-            v-if="isClinicInformationDialogOpen"
-            :is-open.sync="isClinicInformationDialogOpen"
+            v-if="isClinicInformationDialogOpen.open"
+            :is-open.sync="isClinicInformationDialogOpen.open"
             :information="selectedClinicInformation"
         ></patient-clinic-information-dialog>
     </section>
@@ -259,7 +259,9 @@ export default {
                 zoom: 15,
             },
 
-            isClinicInformationDialogOpen: false,
+            isClinicInformationDialogOpen: {
+                open: false,
+            },
             selectedClinicInformation: null,
 
             shouldRenderHeatmap: false,
@@ -361,7 +363,7 @@ export default {
 
         showClinicInformationDialog(information) {
             this.selectedClinicInformation = Object.assign({}, information);
-            this.isClinicInformationDialogOpen = true;
+            this.isClinicInformationDialogOpen.open = true;
         },
     },
 
