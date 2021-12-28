@@ -6,9 +6,7 @@
                 position: 'relative',
             }"
         >
-            <v-container>
-                <router-view></router-view>
-            </v-container>
+            <router-view></router-view>
         </v-main>
         <dashboard-navigation-drawer
             :navigations="navigations"
