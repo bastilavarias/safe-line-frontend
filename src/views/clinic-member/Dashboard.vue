@@ -178,9 +178,12 @@ export default {
     },
     methods: {
         async fetchAppointments() {
+            const patientID = 2;
+
             this.table.loading = true;
             const result = await this.$store.dispatch(
-                FETCH_PATIENT_APPOINTMENTS
+                FETCH_PATIENT_APPOINTMENTS,
+                patientID
             );
             this.table.pagination.total = result.pagination.total;
             this.table.items = result.data;

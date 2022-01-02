@@ -17,10 +17,10 @@ const appointmentModule = {
                 return error.response.data;
             }
         },
-        async [FETCH_PATIENT_APPOINTMENTS](_) {
+        async [FETCH_PATIENT_APPOINTMENTS](_, patientID) {
             try {
                 const response = await apiService.get(
-                    "/appointments/patient/2"
+                    `/appointments/patient/${patientID}` // /appointment/patient/2
                 );
                 return response.data;
             } catch (error) {
@@ -28,7 +28,7 @@ const appointmentModule = {
                 return error.response.data;
             }
         },
-        async [FETCH_DOCTOR_APPOINTMENTS](_) {
+        async [FETCH_DOCTOR_APPOINTMENTS](_, doctorID) {
             try {
                 const response = await apiService.get(
                     "/appointments/doctor/10"
