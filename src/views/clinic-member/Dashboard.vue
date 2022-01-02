@@ -41,8 +41,28 @@
                                     table.pagination.itemsPerPageOptions,
                             }"
                         >
+                            <template v-slot:item.patient_name="{ item }">
+                                <v-avatar size="30" class="mr-2">
+                                    <img
+                                        :src="item.user.profile.image_url"
+                                        alt=""
+                                    />
+                                </v-avatar>
+                                <span>
+                                    {{ item.user.profile.first_name }}
+                                    {{ item.user.profile.last_name }}
+                                </span>
+                            </template>
+
                             <template v-slot:item.appointment.type="{ item }">
-                                {{ item.appointment.type.replaceAll("_", " ") }}
+                                <span class="text-capitalize">
+                                    {{
+                                        item.appointment.type.replaceAll(
+                                            "_",
+                                            " "
+                                        )
+                                    }}
+                                </span>
                             </template>
                             <template
                                 v-slot:item.appointment.appointment_date="{
@@ -77,16 +97,6 @@
                                     :href="item.appointment.zoom_link"
                                     >Open</v-btn
                                 >
-                            </template>
-                            <template
-                                v-slot:item.user.profile.image_url="{ item }"
-                            >
-                                <v-avatar size="30">
-                                    <img
-                                        :src="item.user.profile.image_url"
-                                        alt=""
-                                    />
-                                </v-avatar>
                             </template>
                         </v-data-table>
                     </v-card>
@@ -129,17 +139,10 @@ export default {
                         value: "appointment.type",
                     },
                     {
-                        text: "",
-                        value: "user.profile.image_url",
-                    },
-                    {
                         text: "Patient",
-                        value: "user.profile.first_name",
+                        value: "patient_name",
                     },
-                    {
-                        text: "",
-                        value: "user.profile.last_name",
-                    },
+
                     {
                         text: "Date",
                         value: "appointment.appointment_date",
