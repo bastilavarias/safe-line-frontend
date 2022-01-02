@@ -13,7 +13,7 @@
                 </v-col>
             </v-row>
             <v-row class="mx-auto">
-                <v-col cols="8">
+                <v-col cols="9">
                     <v-card rounded color="white" class="ml-n3">
                         <v-toolbar flat>
                             <v-toolbar-title class="font-weight-bold"
@@ -42,34 +42,59 @@
                                     table.pagination.itemsPerPageOptions,
                             }"
                         >
-                            <template v-slot:item.created_at="{ item }">
-                                {{ formatSimpleDate(item.created_at) }}
+                            <template v-slot:item.appointment.type="{ item }">
+                                {{ item.appointment.type.replaceAll("_", " ") }}
                             </template>
-                            <template v-slot:item.status="{ item }">
-                                <generic-status-chip
-                                    type="clinic-registration"
-                                    :status="item.status"
-                                    class-name="text-uppercase"
-                                    small
-                                    >{{ item.status }}</generic-status-chip
-                                >
+                            <template
+                                v-slot:item.appointment.appointment_date="{
+                                    item,
+                                }"
+                            >
+                                {{
+                                    formatSimpleDate(
+                                        item.appointment.appointment_date
+                                    )
+                                }}
                             </template>
-                            <template v-slot:item.action="{ item }">
+                            <template
+                                v-slot:item.appointment.appointment_time="{
+                                    item,
+                                }"
+                            >
+                                {{
+                                    formatSimpleTime(
+                                        item.appointment.appointment_time
+                                    )
+                                }}
+                            </template>
+                            <template
+                                v-slot:item.appointment.zoom_link="{ item }"
+                            >
                                 <v-btn
                                     color="primary"
                                     outlined
                                     class="text-capitalize"
                                     small
-                                    @click="openClinicInformationDialog(item)"
+                                    :href="item.appointment.zoom_link"
                                     >Open</v-btn
                                 >
+                            </template>
+                            <template
+                                v-slot:item.user.profile.image_url="{ item }"
+                            >
+                                <v-avatar size="30">
+                                    <img
+                                        :src="item.user.profile.image_url"
+                                        alt=""
+                                    />
+                                </v-avatar>
                             </template>
                         </v-data-table>
                     </v-card>
                 </v-col>
-                <v-col cols="4">
+                <v-col cols="3">
                     <div class="d-flex flex-column mt-3">
-                        <div class="mb-7 ml-3 d-block">
+                        <div class="mb-7 d-block">
                             <calendar></calendar>
                         </div>
                         <div class="d-block">
@@ -78,55 +103,56 @@
                     </div>
                 </v-col>
             </v-row>
-            <super-admin-dashboard-clinic-information-dialog
-                :is-open.sync="isClinicInformationDialogOpen"
-                :information.sync="selectedClinicInformation"
-                :fetch-clinics="fetchClinics"
-                v-if="selectedClinicInformation"
-            ></super-admin-dashboard-clinic-information-dialog>
         </v-container>
     </section>
 </template>
 
 <script>
-import SuperAdminDashboardClinicInformationDialog from "@/components/super-admin/dashboard/ClinicInformationDialog";
-import { FETCH_CLINICS } from "@/store/action-types/clinic";
-import GenericStatusChip from "@/components/generic/StatusChip";
+import { FETCH_DOCTOR_APPOINTMENTS } from "@/store/action-types/appointment";
 import dateMixin from "@/mixins/date";
+import timeMixin from "@/mixins/time";
 import { debounce } from "@/helpers";
 import Calendar from "@/layouts/parts/dashboard/Calendar";
 import Reminders from "@/layouts/parts/dashboard/Reminders";
 export default {
     components: {
-        Calendar, 
+        Calendar,
         Reminders,
-        SuperAdminDashboardClinicInformationDialog,
-        GenericStatusChip,
     },
 
-    mixins: [dateMixin],
+    mixins: [dateMixin, timeMixin],
 
     data() {
         return {
             table: {
                 headers: [
                     {
-                        text: "Doctor",
-                        value: "name",
-                    },
-
-                    {
-                        text: "Schedule",
-                        value: "location.address",
-                    },
-
-                    {
-                        text: "Status",
-                        value: "status",
+                        text: "Appointment Type",
+                        value: "appointment.type",
                     },
                     {
                         text: "",
-                        value: "action",
+                        value: "user.profile.image_url",
+                    },
+                    {
+                        text: "Doctor",
+                        value: "user.profile.first_name",
+                    },
+                    {
+                        text: "",
+                        value: "user.profile.last_name",
+                    },
+                    {
+                        text: "Date",
+                        value: "appointment.appointment_date",
+                    },
+                    {
+                        text: "Time",
+                        value: "appointment.appointment_time",
+                    },
+                    {
+                        text: "",
+                        value: "appointment.zoom_link",
                     },
                 ],
                 pagination: {
@@ -140,7 +166,6 @@ export default {
                 loading: false,
             },
             selectedClinicInformation: null,
-            isClinicInformationDialogOpen: false,
         };
     },
 
@@ -167,44 +192,36 @@ export default {
     },
     watch: {
         async "table.pagination.page"(value) {
-            if (value) await this.fetchClinics();
+            if (value) await this.fetchAppointments();
         },
 
         async "table.pagination.perPage"(value) {
             if (value) {
                 this.table.pagination.page = 1;
-                await this.fetchClinics();
+                await this.fetchAppointments();
             }
         },
 
         ["table.search"]: debounce(async function () {
-            await this.fetchClinics();
+            await this.fetchAppointments();
         }, 500),
     },
 
     methods: {
-        async fetchClinics() {
-            const payload = {
-                ...this.table.pagination,
-                search: this.table.search || null,
-            };
-
+        async fetchAppointments() {
             this.table.loading = true;
-            const result = await this.$store.dispatch(FETCH_CLINICS, payload);
+            const result = await this.$store.dispatch(
+                FETCH_DOCTOR_APPOINTMENTS
+            );
             this.table.pagination.total = result.pagination.total;
             this.table.items = result.data;
             this.table.loading = false;
-        },
-
-        openClinicInformationDialog(clinic) {
-            this.selectedClinicInformation = Object.assign({}, clinic);
-            this.isClinicInformationDialogOpen = true;
-            console.log(this.selectedClinicInformation);
+            console.log(result.data);
         },
     },
 
     async created() {
-        await this.fetchClinics();
+        await this.fetchAppointments();
     },
 };
 </script>
