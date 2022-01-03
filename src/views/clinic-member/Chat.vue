@@ -103,6 +103,9 @@
                             }}</span>
                         </v-toolbar-title>
                         <v-spacer></v-spacer>
+                        <v-btn icon @click="patientInformation = true"
+                            ><v-icon>mdi-information-outline</v-icon></v-btn
+                        >
                         <v-btn icon @click="isDoctorScheduleDialogOpen = true"
                             ><v-icon>mdi-calendar-edit</v-icon></v-btn
                         >
@@ -172,7 +175,15 @@
                 </div>
             </v-col>
         </v-row>
-        <v-dialog width="800" persistent v-model="isDoctorScheduleDialogOpen">
+        <v-dialog width="500" v-model="patientInformation">
+            <v-card>
+                <v-card-title class="mb-5">Patient Information</v-card-title>
+                <v-card-subtitle> Sex: </v-card-subtitle>
+                <v-card-subtitle> Age: </v-card-subtitle>
+                <v-card-subtitle> Symtom: </v-card-subtitle>
+            </v-card>
+        </v-dialog>
+        <v-dialog width="800" v-model="isDoctorScheduleDialogOpen">
             <v-card>
                 <v-card-title>Set Appointment</v-card-title>
                 <v-card-text>
@@ -181,14 +192,19 @@
                             <v-autocomplete label="Doctor"></v-autocomplete>
                         </v-col>
                         <v-col cols="12">
-                            <div class="d-flex justify-space-between">
-                                <v-btn color="primary"> Add Schedule </v-btn>
+                            <div class="d-flex justify-space-between mb-2">
+                                <v-btn
+                                    color="primary"
+                                    @click="addSchedule = true"
+                                >
+                                    Add Schedule
+                                </v-btn>
                             </div>
                             <v-sheet height="600">
                                 <v-calendar
                                     ref="calendar"
                                     color="primary"
-                                    type="category"
+                                    type="day"
                                     category-show-all
                                     :categories="categories"
                                     :events="events"
@@ -198,6 +214,38 @@
                         </v-col>
                     </v-row>
                 </v-card-text>
+            </v-card>
+        </v-dialog>
+
+        <v-dialog width="500" v-model="addSchedule">
+            <v-card class="px-5">
+                <v-card-title class="ml-n6 mb-2"> Add Schedule </v-card-title>
+                <v-row dense>
+                    <v-col cols="12">
+                        <v-select
+                            v-model="appointmentForm.appointmentType"
+                            outlined
+                            chips
+                            dense
+                            label="Select Appointment Type"
+                            :items="consultType"
+                        >
+                        </v-select>
+                    </v-col>
+                    <v-col cols="12">
+                        <v-select
+                            v-model="appointmentForm.startTime"
+                            outlined
+                            dense
+                            label="Appointment Time"
+                            :items="timetable"
+                        ></v-select>
+                    </v-col>
+                </v-row>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="primary" class="mr-n4">Add Appointment</v-btn>
+                </v-card-actions>
             </v-card>
         </v-dialog>
     </v-app>
@@ -211,6 +259,8 @@ import {
     FETCH_DIRECT_CHAT_ROOMS,
     FETCH_GROUP_CHAT_ROOMS,
 } from "@/store/action-types/chat";
+import { FETCH_DOCTOR_SCHEDULE } from "@/store/action-types/appointment";
+import { FETCH_PATIENT_SYMPTOM } from "@/store/action-types/symptom";
 import GenericChatRoom from "@/components/generic/chat/Room";
 import pusherService from "@/services/pusher";
 
@@ -219,6 +269,28 @@ export default {
 
     data() {
         return {
+            appointmentForm: {
+                appointmentType: null,
+                startTime: null,
+            },
+
+            timetable: [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "10",
+                "11",
+                "12",
+            ],
+
+            consultType: ["Video Telecommunication", "Walk In"],
+
             conversationMessagesHeight: 0,
 
             clinicChatRoomList: {
@@ -244,6 +316,8 @@ export default {
             message: null,
 
             isDoctorScheduleDialogOpen: false,
+            patientInformation: false,
+            addSchedule: false,
 
             categories: ["Dr John Doe schedule today"],
             events: [],
@@ -486,9 +560,46 @@ export default {
 
             this.events = events;
         },
+
+        // async fetchSymptoms() {
+        //     const result = await this.$store.dispatch(FETCH_PATIENT_SYMPTOM);
+        //     console.log(result.data);
+        // },
+        async fetchDoctorSchedule() {
+            const doctorID = this.user.id;
+
+            this.table.loading = true;
+            const result = await this.$store.dispatch(
+                FETCH_DOCTOR_SCHEDULE,
+                doctorID
+            );
+            console.log(result.data);
+        },
+
+        async createAppointment() {
+            const { appointmentType, startTime } = this.appointmentForm;
+
+            const start = `${startTime}:00:00`;
+            const docId = this.user.id;
+            const clinic = this.user.clinic.id;
+
+            const payload = {
+                appointment_type: appointmentType,
+                start_time: start,
+                doctor_id: docId,
+                clinic_id: clinic,
+            };
+        },
+
+        async fetchClinicMembers() {
+            const clinicMembers = this.clinicInformation.clinic_members;
+            console.log(clinicMembers);
+        },
     },
 
     async created() {
+        await this.fetchClinicMembers();
+
         if (this.user) this.subscribeClinicMemberChatRoomListener();
         await this.fetchClinicChatRooms();
         await this.fetchPatientChatRooms();

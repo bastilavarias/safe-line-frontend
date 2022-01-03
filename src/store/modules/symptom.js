@@ -1,6 +1,7 @@
 import {
     FETCH_SYMPTOMS,
     GET_RECOMMENDATION,
+    FETCH_PATIENT_SYMPTOM,
 } from "@/store/action-types/symptom";
 import apiService from "@/services/api";
 
@@ -31,6 +32,16 @@ const symptomModule = {
                 );
                 return response.data;
             } catch (error) {}
+        },
+
+        async [FETCH_PATIENT_SYMPTOM](_) {
+            try {
+                const response = await apiService.get("/symptoms");
+                return response.data;
+            } catch (error) {
+                console.log(error);
+                return error.response.data;
+            }
         },
     },
 };

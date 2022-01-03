@@ -178,7 +178,7 @@ export default {
     },
     methods: {
         async fetchAppointments() {
-            const patientID = 2; // hard code
+            const patientID = 2;
 
             this.table.loading = true;
             const result = await this.$store.dispatch(
