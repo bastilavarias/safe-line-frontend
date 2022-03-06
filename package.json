@@ -4,8 +4,10 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve --mode development",
-    "build": "vue-cli-service build --mode development",
-    "deploy-development": "npm run build && netlify deploy --prod"
+    "build-development": "vue-cli-service build --mode development",
+    "build-staging": "vue-cli-service build --mode staging",
+    "deploy-development": "npm run build-development && netlify deploy --prod",
+    "deploy-staging": "npm run build-staging && netlify deploy --prod"
   },
   "dependencies": {
     "axios": "^0.21.4",
