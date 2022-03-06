@@ -9,9 +9,10 @@
     >
         <template v-slot:activator="{ on, attrs }">
             <v-text-field
-                v-model="valueLocal"
+                :value="valueLocal ? formatSimpleDate(valueLocal) : ''"
                 :label="label"
                 :outlined="outlined"
+                :placeholder="placeholder"
                 append-icon="mdi-calendar"
                 readonly
                 v-bind="attrs"
@@ -20,19 +21,28 @@
         </template>
         <v-date-picker
             v-model="valueLocal"
+            :max="max"
+            :min="min"
             @input="handleInput"
         ></v-date-picker>
     </v-menu>
 </template>
 
 <script>
+import dateMixin from "@/mixins/date";
+
 export default {
     name: "b-date-picker",
+
+    mixins: [dateMixin],
 
     props: {
         value: String,
         label: String,
         outlined: Boolean,
+        placeholder: String,
+        max: String,
+        min: String,
     },
 
     data() {

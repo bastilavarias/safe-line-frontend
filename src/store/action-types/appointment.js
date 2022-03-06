@@ -3,3 +3,6 @@ export const FETCH_PATIENT_APPOINTMENTS =
     "appointment/fetch_patient_appointments";
 export const FETCH_DOCTOR_APPOINTMENTS =
     "appointment/fetch_doctor_appointments";
+export const FETCH_DOCTOR_APPOINTMENT_SCHEDULE =
+    "appointment/fetch-doctor-appointment-schedule";
+export const CREATE_APPOINTMENT = "appointment/create";

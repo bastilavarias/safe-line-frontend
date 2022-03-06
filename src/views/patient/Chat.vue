@@ -324,7 +324,6 @@ export default {
     },
 
     destroyed() {
-        this.unsubscribeClinicMemberChatRoomListener();
         if (this.roomID) this.unsubscribeRoomChatListener(this.roomID);
         window.removeEventListener("scroll", this.scrollBottom);
     },

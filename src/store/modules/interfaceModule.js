@@ -1,11 +1,11 @@
-import { SHOW_SERIVCES } from "@/store/action-types/interfaceModule";
+import { SHOW_SERVICES } from "@/store/action-types/interfaceModule";
 
 export const userInterface = {
     state: {
         services: [],
     },
     mutations: {
-        [SHOW_SERIVCES](state, services) {
+        [SHOW_SERVICES](state, services) {
             return (state.services = services);
         },
     },
