@@ -172,7 +172,7 @@
                 </div>
             </v-col>
         </v-row>
-        <v-dialog width="800" persistent v-model="isDoctorScheduleDialogOpen">
+        <v-dialog width="1200" persistent v-model="isDoctorScheduleDialogOpen">
             <v-card>
                 <v-card-title>
                     <span>Set Appointment</span>
