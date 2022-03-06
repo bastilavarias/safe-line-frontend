@@ -174,32 +174,150 @@
         </v-row>
         <v-dialog width="800" persistent v-model="isDoctorScheduleDialogOpen">
             <v-card>
-                <v-card-title>Set Appointment</v-card-title>
+                <v-card-title>
+                    <span>Set Appointment</span>
+                    <v-spacer></v-spacer>
+                    <v-btn icon @click="isDoctorScheduleDialogOpen = false">
+                        <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                </v-card-title>
                 <v-card-text>
                     <v-row dense>
-                        <v-col cols="12">
-                            <v-autocomplete label="Doctor"></v-autocomplete>
+                        <v-col cols="12" v-if="error">
+                            <v-alert outlined type="error">
+                                {{ error }}
+                            </v-alert>
                         </v-col>
+
                         <v-col cols="12">
-                            <div class="d-flex justify-space-between">
-                                <v-btn color="primary"> Add Schedule </v-btn>
-                            </div>
+                            <v-autocomplete
+                                outlined
+                                :loading="isGetDoctorsStart"
+                                :items="doctors"
+                                label="Doctor"
+                                item-text="user.profile.first_name"
+                                item-value="user_id"
+                                v-model="selectedDoctorID"
+                            >
+                                <template v-slot:selection="{ item }">
+                                    {{ item.user.profile.first_name }}
+                                    {{ item.user.profile.last_name }}
+                                </template>
+                                <template v-slot:item="{ item }">
+                                    {{ item.user.profile.first_name }}
+                                    {{ item.user.profile.last_name }}
+                                </template>
+                            </v-autocomplete>
+                        </v-col>
+                        <v-col cols="12" class="mb-5">
+                            <div class="subtitle-1 mb-1">Current Schedule</div>
                             <v-sheet height="600">
                                 <v-calendar
                                     ref="calendar"
                                     color="primary"
-                                    type="category"
+                                    type="week"
                                     category-show-all
-                                    :categories="categories"
-                                    :events="events"
-                                    @change="fetchEvents"
+                                    :categories="calendar.categories"
+                                    :events="calendar.events"
                                 ></v-calendar>
                             </v-sheet>
                         </v-col>
+                        <v-col cols="12">
+                            <v-row dense>
+                                <v-col cols="12">
+                                    <div class="subtitle-1 mb-1">
+                                        New Appointment Date & Time
+                                    </div>
+                                </v-col>
+
+                                <v-col cols="12" md="6">
+                                    <b-date-picker
+                                        outlined
+                                        placeholder="Date"
+                                        :min="dateToday"
+                                        v-model="schedule.date"
+                                    ></b-date-picker>
+                                </v-col>
+
+                                <v-col cols="12" md="6">
+                                    <v-menu
+                                        ref="menu"
+                                        v-model="menu2"
+                                        :close-on-content-click="false"
+                                        :nudge-right="40"
+                                        :return-value.sync="time"
+                                        transition="scale-transition"
+                                        offset-y
+                                        max-width="290px"
+                                        min-width="290px"
+                                    >
+                                        <template
+                                            v-slot:activator="{ on, attrs }"
+                                        >
+                                            <v-text-field
+                                                outlined
+                                                placeholder="Select Time"
+                                                append-icon="mdi-clock-time-four-outline"
+                                                readonly
+                                                v-bind="attrs"
+                                                v-on="on"
+                                                :value="
+                                                    formatAMPM(schedule.time)
+                                                "
+                                            ></v-text-field>
+                                        </template>
+                                        <v-time-picker
+                                            v-if="menu2"
+                                            v-model="schedule.time"
+                                            full-width
+                                            @click:minute="
+                                                $refs.menu.save(schedule.time)
+                                            "
+                                        ></v-time-picker>
+                                    </v-menu>
+                                </v-col>
+                            </v-row>
+                        </v-col>
+
+                        <v-col cols="12">
+                            <v-select
+                                :items="appointmentTypes"
+                                item-text-="text"
+                                item-value="value"
+                                label="Appointment Type"
+                                outlined
+                                v-model="schedule.appointmentType"
+                            ></v-select>
+                        </v-col>
                     </v-row>
                 </v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                        color="primary"
+                        :disabled="!isFormValid"
+                        @click="createAppointment"
+                        :loading="isCreateAppointmentStart"
+                    >
+                        Add Schedule
+                    </v-btn>
+                </v-card-actions>
             </v-card>
         </v-dialog>
+
+        <v-snackbar v-model="isSnackbarShow" color="success" :timeout="3000">
+            Appointment created successfully.
+            <template v-slot:action="{ attrs }">
+                <v-btn
+                    color="white"
+                    text
+                    v-bind="attrs"
+                    @click="isSnackbarShow = false"
+                >
+                    Close
+                </v-btn>
+            </template>
+        </v-snackbar>
     </v-app>
 </template>
 
@@ -213,9 +331,18 @@ import {
 } from "@/store/action-types/chat";
 import GenericChatRoom from "@/components/generic/chat/Room";
 import pusherService from "@/services/pusher";
+import { GET_CLINIC_DOCTORS } from "@/store/action-types/clinic";
+import {
+    CREATE_APPOINTMENT,
+    FETCH_DOCTOR_APPOINTMENT_SCHEDULE,
+} from "@/store/action-types/appointment";
+import dateMixin from "@/mixins/date";
+import BDatePicker from "@/components/base/DatePicker";
 
 export default {
-    components: { GenericChatRoom, GenericChatMessage },
+    components: { BDatePicker, GenericChatRoom, GenericChatMessage },
+
+    mixins: [dateMixin],
 
     data() {
         return {
@@ -245,27 +372,48 @@ export default {
 
             isDoctorScheduleDialogOpen: false,
 
-            categories: ["Dr John Doe schedule today"],
-            events: [],
-            colors: [
-                "blue",
-                "indigo",
-                "deep-purple",
-                "cyan",
-                "green",
-                "orange",
-                "grey darken-1",
-            ],
-            names: [
-                "Meeting",
-                "Holiday",
-                "PTO",
-                "Travel",
-                "Event",
-                "Birthday",
-                "Conference",
-                "Party",
-            ],
+            calendar: {
+                categories: null,
+                events: [],
+                colors: [
+                    "blue",
+                    "indigo",
+                    "deep-purple",
+                    "cyan",
+                    "green",
+                    "orange",
+                    "grey darken-1",
+                ],
+                names: [
+                    "Meeting",
+                    "Holiday",
+                    "PTO",
+                    "Travel",
+                    "Event",
+                    "Birthday",
+                    "Conference",
+                    "Party",
+                ],
+            },
+
+            isGetDoctorsStart: false,
+            doctors: [],
+            selectedDoctorID: null,
+
+            time: null,
+            menu2: false,
+
+            schedule: {
+                date: null,
+                time: null,
+                appointmentType: null,
+            },
+
+            error: null,
+
+            isSnackbarShow: false,
+
+            isCreateAppointmentStart: false,
         };
     },
 
@@ -302,6 +450,36 @@ export default {
                         : `${room.room_members[0].user.profile.first_name} ${room.room_members[0].user.profile.last_name}`,
             };
         },
+
+        patientInformation() {
+            const clinicRooms = this.clinicChatRoomList.data;
+            const patientRooms = this.patientChatRoomList.data;
+            const room =
+                clinicRooms
+                    .concat(patientRooms)
+                    .find((room) => room.id === parseInt(this.roomID)) || null;
+            if (!room) return room;
+            return room.room_members[0].user || null;
+        },
+
+        isFormValid() {
+            const { time, date, appointmentType } = this.schedule;
+            return this.selectedDoctorID && time && date && appointmentType;
+        },
+
+        appointmentTypes() {
+            return [
+                {
+                    text: "Personal Visit",
+                    value: "personal_visit",
+                },
+
+                {
+                    text: "Video Teleconsultation",
+                    value: "video_teleconsultation",
+                },
+            ];
+        },
     },
 
     watch: {
@@ -321,6 +499,23 @@ export default {
                 page: 1,
                 infiniteId: (this.chats.infiniteId += 1),
             };
+        },
+
+        async isDoctorScheduleDialogOpen(isOpen) {
+            if (isOpen) await this.getDoctors();
+        },
+
+        async selectedDoctorID(value) {
+            this.calendar.events = [];
+            if (value) {
+                const selectedDoctorInformation = [...this.doctors].find(
+                    (doctor) => doctor.user.id === value
+                );
+                this.calendar.categories = [
+                    selectedDoctorInformation.user.profile.first_name,
+                ];
+                await this.getDoctorAppointmentSchedules();
+            }
         },
     },
 
@@ -438,53 +633,79 @@ export default {
             });
         },
 
+        async getDoctors() {
+            this.isGetDoctorsStart = true;
+            const result = await this.$store.dispatch(
+                GET_CLINIC_DOCTORS,
+                this.clinicInformation.id
+            );
+            this.doctors = result.data;
+            this.isGetDoctorsStart = false;
+        },
+
         rnd(a, b) {
             return Math.floor((b - a + 1) * Math.random()) + a;
         },
 
-        fetchEvents({ start, end }) {
-            const events = [];
+        async getDoctorAppointmentSchedules() {
+            const result = await this.$store.dispatch(
+                FETCH_DOCTOR_APPOINTMENT_SCHEDULE,
+                this.selectedDoctorID
+            );
+            const schedule = result.data;
+            console.log(schedule);
 
-            const min = new Date(`${start.date}T00:00:00`);
-            const max = new Date(`${end.date}T23:59:59`);
-            const days = (max.getTime() - min.getTime()) / 86400000;
-            const eventCount = this.rnd(days, days + 20);
-
-            for (let i = 0; i < eventCount; i++) {
-                const allDay = this.rnd(0, 3) === 0;
-                const firstTimestamp = this.rnd(min.getTime(), max.getTime());
-                const first = new Date(
-                    firstTimestamp - (firstTimestamp % 900000)
+            for (let i = 0; i < schedule.length; i++) {
+                const min = this.formatCalendarDate(
+                    `${
+                        schedule[i].appointment.appointment_date.split(" ")[0]
+                    } ${schedule[i].appointment.appointment_time}`
                 );
-                const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000;
-                const second = new Date(first.getTime() + secondTimestamp);
-
-                console.log({
-                    name: this.names[this.rnd(0, this.names.length - 1)],
-                    start: first,
-                    end: second,
-                    color: this.colors[this.rnd(0, this.colors.length - 1)],
-                    timed: !allDay,
-                    category:
-                        this.categories[
-                            this.rnd(0, this.categories.length - 1)
-                        ],
-                });
-
-                events.push({
-                    name: this.names[this.rnd(0, this.names.length - 1)],
-                    start: first,
-                    end: second,
-                    color: this.colors[this.rnd(0, this.colors.length - 1)],
-                    timed: !allDay,
-                    category:
-                        this.categories[
-                            this.rnd(0, this.categories.length - 1)
-                        ],
+                this.calendar.events.push({
+                    name:
+                        schedule[i].appointment.type === "personal_visit"
+                            ? "Personal Visit"
+                            : "Video Teleconsultation",
+                    start: min,
+                    color: this.calendar.colors[
+                        this.rnd(0, this.calendar.colors.length - 1)
+                    ],
                 });
             }
+        },
 
-            this.events = events;
+        async createAppointment() {
+            this.isCreateAppointmentStart = true;
+            const { time, date, appointmentType } = this.schedule;
+            const payload = {
+                doctor_id: this.selectedDoctorID,
+                clinic_id: this.clinicInformation.id,
+                patient_id: this.patientInformation.id,
+                time,
+                date,
+                appointment_type: appointmentType,
+            };
+            const result = await this.$store.dispatch(
+                CREATE_APPOINTMENT,
+                payload
+            );
+
+            if (!result.success) {
+                this.isCreateAppointmentStart = false;
+                return (this.error = result.message);
+            }
+
+            this.isCreateAppointmentStart = false;
+            this.isDoctorScheduleDialogOpen = false;
+            this.isSnackbarShow = true;
+
+            this.selectedDoctorID = null;
+            this.error = null;
+            this.doctors = [];
+            this.calendar.events = [];
+            this.schedule.date = null;
+            this.schedule.time = null;
+            this.schedule.appointmentType = null;
         },
     },
 
