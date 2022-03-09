@@ -6,8 +6,10 @@
     "serve": "vue-cli-service serve --mode development",
     "build-development": "vue-cli-service build --mode development",
     "build-staging": "vue-cli-service build --mode staging",
+    "build-production": "vue-cli-service build --mode production",
     "deploy-development": "npm run build-development && netlify deploy --prod",
-    "deploy-staging": "npm run build-staging && netlify deploy --prod"
+    "deploy-staging": "npm run build-staging && netlify deploy --prod",
+    "deploy-production": "npm run build-production && netlify deploy --prod"
   },
   "dependencies": {
     "axios": "^0.21.4",

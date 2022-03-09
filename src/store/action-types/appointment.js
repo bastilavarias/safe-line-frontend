@@ -6,3 +6,4 @@ export const FETCH_DOCTOR_APPOINTMENTS =
 export const FETCH_DOCTOR_APPOINTMENT_SCHEDULE =
     "appointment/fetch-doctor-appointment-schedule";
 export const CREATE_APPOINTMENT = "appointment/create";
+export const FETCH_DOCTOR_SCHEDULE = "appointment/fetch-doctor-schedule";
