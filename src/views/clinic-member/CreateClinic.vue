@@ -40,132 +40,257 @@
                     </v-toolbar>
                     <div class="fill-height d-flex align-center">
                         <v-container>
-                            <v-row justify="center">
-                                <v-col cols="8">
-                                    <v-stepper
-                                        alt-labels
-                                        v-model="currentStep"
-                                        :elevation="0"
+                            <v-card>
+                                <v-card-title>Add Clinic</v-card-title>
+                                <v-card-subtitle
+                                    >For Developers Only</v-card-subtitle
+                                >
+
+                                <v-card-text>
+                                    <v-row dense>
+                                        <v-col cols="12" v-if="error">
+                                            <v-alert dark color="error"
+                                                >Error: {{ error }}</v-alert
+                                            >
+                                        </v-col>
+
+                                        <v-col cols="12">
+                                            <v-text-field
+                                                outlined
+                                                label="Name"
+                                                v-model="form.name"
+                                            ></v-text-field>
+                                        </v-col>
+
+                                        <v-col cols="12" md="6">
+                                            <v-menu
+                                                ref="menu"
+                                                v-model="timePickerMenu1"
+                                                :close-on-content-click="false"
+                                                :nudge-right="40"
+                                                :return-value.sync="
+                                                    form.opening_time
+                                                "
+                                                transition="scale-transition"
+                                                offset-y
+                                                max-width="290px"
+                                                min-width="290px"
+                                            >
+                                                <template
+                                                    v-slot:activator="{
+                                                        on,
+                                                        attrs,
+                                                    }"
+                                                >
+                                                    <v-text-field
+                                                        outlined
+                                                        label="Opening Time"
+                                                        prepend-inner-icon="mdi-clock-time-four-outline"
+                                                        readonly
+                                                        :value="
+                                                            form.opening_time
+                                                                ? formatAMPM(
+                                                                      form.opening_time
+                                                                  )
+                                                                : ''
+                                                        "
+                                                        v-bind="attrs"
+                                                        v-on="on"
+                                                    ></v-text-field>
+                                                </template>
+                                                <v-time-picker
+                                                    v-if="timePickerMenu1"
+                                                    v-model="form.opening_time"
+                                                    full-width
+                                                    @click:minute="
+                                                        $refs.menu.save(
+                                                            form.opening_time
+                                                        )
+                                                    "
+                                                ></v-time-picker>
+                                            </v-menu>
+                                        </v-col>
+
+                                        <v-col cols="12" md="6">
+                                            <v-menu
+                                                ref="menu"
+                                                v-model="timePickerMenu2"
+                                                :close-on-content-click="false"
+                                                :nudge-right="40"
+                                                :return-value.sync="
+                                                    form.closing_time
+                                                "
+                                                transition="scale-transition"
+                                                offset-y
+                                                max-width="290px"
+                                                min-width="290px"
+                                            >
+                                                <template
+                                                    v-slot:activator="{
+                                                        on,
+                                                        attrs,
+                                                    }"
+                                                >
+                                                    <v-text-field
+                                                        outlined
+                                                        label="Closing Time"
+                                                        prepend-inner-icon="mdi-clock-time-four-outline"
+                                                        readonly
+                                                        v-bind="attrs"
+                                                        :value="
+                                                            form.closing_time
+                                                                ? formatAMPM(
+                                                                      form.closing_time
+                                                                  )
+                                                                : ''
+                                                        "
+                                                        v-on="on"
+                                                    ></v-text-field>
+                                                </template>
+                                                <v-time-picker
+                                                    v-if="timePickerMenu2"
+                                                    v-model="form.closing_time"
+                                                    full-width
+                                                    @click:minute="
+                                                        $refs.menu.save(
+                                                            form.closing_time
+                                                        )
+                                                    "
+                                                ></v-time-picker>
+                                            </v-menu>
+                                        </v-col>
+
+                                        <v-col cols="12">
+                                            <v-autocomplete
+                                                label="Services"
+                                                :items="services"
+                                                item-text="name"
+                                                item-value="id"
+                                                multiple
+                                                small-chips
+                                                outlined
+                                                v-model="form.services"
+                                            ></v-autocomplete>
+                                        </v-col>
+
+                                        <v-col cols="12">
+                                            <places-autocomplete
+                                                placeholder="Search Address"
+                                                v-model="form.location"
+                                            ></places-autocomplete>
+                                        </v-col>
+                                    </v-row>
+                                </v-card-text>
+
+                                <v-card-actions>
+                                    <v-spacer></v-spacer>
+                                    <v-btn
+                                        @click="createClinic"
+                                        color="primary"
+                                        depressed
+                                        class="text-capitalize"
+                                        :loading="isCreateClinicStart"
+                                        >Create Clinic</v-btn
                                     >
-                                        <v-stepper-header class="shadow-none">
-                                            <v-stepper-step
-                                                :complete="currentStep > 1"
-                                                :step="1"
-                                            >
-                                                Clinic Details
-                                            </v-stepper-step>
-                                            <v-divider></v-divider>
-                                            <v-stepper-step
-                                                :complete="currentStep > 2"
-                                                :step="2"
-                                            >
-                                                Services
-                                            </v-stepper-step>
-                                        </v-stepper-header>
-                                        <v-alert
-                                            outlined
-                                            type="error"
-                                            v-if="error"
-                                        >
-                                            {{ error }}
-                                        </v-alert>
-                                        <v-stepper-items>
-                                            <v-stepper-content :step="1">
-                                                <clinic-details
-                                                    :change-step="changeStep"
-                                                    :clinic-name.sync="
-                                                        form.clinicName
-                                                    "
-                                                    :clinic-address.sync="
-                                                        form.clinicAddress
-                                                    "
-                                                ></clinic-details>
-                                            </v-stepper-content>
-                                            <v-stepper-content :step="2">
-                                                <clinic-services
-                                                    :change-step="changeStep"
-                                                    :gender.sync="form.gender"
-                                                    :birthday.sync="
-                                                        form.birthday
-                                                    "
-                                                    :phone-number.sync="
-                                                        form.phoneNumber
-                                                    "
-                                                    @success="signUpSuccess"
-                                                ></clinic-services>
-                                            </v-stepper-content>
-                                        </v-stepper-items>
-                                    </v-stepper>
-                                    <v-snackbar
-                                        v-model="isSnackbarShow"
-                                        color="success"
-                                        :timeout="3000"
-                                    >
-                                        Account sign up complete.
-                                        <template v-slot:action="{ attrs }">
-                                            <v-btn
-                                                color="white"
-                                                text
-                                                v-bind="attrs"
-                                                @click="isSnackbarShow = false"
-                                            >
-                                                Close
-                                            </v-btn>
-                                        </template>
-                                    </v-snackbar>
-                                    <template v-slot:action="{ attrs }">
-                                        <v-btn
-                                            color="white"
-                                            text
-                                            v-bind="attrs"
-                                            @click="isSnackbarShow = false"
-                                        >
-                                            Close
-                                        </v-btn>
-                                    </template>
-                                </v-col>
-                            </v-row>
+                                </v-card-actions>
+                            </v-card>
                         </v-container>
                     </div>
                 </section>
             </v-col>
         </v-row>
+
+        <v-snackbar v-model="isSnackbarShow" color="success" :timeout="3000">
+            Created Clinic
+            <template v-slot:action="{ attrs }">
+                <v-btn
+                    color="white"
+                    text
+                    v-bind="attrs"
+                    @click="isSnackbarShow = false"
+                >
+                    Close
+                </v-btn>
+            </template>
+        </v-snackbar>
     </v-app>
 </template>
 
 <script>
-import ClinicDetails from "@/components/clinic/sign-up/ClinicDetails.vue";
-import ClinicServices from "@/components/clinic/sign-up/ClinicServices.vue";
+import apiService from "@/services/api";
+import PlacesAutocomplete from "@/components/base/PlacesAutocomplete";
+import dateMixin from "@/mixins/date";
 
 const defaultForm = {
-    clinicName: null,
-    clinicAddress: null,
-    operatingHours: {
-        opening_time: null,
-        closing_time: null,
+    name: null,
+    opening_time: "10:00",
+    closing_time: "18:00",
+    services: [],
+    location: {
+        address: null,
+        longitude: null,
+        latitude: null,
     },
-    services: null,
 };
 
 export default {
-    components: {
-        ClinicDetails,
-        ClinicServices,
-    },
+    components: { PlacesAutocomplete },
+
+    mixins: [dateMixin],
 
     data() {
         return {
-            currentStep: 1,
             form: Object.assign({}, defaultForm),
             error: null,
             isSnackbarShow: false,
+            isCreateClinicStart: false,
+
+            timePickerMenu1: false,
+            timePickerMenu2: false,
+
+            services: [],
         };
     },
 
     methods: {
-        changeStep(step) {
-            this.currentStep = step;
+        async createClinic() {
+            try {
+                this.isCreateClinicStart = true;
+                const payload = {
+                    name: this.form.name || null,
+                    opening_time: this.form.opening_time || null,
+                    closing_time: this.form.closing_time || null,
+                    services: this.form.services || [],
+                    address: this.form.location.address || null,
+                    latitude: this.form.location.latitude || null,
+                    longitude: this.form.location.longitude || null,
+                };
+
+                await apiService.post("/developer/clinics", payload);
+                this.isSnackbarShow = true;
+                this.form = Object.assign({}, defaultForm);
+            } catch (error) {
+                this.error = error.response.data.message;
+            }
+
+            this.isCreateClinicStart = false;
         },
+
+        async getServices() {
+            try {
+                const response = await apiService.get(
+                    "/developer/clinic/services?per_page=99"
+                );
+                const result = response.data;
+                this.services = result.data;
+            } catch (error) {
+                this.services = [];
+            }
+        },
+    },
+
+    async created() {
+        await this.getServices();
     },
 };
 </script>

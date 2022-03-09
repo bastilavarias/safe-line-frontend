@@ -6,6 +6,7 @@
         v-on:placechanged="getAddressData"
         outlined
         :value="valueLocal.address"
+        ref="vga"
     >
     </vuetify-google-autocomplete>
 </template>
@@ -21,6 +22,15 @@ export default {
         return {
             valueLocal: this.value,
         };
+    },
+
+    watch: {
+        "value.address"(value) {
+            if (!value) {
+                const component = this.$refs["vga"];
+                component.autocompleteText = "";
+            }
+        },
     },
 
     methods: {
