@@ -166,6 +166,7 @@ export default {
                 items: [],
                 loading: false,
             },
+
             selectedClinicInformation: null,
         };
     },
