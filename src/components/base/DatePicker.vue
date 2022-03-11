@@ -12,6 +12,7 @@
                 :value="valueLocal ? formatSimpleDate(valueLocal) : ''"
                 :label="label"
                 :outlined="outlined"
+                :dense="dense"
                 :placeholder="placeholder"
                 append-icon="mdi-calendar"
                 readonly
@@ -40,6 +41,7 @@ export default {
         value: String,
         label: String,
         outlined: Boolean,
+        dense: Boolean,
         placeholder: String,
         max: String,
         min: String,
@@ -50,6 +52,12 @@ export default {
             valueLocal: this.value,
             menu: false,
         };
+    },
+
+    watch: {
+        value(val) {
+            this.valueLocal = val;
+        },
     },
 
     methods: {

@@ -5,6 +5,7 @@
         :placeholder="placeholder"
         v-on:placechanged="getAddressData"
         outlined
+        :dense="dense"
         :value="valueLocal.address"
         ref="vga"
     >
@@ -15,6 +16,7 @@
 export default {
     props: {
         value: Object,
+        dense: Boolean,
         placeholder: String,
     },
 
