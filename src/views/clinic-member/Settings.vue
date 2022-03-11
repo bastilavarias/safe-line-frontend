@@ -58,6 +58,7 @@
                                 color="primary"
                                 depressed
                                 class="text-capitalize"
+                                @click="updateCovidServices"
                                 >Update</v-btn
                             >
                         </v-card-actions>
@@ -100,6 +101,37 @@ export default {
             try {
                 const response = await apiService.get(
                     `/clinics/covid/services/${this.clinic.id}`
+                );
+                const result = response.data.data;
+                this.form = Object.assign(
+                    {},
+                    {
+                        ...this.form,
+                        covidService: {
+                            accept_walk_in: result.accept_walk_in,
+                            accept_covid_patient: result.accept_covid_patient,
+                            has_testing_center: result.has_testing_center,
+                        },
+                    }
+                );
+            } catch (error) {
+                this.form = Object.assign({}, defaultForm);
+            }
+
+            this.isCovidServicesActionStart = false;
+        },
+
+        async updateCovidServices() {
+            this.isCovidServicesActionStart = true;
+            try {
+                const payload = {
+                    clinic_id: this.clinic.id,
+                    ...this.form.covidService,
+                    _method: "PUT",
+                };
+                const response = await apiService.post(
+                    "/clinics/covid/services",
+                    payload
                 );
                 const result = response.data.data;
                 this.form = Object.assign(
