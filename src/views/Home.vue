@@ -13,9 +13,6 @@
                         >Safe Line</v-toolbar-title
                     >
                     <v-spacer></v-spacer>
-                    <v-btn text> Home </v-btn>
-                    <v-btn text> Clinics </v-btn>
-                    <v-btn text> About </v-btn>
                     <router-link to="/sign-in">
                         <v-btn color="primary" class="text-capitalize">
                             Sign In
@@ -32,19 +29,27 @@
                 <v-row no-gutters class="mb-15 pb-15">
                     <v-col cols="6" class="mt-10">
                         <v-card flat>
-                            <h1>Your companion anywhere</h1>
+                            <h1>We bring the clinics at your home</h1>
                             &nbsp;
                             <v-card flat :style="{ width: '500px' }">
                                 <p class="text-justify">
-                                    Get checked with Safe Line anywhere. Safe
-                                    Line allows you to find clinics near you to
-                                    accomodate what you are feeling.
+                                    Safe Line allows you to find clinics near
+                                    you to accomodate what you are feeling.
                                 </p>
                             </v-card>
                             <v-card flat class="d-flex justify-start ml-n4">
                                 <v-card flat class="ml-0">
                                     <v-list disabled flat>
                                         <v-list-item-group>
+                                            <v-list-item>
+                                                <v-list-item-icon>
+                                                    <v-icon>mdi-video</v-icon>
+                                                </v-list-item-icon>
+                                                <v-list-item-content
+                                                    >Set up appointments for
+                                                    consultation
+                                                </v-list-item-content>
+                                            </v-list-item>
                                             <v-list-item>
                                                 <v-list-item-icon>
                                                     <v-icon>mdi-map</v-icon>
@@ -55,19 +60,11 @@
                                             </v-list-item>
                                             <v-list-item>
                                                 <v-list-item-icon>
-                                                    <v-icon>mdi-video</v-icon>
-                                                </v-list-item-icon>
-                                                <v-list-item-content
-                                                    >Call your doctors for
-                                                    consultation
-                                                </v-list-item-content>
-                                            </v-list-item>
-                                            <v-list-item>
-                                                <v-list-item-icon>
                                                     <v-icon>mdi-message</v-icon>
                                                 </v-list-item-icon>
                                                 <v-list-item-content
-                                                    >Chat with your doctors
+                                                    >Chat with your doctors and
+                                                    clinics
                                                 </v-list-item-content>
                                             </v-list-item>
                                         </v-list-item-group>
@@ -234,23 +231,12 @@
                                     </v-col>
                                 </v-row>
                                 <v-card-text class="white--text ml-n4"
-                                    >Lorem ipsum dolor sit amet, consectetur
-                                    adipiscing elit.</v-card-text
+                                    >We bring the clinics at your
+                                    home.</v-card-text
                                 >
                                 <v-divider></v-divider>
                                 <v-list color="transparent" class="ml-n4 mt-n3">
                                     <v-list-item-group>
-                                        <v-list-item>
-                                            <v-list-item-icon>
-                                                <v-icon color="white"
-                                                    >mdi-phone</v-icon
-                                                >
-                                            </v-list-item-icon>
-                                            <v-list-item-content
-                                                class="white--text ml-n5"
-                                                >Lorem Ipsum
-                                            </v-list-item-content>
-                                        </v-list-item>
                                         <v-list-item>
                                             <v-list-item-icon>
                                                 <v-icon color="white"
@@ -259,7 +245,7 @@
                                             </v-list-item-icon>
                                             <v-list-item-content
                                                 class="white--text ml-n5"
-                                                >Lorem Ipsum
+                                                >safeline.med.ph
                                             </v-list-item-content>
                                         </v-list-item>
                                     </v-list-item-group>
@@ -274,47 +260,6 @@
                                         >
                                     </v-col>
                                 </v-row>
-                            </v-card>
-                        </v-col>
-
-                        <v-col class="mt-5 ml-n16">
-                            <v-card flat color="transparent" width="200px">
-                                <h4 class="white--text">Services</h4>
-                                <v-list color="transparent" class="ml-n4">
-                                    <v-list-item>
-                                        <v-list-item-group class="white--text">
-                                            <v-list-item-content>
-                                                Clinics
-                                            </v-list-item-content>
-                                            <v-list-item-content>
-                                                Telemedicine
-                                            </v-list-item-content>
-                                            <v-list-item-content>
-                                                Maps
-                                            </v-list-item-content>
-                                        </v-list-item-group>
-                                    </v-list-item>
-                                </v-list>
-                            </v-card>
-                        </v-col>
-                        <v-col class="mt-5 ml-n16">
-                            <v-card flat color="transparent" width="200px">
-                                <h4 class="white--text">Services</h4>
-                                <v-list color="transparent" class="ml-n4">
-                                    <v-list-item>
-                                        <v-list-item-group class="white--text">
-                                            <v-list-item-content>
-                                                Clinics
-                                            </v-list-item-content>
-                                            <v-list-item-content>
-                                                Telemedicine
-                                            </v-list-item-content>
-                                            <v-list-item-content>
-                                                Maps
-                                            </v-list-item-content>
-                                        </v-list-item-group>
-                                    </v-list-item>
-                                </v-list>
                             </v-card>
                         </v-col>
                     </v-row>
