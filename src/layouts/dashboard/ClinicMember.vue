@@ -34,6 +34,14 @@ export default {
                     description: "Chat",
                     icon: "mdi-message",
                 },
+
+                {
+                    to: {
+                        name: "clinic-member-settings",
+                    },
+                    description: "Settings",
+                    icon: "mdi-cog",
+                },
             ],
         };
     },

@@ -78,6 +78,12 @@ const routes = [
                 name: "clinic-member-chat",
                 component: () => import("@/views/clinic-member/Chat"),
             },
+
+            {
+                path: "settings",
+                name: "clinic-member-settings",
+                component: () => import("@/views/clinic-member/Settings"),
+            },
         ],
     },
 
