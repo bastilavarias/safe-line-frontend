@@ -1,5 +1,6 @@
 import {
     CREATE_APPOINTMENT,
+    FETCH_CLINIC_APPOINTMENTS,
     FETCH_DOCTOR_APPOINTMENT_SCHEDULE,
     REQUEST_APPOINTMENT,
 } from "@/store/action-types/appointment";
@@ -34,10 +35,23 @@ const appointmentModule = {
                 return error.response.data;
             }
         },
+
         async [FETCH_DOCTOR_APPOINTMENTS](_) {
             try {
                 const response = await apiService.get(
                     `/appointments/doctor/${doctorID}`
+                );
+                return response.data;
+            } catch (error) {
+                console.log(error);
+                return error.response.data;
+            }
+        },
+
+        async [FETCH_CLINIC_APPOINTMENTS](_, clinicID) {
+            try {
+                const response = await apiService.get(
+                    `/appointments/clinic/${clinicID}`
                 );
                 return response.data;
             } catch (error) {

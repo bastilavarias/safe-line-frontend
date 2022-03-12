@@ -22,7 +22,7 @@ const routes = [
     {
         path: "/create-clinic",
         name: "create-clinic",
-        component: () => import("@/views/clinic-member/CreateClinic"),
+        component: () => import("@/views/CreateClinic"),
     },
 
     {
