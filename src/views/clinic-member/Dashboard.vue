@@ -197,7 +197,12 @@
                 </v-card-text>
 
                 <v-card-actions>
-                    <v-btn color="error" depressed>
+                    <v-btn
+                        color="error"
+                        depressed
+                        :loading="isActionStart"
+                        @click="deleteAppointment"
+                    >
                         <v-icon>mdi-trash-can</v-icon>
                     </v-btn>
                     <v-spacer></v-spacer>
@@ -233,6 +238,7 @@
 <script>
 import {
     CREATE_APPOINTMENT,
+    DELETE_APPOINTMENT,
     FETCH_CLINIC_APPOINTMENTS,
     UPDATE_APPOINTMENT,
 } from "@/store/action-types/appointment";
@@ -388,6 +394,26 @@ export default {
             this.isViewDialogOpen = false;
             this.snackbar.open = true;
             this.snackbar.text = "Appointment has been scheduled.";
+            this.selectedAppointment = Object.assign({});
+            await this.fetchAppointments();
+        },
+
+        async deleteAppointment() {
+            this.isActionStart = true;
+            const result = await this.$store.dispatch(
+                DELETE_APPOINTMENT,
+                this.selectedAppointment.id
+            );
+
+            if (!result.success) {
+                this.isActionStart = false;
+                return (this.error = result.message);
+            }
+
+            this.isActionStart = false;
+            this.isViewDialogOpen = false;
+            this.snackbar.open = true;
+            this.snackbar.text = "Appointment has been deleted.";
             this.selectedAppointment = Object.assign({});
             await this.fetchAppointments();
         },

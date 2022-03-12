@@ -1,5 +1,6 @@
 import {
     CREATE_APPOINTMENT,
+    DELETE_APPOINTMENT,
     FETCH_CLINIC_APPOINTMENTS,
     FETCH_DOCTOR_APPOINTMENT_SCHEDULE,
     REQUEST_APPOINTMENT,
@@ -91,6 +92,18 @@ const appointmentModule = {
                 const response = await apiService.post(
                     "/appointments",
                     payload
+                );
+                return response.data;
+            } catch (error) {
+                console.log(error);
+                return error.response.data;
+            }
+        },
+
+        async [DELETE_APPOINTMENT](_, appointmentID) {
+            try {
+                const response = await apiService.delete(
+                    `/appointments/${appointmentID}`
                 );
                 return response.data;
             } catch (error) {
