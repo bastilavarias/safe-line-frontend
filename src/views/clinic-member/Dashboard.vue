@@ -70,6 +70,7 @@
                                     depressed
                                     small
                                     class="text-capitalize"
+                                    @click="openViewDialog(item)"
                                     >View</v-btn
                                 >
                             </template>
@@ -85,19 +86,163 @@
                 </v-col>
             </v-row>
         </v-container>
+
+        <v-dialog
+            width="600"
+            persistent
+            v-model="isViewDialogOpen"
+            v-if="isViewDialogOpen"
+        >
+            <v-card>
+                <v-card-title>
+                    <span>Appointment Information</span>
+                    <v-spacer></v-spacer>
+                    <v-btn icon @click="isViewDialogOpen = false">
+                        <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                </v-card-title>
+
+                <v-card-text>
+                    <v-row dense>
+                        <v-col cols="12">
+                            <v-text-field
+                                outlined
+                                label="Doctor"
+                                readonly
+                                :value="
+                                    extractMembersName(
+                                        selectedAppointment,
+                                        'doctor'
+                                    )
+                                "
+                            ></v-text-field>
+                        </v-col>
+                        <v-col cols="12">
+                            <v-text-field
+                                outlined
+                                label="Patient"
+                                readonly
+                                :value="
+                                    extractMembersName(
+                                        selectedAppointment,
+                                        'patient'
+                                    )
+                                "
+                            ></v-text-field>
+                        </v-col>
+
+                        <v-col cols="12">
+                            <v-select
+                                item-text-="text"
+                                item-value="value"
+                                label="Appointment Type"
+                                outlined
+                                :items="appointmentTypes"
+                                v-model="selectedAppointment.type"
+                            ></v-select>
+                        </v-col>
+
+                        <v-col cols="12" md="6">
+                            <b-date-picker
+                                outlined
+                                label="Date"
+                                v-model="selectedAppointment.appointment_date"
+                            ></b-date-picker>
+                        </v-col>
+
+                        <v-col cols="12" md="6">
+                            <v-menu
+                                ref="menu"
+                                v-model="menu2"
+                                :close-on-content-click="false"
+                                :nudge-right="40"
+                                :return-value.sync="
+                                    selectedAppointment.appointment_time
+                                "
+                                transition="scale-transition"
+                                offset-y
+                                max-width="290px"
+                                min-width="290px"
+                            >
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-text-field
+                                        outlined
+                                        placeholder="Select Time"
+                                        append-icon="mdi-clock-time-four-outline"
+                                        readonly
+                                        v-bind="attrs"
+                                        v-on="on"
+                                        :value="
+                                            formatAMPM(
+                                                selectedAppointment.appointment_time
+                                            )
+                                        "
+                                    ></v-text-field>
+                                </template>
+                                <v-time-picker
+                                    v-if="menu2"
+                                    v-model="
+                                        selectedAppointment.appointment_time
+                                    "
+                                    full-width
+                                    @click:minute="
+                                        $refs.menu.save(
+                                            selectedAppointment.appointment_time
+                                        )
+                                    "
+                                ></v-time-picker>
+                            </v-menu>
+                        </v-col>
+                    </v-row>
+                </v-card-text>
+
+                <v-card-actions>
+                    <v-btn color="error" depressed>
+                        <v-icon>mdi-trash-can</v-icon>
+                    </v-btn>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                        color="primary"
+                        depressed
+                        :loading="isActionStart"
+                        @click="updateAppointment"
+                    >
+                        <span class="text-capitalize mr-1">Re-Schedule</span>
+                        <v-icon>mdi-calendar-edit</v-icon>
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+
+        <v-snackbar v-model="snackbar.open" color="success" :timeout="3000">
+            {{ snackbar.text }}
+            <template v-slot:action="{ attrs }">
+                <v-btn
+                    color="white"
+                    text
+                    v-bind="attrs"
+                    @click="snackbar.open = false"
+                >
+                    Close
+                </v-btn>
+            </template>
+        </v-snackbar>
     </section>
 </template>
 
 <script>
 import {
+    CREATE_APPOINTMENT,
     FETCH_CLINIC_APPOINTMENTS,
-    FETCH_PATIENT_APPOINTMENTS,
+    UPDATE_APPOINTMENT,
 } from "@/store/action-types/appointment";
 import Calendar from "@/layouts/parts/dashboard/Calendar";
 import Reminders from "@/layouts/parts/dashboard/Reminders";
 import dateMixin from "@/mixins/date";
+import BDatePicker from "@/components/base/DatePicker";
 export default {
     components: {
+        BDatePicker,
         Calendar,
         Reminders,
     },
@@ -154,8 +299,17 @@ export default {
                 items: [],
                 loading: false,
             },
+            menu2: false,
 
-            selectedClinicInformation: null,
+            selectedAppointment: null,
+            isViewDialogOpen: false,
+            isActionStart: false,
+
+            error: null,
+            snackbar: {
+                open: false,
+                text: null,
+            },
         };
     },
 
@@ -168,6 +322,20 @@ export default {
         clinic() {
             const details = this.$store.state.authentication.details;
             return details.clinic || null;
+        },
+
+        appointmentTypes() {
+            return [
+                {
+                    text: "Personal Visit",
+                    value: "personal_visit",
+                },
+
+                {
+                    text: "Video Teleconsultation",
+                    value: "video_teleconsultation",
+                },
+            ];
         },
     },
     methods: {
@@ -188,6 +356,40 @@ export default {
             const { first_name, last_name } =
                 appointment_members[index].user.profile;
             return `${first_name} ${last_name}`;
+        },
+
+        openViewDialog(item) {
+            this.selectedAppointment = Object.assign({}, item);
+            this.isViewDialogOpen = true;
+        },
+
+        async updateAppointment() {
+            this.isActionStart = true;
+            const { id, type, appointment_time, appointment_date } =
+                this.selectedAppointment;
+            const payload = {
+                _method: "PUT",
+                appointment_id: id,
+                type,
+                time: appointment_time,
+                date: appointment_date,
+            };
+            const result = await this.$store.dispatch(
+                UPDATE_APPOINTMENT,
+                payload
+            );
+
+            if (!result.success) {
+                this.isActionStart = false;
+                return (this.error = result.message);
+            }
+
+            this.isActionStart = false;
+            this.isViewDialogOpen = false;
+            this.snackbar.open = true;
+            this.snackbar.text = "Appointment has been scheduled.";
+            this.selectedAppointment = Object.assign({});
+            await this.fetchAppointments();
         },
     },
     async created() {

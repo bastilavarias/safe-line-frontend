@@ -3,6 +3,7 @@ import {
     FETCH_CLINIC_APPOINTMENTS,
     FETCH_DOCTOR_APPOINTMENT_SCHEDULE,
     REQUEST_APPOINTMENT,
+    UPDATE_APPOINTMENT,
 } from "@/store/action-types/appointment";
 import { FETCH_PATIENT_APPOINTMENTS } from "@/store/action-types/appointment";
 import { FETCH_DOCTOR_APPOINTMENTS } from "@/store/action-types/appointment";
@@ -73,6 +74,19 @@ const appointmentModule = {
         },
 
         async [CREATE_APPOINTMENT](_, payload) {
+            try {
+                const response = await apiService.post(
+                    "/appointments",
+                    payload
+                );
+                return response.data;
+            } catch (error) {
+                console.log(error);
+                return error.response.data;
+            }
+        },
+
+        async [UPDATE_APPOINTMENT](_, payload) {
             try {
                 const response = await apiService.post(
                     "/appointments",
