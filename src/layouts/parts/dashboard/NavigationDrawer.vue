@@ -3,7 +3,7 @@
         absolute
         permanent
         :mini-variant="mini"
-        mini-variant-width="200"
+        mini-variant-width="250"
         :expand-on-hover="false"
         v-model="drawerStateLocal"
         app
@@ -34,9 +34,21 @@
                             </v-col>
                             <v-col cols="8" class="mt-1 ml-n3">
                                 <h4>
-                                    {{ user.profile.first_name }}
-                                    {{ user.profile.name_name }}
+                                    <span
+                                        :title="`${user.profile.first_name} ${user.profile.last_name}`"
+                                    >
+                                        {{ user.profile.first_name }}
+                                        {{ user.profile.last_name }}
+                                    </span>
                                 </h4>
+                                <v-list-item-subtitle
+                                    class="font-weight-bold"
+                                    v-if="isAdmin || isDoctor || isCsr"
+                                >
+                                    <span :title="clinic.name">{{
+                                        clinic.name
+                                    }}</span>
+                                </v-list-item-subtitle>
                                 <v-list-item-subtitle>
                                     {{ userType }}
                                 </v-list-item-subtitle>
@@ -80,8 +92,11 @@
 <script>
 import { PURGE_AUTHENTICATION } from "@/store/action-types/authentication";
 import { DRAWER_SHOW } from "@/store/action-types/interfaceModule";
+import authorizationMixin from "@/mixins/authorization";
 export default {
     name: "dashboard-navigation-drawer",
+
+    mixins: [authorizationMixin],
 
     props: {
         navigations: Array,
@@ -99,10 +114,17 @@ export default {
             const drawer = this.$store.state.interface.drawer;
             return drawer;
         },
+
+        clinic() {
+            const details = this.$store.state.authentication.details;
+            return details.clinic || null;
+        },
+
         user() {
             const details = this.$store.state.authentication.details;
             return details.user || null;
         },
+
         userType() {
             if (!this.user) return null;
             const types = {

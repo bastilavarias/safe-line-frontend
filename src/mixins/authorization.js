@@ -6,14 +6,17 @@ const authorizationMixin = {
         },
 
         isAdmin() {
+            if (!this.user.clinic_member) return false;
             return this.user.clinic_member.member_type === "admin";
         },
 
         isDoctor() {
+            if (!this.user.clinic_member) return false;
             return this.user.clinic_member.member_type === "doctor";
         },
 
         isCsr() {
+            if (!this.user.clinic_member) return false;
             return this.user.clinic_member.member_type === "csr";
         },
     },
