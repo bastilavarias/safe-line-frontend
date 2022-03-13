@@ -69,7 +69,7 @@
                 </div>
                 <v-col cols="12" class="ml-5">
                     <v-btn text plain @click="signOut" class="text-capitalize"
-                        ><v-icon class="mr-3">mdi-pencil</v-icon>Sign Out</v-btn
+                        ><v-icon class="mr-3">mdi-logout</v-icon>Sign Out</v-btn
                     >
                 </v-col>
             </v-row>

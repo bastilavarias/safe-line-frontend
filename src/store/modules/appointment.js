@@ -38,7 +38,7 @@ const appointmentModule = {
             }
         },
 
-        async [FETCH_DOCTOR_APPOINTMENTS](_) {
+        async [FETCH_DOCTOR_APPOINTMENTS](_, doctorID) {
             try {
                 const response = await apiService.get(
                     `/appointments/doctor/${doctorID}`
@@ -122,11 +122,6 @@ const appointmentModule = {
                 return error.response.data;
             }
         },
-
-        // async [POST_APPOINTMENT](_, appointmentPayload) {
-        //     try {
-        //     } catch (error) {}
-        // },
     },
 };
 

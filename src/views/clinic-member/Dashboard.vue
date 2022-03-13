@@ -71,7 +71,20 @@
                                     small
                                     class="text-capitalize"
                                     @click="openViewDialog(item)"
+                                    v-if="isAdmin || isCsr"
                                     >View</v-btn
+                                >
+
+                                <v-btn
+                                    color="primary"
+                                    depressed
+                                    small
+                                    class="text-capitalize"
+                                    :disabled="item.type === 'personal_visit'"
+                                    target="_blank"
+                                    :href="item.zoom_link"
+                                    v-if="isDoctor"
+                                    >Open</v-btn
                                 >
                             </template>
                         </v-data-table>
@@ -237,15 +250,55 @@
 
 <script>
 import {
-    CREATE_APPOINTMENT,
     DELETE_APPOINTMENT,
     FETCH_CLINIC_APPOINTMENTS,
+    FETCH_DOCTOR_APPOINTMENTS,
     UPDATE_APPOINTMENT,
 } from "@/store/action-types/appointment";
 import Calendar from "@/layouts/parts/dashboard/Calendar";
 import Reminders from "@/layouts/parts/dashboard/Reminders";
 import dateMixin from "@/mixins/date";
 import BDatePicker from "@/components/base/DatePicker";
+import authorizationMixin from "@/mixins/authorization";
+
+const defaultTableHeaders = [
+    {
+        text: "ID #",
+        value: "id",
+        sortable: false,
+    },
+
+    {
+        text: "Doctor",
+        value: "doctor",
+        sortable: false,
+    },
+
+    {
+        text: "Patient",
+        value: "patient",
+        sortable: false,
+    },
+
+    {
+        text: "Date & Time",
+        value: "date_time",
+        sortable: false,
+    },
+
+    {
+        text: "Type",
+        value: "type",
+        sortable: false,
+    },
+
+    {
+        text: "",
+        value: "action",
+        sortable: false,
+    },
+];
+
 export default {
     components: {
         BDatePicker,
@@ -253,7 +306,7 @@ export default {
         Reminders,
     },
 
-    mixins: [dateMixin],
+    mixins: [dateMixin, authorizationMixin],
 
     data() {
         return {
@@ -295,6 +348,7 @@ export default {
                         sortable: false,
                     },
                 ],
+
                 pagination: {
                     page: 1,
                     perPage: 5,
@@ -343,13 +397,32 @@ export default {
                 },
             ];
         },
+
+        isAdmin() {
+            return this.user.clinic_member.member_type === "admin";
+        },
+
+        isDoctor() {
+            return this.user.clinic_member.member_type === "doctor";
+        },
+
+        isCsr() {
+            return this.user.clinic_member.member_type === "csr";
+        },
     },
+
     methods: {
         async fetchAppointments() {
             this.table.loading = true;
+            const dispatchAction = this.isDoctor
+                ? FETCH_DOCTOR_APPOINTMENTS
+                : FETCH_CLINIC_APPOINTMENTS;
+            const dispatchPayload = this.isDoctor
+                ? this.user.id
+                : this.clinic.id;
             const result = await this.$store.dispatch(
-                FETCH_CLINIC_APPOINTMENTS,
-                this.clinic.id
+                dispatchAction,
+                dispatchPayload
             );
             this.table.items = result.data;
             this.table.pagination.total = this.table.items.length;
@@ -419,6 +492,13 @@ export default {
         },
     },
     async created() {
+        if (this.isDoctor) {
+            this.table.headers = [...defaultTableHeaders].filter(
+                (header) => header.value !== "doctor"
+            );
+        } else {
+            this.table.headers = [...defaultTableHeaders];
+        }
         await this.fetchAppointments();
     },
 };
