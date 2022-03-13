@@ -20,15 +20,15 @@
                                 >Appointments</v-toolbar-title
                             >
                             <v-spacer></v-spacer>
-                            <v-text-field
-                                filled
-                                hide-details
-                                placeholder="Search Appointment"
-                                dense
-                                rounded
-                                prepend-inner-icon="mdi-magnify"
-                                v-model="table.search"
-                            ></v-text-field>
+                            <!--                            <v-text-field-->
+                            <!--                                filled-->
+                            <!--                                hide-details-->
+                            <!--                                placeholder="Search Appointment"-->
+                            <!--                                dense-->
+                            <!--                                rounded-->
+                            <!--                                prepend-inner-icon="mdi-magnify"-->
+                            <!--                                v-model="table.search"-->
+                            <!--                            ></v-text-field>-->
                         </v-toolbar>
                         <v-data-table
                             :loading="table.loading"
@@ -42,52 +42,39 @@
                                     table.pagination.itemsPerPageOptions,
                             }"
                         >
-                            <template v-slot:item.appointment.type="{ item }">
-                                {{ item.appointment.type.replaceAll("_", " ") }}
-                            </template>
-                            <template
-                                v-slot:item.appointment.appointment_date="{
-                                    item,
-                                }"
-                            >
-                                {{
-                                    formatSimpleDate(
-                                        item.appointment.appointment_date
-                                    )
-                                }}
-                            </template>
-                            <template
-                                v-slot:item.appointment.appointment_time="{
-                                    item,
-                                }"
-                            >
-                                {{
-                                    formatSimpleTime(
-                                        item.appointment.appointment_time
-                                    )
-                                }}
-                            </template>
-                            <template
-                                v-slot:item.appointment.zoom_link="{ item }"
-                            >
-                                <v-btn
-                                    color="primary"
-                                    outlined
-                                    class="text-capitalize"
-                                    small
-                                    :href="item.appointment.zoom_link"
-                                    >Open</v-btn
+                            <template v-slot:item.id="{ item }">
+                                <span class="font-weight-bold"
+                                    >#{{ item.id }}</span
                                 >
                             </template>
-                            <template
-                                v-slot:item.user.profile.image_url="{ item }"
-                            >
-                                <v-avatar size="30">
-                                    <img
-                                        :src="item.user.profile.image_url"
-                                        alt=""
-                                    />
-                                </v-avatar>
+                            <template v-slot:item.doctor="{ item }">
+                                {{ extractMembersName(item, "doctor") }}
+                            </template>
+
+                            <template v-slot:item.patient="{ item }">
+                                {{ extractMembersName(item, "patient") }}
+                            </template>
+
+                            <template v-slot:item.type="{ item }">
+                                <span class="text-capitalize">
+                                    {{ item.type.replaceAll("_", " ") }}
+                                </span>
+                            </template>
+                            <template v-slot:item.date_time="{ item }">
+                                {{ formatSimpleDate(item.appointment_date) }}
+                                {{ formatAMPM(item.appointment_time) }}
+                            </template>
+                            <template v-slot:item.action="{ item }">
+                                <v-btn
+                                    color="primary"
+                                    depressed
+                                    small
+                                    class="text-capitalize"
+                                    :disabled="item.type === 'personal_visit'"
+                                    target="_blank"
+                                    :href="item.zoom_link"
+                                    >Open</v-btn
+                                >
                             </template>
                         </v-data-table>
                     </v-card>
@@ -108,51 +95,56 @@
 </template>
 
 <script>
-import { FETCH_DOCTOR_APPOINTMENTS } from "@/store/action-types/appointment";
+import {
+    FETCH_DOCTOR_APPOINTMENTS,
+    FETCH_PATIENT_APPOINTMENTS,
+} from "@/store/action-types/appointment";
 import dateMixin from "@/mixins/date";
 import timeMixin from "@/mixins/time";
 import { debounce } from "@/helpers";
 import Calendar from "@/layouts/parts/dashboard/Calendar";
 import Reminders from "@/layouts/parts/dashboard/Reminders";
+import nameMixin from "@/mixins/name";
 export default {
     components: {
         Calendar,
         Reminders,
     },
 
-    mixins: [dateMixin, timeMixin],
+    mixins: [dateMixin, timeMixin, nameMixin],
 
     data() {
         return {
             table: {
                 headers: [
                     {
-                        text: "Appointment Type",
-                        value: "appointment.type",
+                        text: "ID #",
+                        value: "id",
+                        sortable: false,
                     },
-                    {
-                        text: "",
-                        value: "user.profile.image_url",
-                    },
+
                     {
                         text: "Doctor",
-                        value: "user.profile.first_name",
+                        value: "doctor",
+                        sortable: false,
                     },
+
+                    {
+                        text: "Date & Time",
+                        value: "date_time",
+                        sortable: false,
+                    },
+
+                    {
+                        text: "Type",
+                        value: "type",
+                        sortable: false,
+                    },
+
                     {
                         text: "",
-                        value: "user.profile.last_name",
-                    },
-                    {
-                        text: "Date",
-                        value: "appointment.appointment_date",
-                    },
-                    {
-                        text: "Time",
-                        value: "appointment.appointment_time",
-                    },
-                    {
-                        text: "",
-                        value: "appointment.zoom_link",
+                        value: "action",
+                        sortable: false,
                     },
                 ],
                 pagination: {
@@ -211,12 +203,11 @@ export default {
         async fetchAppointments() {
             this.table.loading = true;
             const result = await this.$store.dispatch(
-                FETCH_DOCTOR_APPOINTMENTS
+                FETCH_PATIENT_APPOINTMENTS
             );
             this.table.pagination.total = result.pagination.total;
             this.table.items = result.data;
             this.table.loading = false;
-            console.log(result.data);
         },
     },
 

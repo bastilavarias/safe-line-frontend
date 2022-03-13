@@ -26,11 +26,9 @@ const appointmentModule = {
             }
         },
 
-        async [FETCH_PATIENT_APPOINTMENTS](_, patientID) {
+        async [FETCH_PATIENT_APPOINTMENTS]() {
             try {
-                const response = await apiService.get(
-                    `/appointments/patient/${patientID}` // /appointment/patient/2
-                );
+                const response = await apiService.get("/appointments/patient");
                 return response.data;
             } catch (error) {
                 console.log(error);

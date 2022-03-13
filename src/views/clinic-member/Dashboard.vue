@@ -260,6 +260,7 @@ import Reminders from "@/layouts/parts/dashboard/Reminders";
 import dateMixin from "@/mixins/date";
 import BDatePicker from "@/components/base/DatePicker";
 import authorizationMixin from "@/mixins/authorization";
+import nameMixin from "@/mixins/name";
 
 const defaultTableHeaders = [
     {
@@ -306,7 +307,7 @@ export default {
         Reminders,
     },
 
-    mixins: [dateMixin, authorizationMixin],
+    mixins: [dateMixin, authorizationMixin, nameMixin],
 
     data() {
         return {
@@ -428,13 +429,6 @@ export default {
             this.table.pagination.total = this.table.items.length;
             this.table.loading = false;
             console.log(result.data);
-        },
-
-        extractMembersName({ appointment_members = [] }, type) {
-            const index = type === "doctor" ? 0 : 1;
-            const { first_name, last_name } =
-                appointment_members[index].user.profile;
-            return `${first_name} ${last_name}`;
         },
 
         openViewDialog(item) {
