@@ -11,7 +11,7 @@
                 </v-btn>
             </v-card-title>
             <v-card-text>
-                <v-list-item two-line>
+                <v-list-item three-line>
                     <v-list-item-avatar :size="150">
                         <v-img
                             :src="
@@ -98,6 +98,29 @@
                                     </v-col>
                                 </v-row>
                             </div>
+                        </v-list-item-subtitle>
+                        <v-list-item-subtitle>
+                            <v-chip
+                                color="primary"
+                                small
+                                class="mr-1"
+                                v-if="informationLocal.accept_walk_in"
+                                >Accepts Walk-In</v-chip
+                            >
+                            <v-chip
+                                color="primary"
+                                small
+                                class="mr-1"
+                                v-if="informationLocal.accept_covid_patient"
+                                >Accepts COVID-19 Patient</v-chip
+                            >
+                            <v-chip
+                                color="primary"
+                                small
+                                class="mr-1"
+                                v-if="informationLocal.has_testing_center"
+                                >Testing Center</v-chip
+                            >
                         </v-list-item-subtitle>
                     </v-list-item-content>
                 </v-list-item>
