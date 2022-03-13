@@ -144,6 +144,7 @@ import {
     FETCH_CHATS,
     FETCH_DIRECT_CHAT_ROOMS,
     FETCH_GROUP_CHAT_ROOMS,
+    GET_ROOM_LATEST_CHAT,
 } from "@/store/action-types/chat";
 import GenericChatRoom from "@/components/generic/chat/Room";
 import pusherService from "@/services/pusher";
@@ -276,23 +277,29 @@ export default {
         subscribeRoomChatListener(roomID) {
             pusherService.instance().subscribe(`room-${roomID}`);
 
-            pusherService.instance().bind("new-chat", ({ data }) => {
-                const lastChat = data.last_chat;
-                if (
-                    !this.chats.data
-                        .map((chat) => chat.id)
-                        .includes(lastChat.id)
-                )
-                    this.chats.data = [...this.chats.data, lastChat];
-                this.patientChatRoomList.data =
-                    this.patientChatRoomList.data.filter(
-                        (room) => room.id !== data.id
-                    );
-                this.patientChatRoomList.data = [
-                    data,
-                    ...this.patientChatRoomList.data,
-                ];
-                this.scrollBottom();
+            pusherService.instance().bind("new-chat", async () => {
+                const { data } = await this.$store.dispatch(
+                    GET_ROOM_LATEST_CHAT,
+                    roomID
+                );
+                if (data) {
+                    const lastChat = data.last_chat;
+                    if (
+                        !this.chats.data
+                            .map((chat) => chat.id)
+                            .includes(lastChat.id)
+                    )
+                        this.chats.data = [...this.chats.data, lastChat];
+                    this.patientChatRoomList.data =
+                        this.patientChatRoomList.data.filter(
+                            (room) => room.id !== data.id
+                        );
+                    this.patientChatRoomList.data = [
+                        data,
+                        ...this.patientChatRoomList.data,
+                    ];
+                    this.scrollBottom();
+                }
             });
         },
 

@@ -3,6 +3,7 @@ import {
     FETCH_CHATS,
     FETCH_DIRECT_CHAT_ROOMS,
     FETCH_GROUP_CHAT_ROOMS,
+    GET_ROOM_LATEST_CHAT,
 } from "@/store/action-types/chat";
 import apiService from "@/services/api";
 
@@ -46,6 +47,17 @@ const chatModule = {
             try {
                 const response = await apiService.post("/chats", payload);
                 return response.data;
+            } catch (error) {
+                return error.response.data;
+            }
+        },
+
+        async [GET_ROOM_LATEST_CHAT](_, roomID) {
+            try {
+                const response = await apiService.get(
+                    `/chats/rooms/latest/${roomID}`
+                );
+                return await response.data;
             } catch (error) {
                 return error.response.data;
             }
