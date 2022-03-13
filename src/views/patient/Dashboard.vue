@@ -84,9 +84,6 @@
                         <div class="mb-7 d-block">
                             <calendar></calendar>
                         </div>
-                        <div class="d-block">
-                            <reminders></reminders>
-                        </div>
                     </div>
                 </v-col>
             </v-row>
@@ -95,10 +92,7 @@
 </template>
 
 <script>
-import {
-    FETCH_DOCTOR_APPOINTMENTS,
-    FETCH_PATIENT_APPOINTMENTS,
-} from "@/store/action-types/appointment";
+import { FETCH_PATIENT_APPOINTMENTS } from "@/store/action-types/appointment";
 import dateMixin from "@/mixins/date";
 import timeMixin from "@/mixins/time";
 import { debounce } from "@/helpers";
