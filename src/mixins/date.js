@@ -9,6 +9,10 @@ const dateMixin = {
         currentTime() {
             return moment().format("HH:mm");
         },
+
+        currentMonth() {
+            return moment().format("MMMM");
+        },
     },
     methods: {
         formatSimpleDate(date) {

@@ -210,7 +210,26 @@
                             </v-autocomplete>
                         </v-col>
                         <v-col cols="12" class="mb-5">
-                            <div class="subtitle-1 mb-1">Current Schedule</div>
+                            <div
+                                class="
+                                    d-flex
+                                    justify-space-between
+                                    align-center
+                                "
+                            >
+                                <div class="subtitle-1 mb-1">
+                                    Current Schedule ({{ currentMonth }})
+                                </div>
+                                <div class="d-flex">
+                                    <v-btn icon @click="previousCalendar">
+                                        <v-icon>mdi-chevron-left</v-icon>
+                                    </v-btn>
+                                    <v-btn icon @click="nextCalendar">
+                                        <v-icon>mdi-chevron-right</v-icon>
+                                    </v-btn>
+                                </div>
+                            </div>
+
                             <v-sheet height="600">
                                 <v-calendar
                                     ref="calendar"
@@ -219,6 +238,7 @@
                                     category-show-all
                                     :categories="calendar.categories"
                                     :events="calendar.events"
+                                    v-model="time"
                                 ></v-calendar>
                             </v-sheet>
                         </v-col>
@@ -660,24 +680,28 @@ export default {
                 this.selectedDoctorID
             );
             const schedule = result.data;
-            console.log(schedule);
 
             for (let i = 0; i < schedule.length; i++) {
-                const min = this.formatCalendarDate(
-                    `${
-                        schedule[i].appointment.appointment_date.split(" ")[0]
-                    } ${schedule[i].appointment.appointment_time}`
-                );
-                this.calendar.events.push({
-                    name:
-                        schedule[i].appointment.type === "personal_visit"
-                            ? "Personal Visit"
-                            : "Video Teleconsultation",
-                    start: min,
-                    color: this.calendar.colors[
-                        this.rnd(0, this.calendar.colors.length - 1)
-                    ],
-                });
+                if (schedule[i].appointment) {
+                    const min = this.formatCalendarDate(
+                        `${
+                            schedule[i].appointment.appointment_date.split(
+                                " "
+                            )[0]
+                        } ${schedule[i].appointment.appointment_time}`
+                    );
+
+                    this.calendar.events.push({
+                        name:
+                            schedule[i].appointment.type === "personal_visit"
+                                ? "Personal Visit"
+                                : "Video Teleconsultation",
+                        start: min,
+                        color: this.calendar.colors[
+                            this.rnd(0, this.calendar.colors.length - 1)
+                        ],
+                    });
+                }
             }
         },
 
@@ -713,6 +737,14 @@ export default {
             this.schedule.date = null;
             this.schedule.time = null;
             this.schedule.appointmentType = null;
+        },
+
+        async nextCalendar() {
+            this.$refs.calendar.next();
+        },
+
+        async previousCalendar() {
+            this.$refs.calendar.prev();
         },
     },
 
