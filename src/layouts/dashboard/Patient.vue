@@ -30,7 +30,7 @@ export default {
                     to: {
                         name: "patient-dashboard",
                     },
-                    description: "Dashboard",
+                    description: "Home",
                     icon: "mdi-home",
                 },
 

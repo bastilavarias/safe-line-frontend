@@ -19,7 +19,7 @@ const defaultNavigations = [
         to: {
             name: "clinic-member-dashboard",
         },
-        description: "Dashboard",
+        description: "Home",
         icon: "mdi-home",
         value: 1,
     },

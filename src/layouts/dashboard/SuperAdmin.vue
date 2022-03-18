@@ -27,7 +27,7 @@ export default {
                     to: {
                         name: "super-admin-dashboard",
                     },
-                    description: "Dashboard",
+                    description: "Home",
                     icon: "mdi-home",
                 },
 
