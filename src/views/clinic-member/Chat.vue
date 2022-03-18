@@ -54,7 +54,7 @@
                             </v-card>
                         </v-col>
 
-                        <v-col cols="12">
+                        <v-col cols="12" v-if="isCsr">
                             <v-card flat>
                                 <v-card-subtitle>
                                     <v-icon>mdi-chevron-down</v-icon>
@@ -359,11 +359,12 @@ import {
 } from "@/store/action-types/appointment";
 import dateMixin from "@/mixins/date";
 import BDatePicker from "@/components/base/DatePicker";
+import authorizationMixin from "@/mixins/authorization";
 
 export default {
     components: { BDatePicker, GenericChatRoom, GenericChatMessage },
 
-    mixins: [dateMixin],
+    mixins: [dateMixin, authorizationMixin],
 
     data() {
         return {
@@ -626,6 +627,7 @@ export default {
                     GET_ROOM_LATEST_CHAT,
                     roomID
                 );
+                console.log(data);
                 if (data) {
                     const lastChat = data.last_chat;
                     if (
@@ -634,14 +636,28 @@ export default {
                             .includes(lastChat.id)
                     )
                         this.chats.data = [...this.chats.data, lastChat];
-                    this.patientChatRoomList.data =
-                        this.patientChatRoomList.data.filter(
+
+                    if (data.room_members.length === 2) {
+                        this.patientChatRoomList.data =
+                            this.patientChatRoomList.data.filter(
+                                (room) => room.id !== data.id
+                            );
+                        this.patientChatRoomList.data = [
+                            data,
+                            ...this.patientChatRoomList.data,
+                        ];
+                        return;
+                    }
+
+                    this.clinicChatRoomList.data =
+                        this.clinicChatRoomList.data.filter(
                             (room) => room.id !== data.id
                         );
-                    this.patientChatRoomList.data = [
+                    this.clinicChatRoomList.data = [
                         data,
-                        ...this.patientChatRoomList.data,
+                        ...this.clinicChatRoomList.data,
                     ];
+
                     this.scrollBottom();
                 }
             });

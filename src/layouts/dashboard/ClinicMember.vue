@@ -74,7 +74,7 @@ export default {
             );
         } else if (this.isDoctor) {
             this.navigations = [...defaultNavigations].filter(
-                (navigation) => navigation.value === 1
+                (navigation) => navigation.value !== 3
             );
         } else {
             this.navigations = [...defaultNavigations].filter(

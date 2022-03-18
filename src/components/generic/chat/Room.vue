@@ -25,9 +25,6 @@
                     formatDateFromNow(lastChat.created_at)
                 }}</v-list-item-subtitle
             >
-            <v-list-item-subtitle class="font-italic" v-else
-                >No lastest chat.</v-list-item-subtitle
-            >
         </v-list-item-content>
     </v-list-item>
 </template>
