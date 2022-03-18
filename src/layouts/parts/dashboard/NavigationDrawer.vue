@@ -66,13 +66,14 @@
                             exact
                             :class="`${
                                 index !== navigations.length - 1 ? 'mb-5' : ''
-                            }`"
+                            } text-left`"
                             active-class="white primary--text"
+                            block
                         >
-                            <v-icon>{{ navigation.icon }}</v-icon>
-                            <p class="text-capitalize mt-3 ml-3">
+                            <v-icon class="mr-1">{{ navigation.icon }}</v-icon>
+                            <span class="text-capitalize">
                                 {{ navigation.description }}
-                            </p>
+                            </span>
                         </v-btn>
                     </template>
                 </v-col>
