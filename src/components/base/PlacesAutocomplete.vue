@@ -31,7 +31,11 @@ export default {
             if (!value) {
                 const component = this.$refs["vga"];
                 component.autocompleteText = "";
+                return;
             }
+
+            const component = this.$refs["vga"];
+            component.autocompleteText = value;
         },
     },
 

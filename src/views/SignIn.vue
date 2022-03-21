@@ -134,7 +134,12 @@
             </template>
         </v-snackbar>
 
-        <v-dialog width="500" persistent v-model="isSearchEmailDialogOpen">
+        <v-dialog
+            width="500"
+            persistent
+            v-model="isSearchEmailDialogOpen"
+            v-if="isSearchEmailDialogOpen"
+        >
             <v-card>
                 <v-card-title class="primary">
                     <div>
@@ -260,6 +265,7 @@ export default {
             this.email = null;
             this.isSearchEmailDialogOpen = false;
             this.isSearchEmailStart = false;
+            this.searchEmailError = null;
             this.isSnackbarShow = true;
         },
     },

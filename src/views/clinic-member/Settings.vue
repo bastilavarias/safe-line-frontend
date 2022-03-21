@@ -131,6 +131,7 @@
                                         type="email"
                                         label="E-mail"
                                         v-model="form.clinicMember.email"
+                                        v-if="isCreateOperation"
                                     ></v-text-field>
                                 </v-col>
                                 <v-col cols="12" md="3">
@@ -159,7 +160,7 @@
                                 </v-col>
                             </v-row>
                         </v-card-text>
-                        <v-card-actions>
+                        <v-card-actions class="mb-10">
                             <v-spacer></v-spacer>
                             <v-btn
                                 color="primary"
@@ -167,7 +168,25 @@
                                 class="text-capitalize"
                                 :loading="isClinicMembersActionStart"
                                 @click="createClinicMember"
+                                v-if="isCreateOperation"
                                 >Create</v-btn
+                            >
+                            <v-btn
+                                text
+                                class="text-capitalize"
+                                :loading="isClinicMembersActionStart"
+                                @click="cancelUpdateOperation"
+                                v-if="!isCreateOperation"
+                                >Cancel</v-btn
+                            >
+                            <v-btn
+                                color="primary"
+                                depressed
+                                class="text-capitalize"
+                                :loading="isClinicMembersActionStart"
+                                @click="updateClinicMember"
+                                v-if="!isCreateOperation"
+                                >Update</v-btn
                             >
                         </v-card-actions>
                         <v-data-table
@@ -200,6 +219,20 @@
                                 {{
                                     formatSimpleDate(item.user.profile.birthday)
                                 }}
+                            </template>
+
+                            <template v-slot:item.actions="{ item }">
+                                <v-btn icon @click="selectClinicMember(item)">
+                                    <v-icon> mdi-eye </v-icon>
+                                </v-btn>
+
+                                <v-btn
+                                    color="error"
+                                    icon
+                                    @click="selectClinicMember(item)"
+                                >
+                                    <v-icon> mdi-trash-can </v-icon>
+                                </v-btn>
                             </template>
                         </v-data-table>
                     </v-card>
@@ -239,6 +272,7 @@ const defaultForm = {
 
 export default {
     components: { PlacesAutocomplete, BDatePicker },
+
     mixins: [dateMixin],
 
     data() {
@@ -247,6 +281,8 @@ export default {
             isCovidServicesActionStart: false,
             isClinicMembersActionStart: false,
             clinicMemberFormError: null,
+            formOperation: "create",
+            selectedClinicMemberID: null,
 
             table: {
                 headers: [
@@ -273,6 +309,11 @@ export default {
                     {
                         text: "Birthday",
                         value: "user.profile.birthday",
+                    },
+
+                    {
+                        text: "Action",
+                        value: "actions",
                     },
                 ],
                 pagination: {
@@ -308,6 +349,10 @@ export default {
         clinic() {
             const details = this.$store.state.authentication.details;
             return details.clinic || null;
+        },
+
+        isCreateOperation() {
+            return this.formOperation === "create";
         },
     },
 
@@ -407,6 +452,41 @@ export default {
             this.isClinicMembersActionStart = false;
         },
 
+        async updateClinicMember() {
+            this.isClinicMembersActionStart = true;
+            try {
+                const {
+                    first_name,
+                    last_name,
+                    gender,
+                    birthday,
+                    location,
+                    member_type,
+                } = this.form.clinicMember;
+                const payload = {
+                    clinic_id: this.clinic.id,
+                    first_name,
+                    last_name,
+                    gender,
+                    birthday,
+                    member_type,
+                    ...location,
+                    _method: "PUT",
+                };
+                await apiService.post(
+                    `/clinics/members/${this.selectedClinicMemberID}`,
+                    payload
+                );
+                await this.getClinicMembers();
+                this.cancelUpdateOperation();
+            } catch (error) {
+                this.clinicMemberFormError =
+                    error.response.data.message || "Something went wrong.";
+            }
+
+            this.isClinicMembersActionStart = false;
+        },
+
         clearClinicMemberForm() {
             this.form.clinicMember.member_type = null;
             this.form.clinicMember.first_name = null;
@@ -417,6 +497,39 @@ export default {
             this.form.clinicMember.location.address = null;
             this.form.clinicMember.location.latitude = null;
             this.form.clinicMember.location.longitude = null;
+
+            this.clinicMemberFormError = null;
+        },
+
+        selectClinicMember(clinicMember) {
+            this.formOperation = "view";
+            const { id, user, member_type } = clinicMember;
+            this.selectedClinicMemberID = id;
+
+            const { profile, email } = user;
+            const { location } = profile;
+
+            this.form.clinicMember = Object.assign(
+                {},
+                {
+                    location: {
+                        address: location.address,
+                        latitude: location.latitude,
+                        longitude: location.longitude,
+                    },
+                    first_name: profile.first_name,
+                    last_name: profile.last_name,
+                    gender: profile.gender,
+                    birthday: profile.birthday,
+                    member_type: member_type,
+                    email,
+                }
+            );
+        },
+
+        cancelUpdateOperation() {
+            this.clearClinicMemberForm();
+            this.formOperation = "create";
         },
     },
 
