@@ -229,7 +229,7 @@
                                 <v-btn
                                     color="error"
                                     icon
-                                    @click="selectClinicMember(item)"
+                                    @click="deleteClinicMember(item)"
                                 >
                                     <v-icon> mdi-trash-can </v-icon>
                                 </v-btn>
@@ -484,6 +484,19 @@ export default {
                     error.response.data.message || "Something went wrong.";
             }
 
+            this.isClinicMembersActionStart = false;
+        },
+
+        async deleteClinicMember({ id }) {
+            this.isClinicMembersActionStart = true;
+            try {
+                await apiService.delete(`/clinics/members/${id}`);
+                await this.getClinicMembers();
+                this.cancelUpdateOperation();
+            } catch (error) {
+                this.clinicMemberFormError =
+                    error.response.data.message || "Something went wrong.";
+            }
             this.isClinicMembersActionStart = false;
         },
 
