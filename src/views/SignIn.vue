@@ -236,7 +236,7 @@ export default {
 
             if (!result.success) {
                 this.isSignInStart = false;
-                return (this.error = result.message);
+                return (this.error = "Invalid Credentials.");
             }
 
             this.snackbarMessage = "Sign in successfully.";
