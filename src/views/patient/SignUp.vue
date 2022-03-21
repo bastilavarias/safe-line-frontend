@@ -35,12 +35,15 @@
                                 </span>
                             </v-toolbar-title>
                             <v-spacer></v-spacer>
-                            <v-btn
-                                color="primary"
-                                depressed
-                                class="text-capitalize"
-                                >Sign In</v-btn
-                            >
+                            <router-link to="/sign-in">
+                                <v-btn
+                                    color="primary"
+                                    depressed
+                                    class="text-capitalize"
+                                >
+                                    Sign In
+                                </v-btn>
+                            </router-link>
                         </v-toolbar>
                         <div class="fill-height d-flex align-center">
                             <v-container>
