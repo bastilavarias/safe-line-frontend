@@ -62,20 +62,31 @@
                                                     display-1
                                                     font-weight-bold
                                                 "
-                                                >Sign In</v-card-title
+                                                >Reset Password</v-card-title
                                             >
                                             <v-card-subtitle
-                                                >Sign in to your
-                                                account</v-card-subtitle
+                                                >Please provide your new
+                                                password to
+                                                continue.</v-card-subtitle
                                             >
                                             <v-card-text>
                                                 <v-row dense>
                                                     <v-col cols="12">
                                                         <v-text-field
-                                                            v-model="form.email"
                                                             outlined
-                                                            label="Email"
+                                                            label="E-mail"
+                                                            :value="email"
                                                         ></v-text-field>
+                                                    </v-col>
+
+                                                    <v-col cols="12">
+                                                        <b-password-field
+                                                            v-model="
+                                                                form.password
+                                                            "
+                                                            outlined
+                                                            label="New Password"
+                                                        ></b-password-field>
                                                     </v-col>
                                                     <v-col cols="12">
                                                         <b-password-field
@@ -83,31 +94,23 @@
                                                                 form.password
                                                             "
                                                             outlined
-                                                            label="Password"
+                                                            label="Confirm Password"
                                                         ></b-password-field>
                                                     </v-col>
                                                 </v-row>
                                             </v-card-text>
                                             <v-card-actions class="mb-10">
-                                                <v-btn
-                                                    color="primary"
-                                                    class="text-capitalize"
-                                                    text
-                                                    small
-                                                    @click="
-                                                        isSearchEmailDialogOpen = true
-                                                    "
-                                                    >Forgot Password?</v-btn
-                                                >
                                                 <v-spacer></v-spacer>
                                                 <v-btn
                                                     color="primary"
                                                     class="text-capitalize"
                                                     depressed
-                                                    :loading="isSignInStart"
                                                     :disabled="!isFormValid"
-                                                    @click="signIn"
-                                                    >Sign In</v-btn
+                                                    :loading="
+                                                        isResetPasswordStart
+                                                    "
+                                                    @click="resetPassword"
+                                                    >Reset Password</v-btn
                                                 >
                                             </v-card-actions>
                                         </v-card>
@@ -133,75 +136,24 @@
                 </v-btn>
             </template>
         </v-snackbar>
-
-        <v-dialog width="500" persistent v-model="isSearchEmailDialogOpen">
-            <v-card>
-                <v-card-title class="primary">
-                    <div>
-                        <v-icon class="mr-2" color="white" large
-                            >mdi-email-edit</v-icon
-                        >
-                        <span class="white--text">Search E-mail</span>
-                    </div>
-                    <v-spacer></v-spacer>
-                    <v-btn
-                        color="white"
-                        icon
-                        @click="isSearchEmailDialogOpen = false"
-                    >
-                        <v-icon>mdi-close</v-icon>
-                    </v-btn>
-                </v-card-title>
-
-                <v-card-text class="pt-10">
-                    <v-alert
-                        outlined
-                        type="error"
-                        class="mb-5"
-                        v-if="searchEmailError"
-                    >
-                        {{ searchEmailError }}
-                    </v-alert>
-
-                    <v-text-field
-                        label="E-mail"
-                        outlined
-                        v-model="email"
-                    ></v-text-field>
-                </v-card-text>
-
-                <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn
-                        color="primary"
-                        depressed
-                        class="text-capitalize"
-                        :loading="isSearchEmailStart"
-                        :disabled="!email"
-                        @click="searchEmail"
-                        >Search E-mail</v-btn
-                    >
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
     </v-app>
 </template>
 
 <script>
+import SignPopUp from "../components/SignPopUp.vue";
 import BPasswordField from "@/components/base/PasswordField";
-import { SEARCH_EMAIL, SIGN_IN } from "@/store/action-types/authentication";
-import tokenService from "@/services/token";
-import routingMixin from "@/mixins/routing";
+import { RESET_PASSWORD } from "@/store/action-types/authentication";
+import inputRuleMixin from "@/mixins/inputRule";
 
 const defaultForm = {
-    email: null,
     password: null,
+    passwordConfirmation: null,
 };
 
 export default {
-    components: { BPasswordField },
+    components: { BPasswordField, SignPopUp },
 
-    mixins: [routingMixin],
+    mixins: [inputRuleMixin],
 
     data() {
         return {
@@ -209,59 +161,70 @@ export default {
             error: null,
             isSnackbarShow: false,
             snackbarMessage: null,
-            isSignInStart: false,
-            isSearchEmailDialogOpen: false,
-            isSearchEmailStart: false,
-            email: null,
-            searchEmailError: null,
+            isResetPasswordStart: false,
         };
     },
 
     computed: {
         isFormValid() {
-            return this.form.email && this.form.password;
+            return (
+                this.form.password &&
+                this.form.passwordConfirmation &&
+                this.componentRules.samePassword(this.passwordConfirmation) ===
+                    true
+            );
+        },
+
+        email() {
+            return this.$route.query.email || null;
+        },
+
+        token() {
+            return this.$route.query.token || null;
+        },
+
+        componentRules() {
+            return {
+                samePassword: (value) =>
+                    value === this.form.password ||
+                    "Passwords are not the same.",
+            };
         },
     },
 
     methods: {
-        async signIn() {
-            this.isSignInStart = true;
+        async resetPassword() {
+            const payload = {
+                email: this.email,
+                token: this.token,
+                password: this.password,
+            };
 
-            const result = await this.$store.dispatch(SIGN_IN, this.form);
+            this.isResetPasswordStart = true;
+            const result = await this.$store.dispatch(
+                RESET_PASSWORD,
+                this.form
+            );
 
             if (!result.success) {
-                this.isSignInStart = false;
+                this.isResetPasswordStart = false;
                 return (this.error = result.message);
             }
 
-            this.snackbarMessage = "Sign in successfully.";
+            this.snackbarMessage = "Password successfully reset.";
             this.isSnackbarShow = true;
             setTimeout(async () => {
-                const user = result.data.user;
                 await this.$router.push({
-                    name: this.redirectTo(user.user_type),
+                    name: "sign-in",
                 });
             }, 2000);
         },
+    },
 
-        async searchEmail() {
-            this.isSearchEmailStart = true;
-
-            const result = await this.$store.dispatch(SEARCH_EMAIL, {
-                email: this.email,
-            });
-
-            if (!result.success) {
-                this.isSearchEmailStart = false;
-                return (this.searchEmailError = result.message);
-            }
-
-            this.snackbarMessage = result.message;
-            this.email = null;
-            this.isSearchEmailDialogOpen = false;
-            this.isSearchEmailStart = false;
-            this.isSnackbarShow = true;
-        },
+    created() {
+        if (!this.email || !this.token) {
+            this.$router.push({ name: "sign-in" });
+        }
     },
 };
 </script>

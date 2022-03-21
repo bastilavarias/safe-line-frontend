@@ -32,6 +32,12 @@ const routes = [
     },
 
     {
+        path: "/reset-password",
+        name: "reset-password",
+        component: () => import("@/views/ResetPassword"),
+    },
+
+    {
         path: "/dashboard/patient",
         component: () => import("@/layouts/dashboard/Patient"),
         meta: {
