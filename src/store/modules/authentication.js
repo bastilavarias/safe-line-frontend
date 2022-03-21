@@ -5,6 +5,7 @@ import {
     SET_AUTHENTICATION,
     SIGN_IN,
     CLINIC_SIGNUP,
+    SEARCH_EMAIL,
 } from "@/store/action-types/authentication";
 import apiService from "@/services/api";
 import tokenService from "@/services/token";
@@ -95,6 +96,18 @@ const authenticationModule = {
                 return await response.data;
             } catch (error) {
                 error.response.data;
+            }
+        },
+
+        async [SEARCH_EMAIL](_, payload) {
+            try {
+                const response = await apiService.post(
+                    "/auth/reset-password",
+                    payload
+                );
+                return await response.data;
+            } catch (error) {
+                return error.response.data;
             }
         },
     },

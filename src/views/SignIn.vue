@@ -88,7 +88,17 @@
                                                     </v-col>
                                                 </v-row>
                                             </v-card-text>
-                                            <v-card-actions>
+                                            <v-card-actions class="mb-10">
+                                                <v-btn
+                                                    color="primary"
+                                                    class="text-capitalize"
+                                                    text
+                                                    small
+                                                    @click="
+                                                        isSearchEmailDialogOpen = true
+                                                    "
+                                                    >Forgot Password?</v-btn
+                                                >
                                                 <v-spacer></v-spacer>
                                                 <v-btn
                                                     color="primary"
@@ -106,32 +116,80 @@
                             </v-container>
                         </div>
                     </section>
-                    <v-snackbar
-                        v-model="isSnackbarShow"
-                        color="success"
-                        :timeout="3000"
-                    >
-                        Sign in successfully.
-                        <template v-slot:action="{ attrs }">
-                            <v-btn
-                                color="white"
-                                text
-                                v-bind="attrs"
-                                @click="isSnackbarShow = false"
-                            >
-                                Close
-                            </v-btn>
-                        </template>
-                    </v-snackbar>
                 </v-col>
             </v-row>
         </v-main>
+
+        <v-snackbar v-model="isSnackbarShow" color="success" :timeout="3000">
+            {{ snackbarMessage }}
+            <template v-slot:action="{ attrs }">
+                <v-btn
+                    color="white"
+                    text
+                    v-bind="attrs"
+                    @click="isSnackbarShow = false"
+                >
+                    Close
+                </v-btn>
+            </template>
+        </v-snackbar>
+
+        <v-dialog width="500" persistent v-model="isSearchEmailDialogOpen">
+            <v-card>
+                <v-card-title class="primary">
+                    <div>
+                        <v-icon class="mr-2" color="white" large
+                            >mdi-lock-reset</v-icon
+                        >
+                        <span class="white--text">Search E-mail</span>
+                    </div>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                        color="white"
+                        icon
+                        @click="isSearchEmailDialogOpen = false"
+                    >
+                        <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                </v-card-title>
+
+                <v-card-text class="pt-10">
+                    <v-alert
+                        outlined
+                        type="error"
+                        class="mb-5"
+                        v-if="searchEmailError"
+                    >
+                        {{ searchEmailError }}
+                    </v-alert>
+
+                    <v-text-field
+                        label="E-mail"
+                        outlined
+                        v-model="email"
+                    ></v-text-field>
+                </v-card-text>
+
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                        color="primary"
+                        depressed
+                        class="text-capitalize"
+                        :loading="isSearchEmailStart"
+                        :disabled="!email"
+                        @click="searchEmail"
+                        >Search E-mail</v-btn
+                    >
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
     </v-app>
 </template>
 
 <script>
 import BPasswordField from "@/components/base/PasswordField";
-import { SIGN_IN } from "@/store/action-types/authentication";
+import { SEARCH_EMAIL, SIGN_IN } from "@/store/action-types/authentication";
 import tokenService from "@/services/token";
 import routingMixin from "@/mixins/routing";
 
@@ -150,7 +208,12 @@ export default {
             form: Object.assign({}, defaultForm),
             error: null,
             isSnackbarShow: false,
+            snackbarMessage: null,
             isSignInStart: false,
+            isSearchEmailDialogOpen: false,
+            isSearchEmailStart: false,
+            email: null,
+            searchEmailError: null,
         };
     },
 
@@ -171,6 +234,7 @@ export default {
                 return (this.error = result.message);
             }
 
+            this.snackbarMessage = "Sign in successfully.";
             this.isSnackbarShow = true;
             setTimeout(async () => {
                 const user = result.data.user;
@@ -178,6 +242,24 @@ export default {
                     name: this.redirectTo(user.user_type),
                 });
             }, 2000);
+        },
+
+        async searchEmail() {
+            this.isSearchEmailStart = true;
+
+            const result = await this.$store.dispatch(SEARCH_EMAIL, {
+                email: this.email,
+            });
+
+            if (!result.success) {
+                this.isSearchEmailStart = false;
+                return (this.searchEmailError = result.message);
+            }
+
+            this.snackbarMessage = result.message;
+            this.email = null;
+            this.isSearchEmailDialogOpen = false;
+            this.isSnackbarShow = true;
         },
     },
 };
