@@ -91,10 +91,13 @@
                                                     <v-col cols="12">
                                                         <b-password-field
                                                             v-model="
-                                                                form.password
+                                                                form.passwordConfirmation
                                                             "
                                                             outlined
                                                             label="Confirm Password"
+                                                            :rules="[
+                                                                componentRules.samePassword,
+                                                            ]"
                                                         ></b-password-field>
                                                     </v-col>
                                                 </v-row>
@@ -170,8 +173,9 @@ export default {
             return (
                 this.form.password &&
                 this.form.passwordConfirmation &&
-                this.componentRules.samePassword(this.passwordConfirmation) ===
-                    true
+                this.componentRules.samePassword(
+                    this.form.passwordConfirmation
+                ) === true
             );
         },
 
@@ -197,14 +201,11 @@ export default {
             const payload = {
                 email: this.email,
                 token: this.token,
-                password: this.password,
+                password: this.form.password,
             };
 
             this.isResetPasswordStart = true;
-            const result = await this.$store.dispatch(
-                RESET_PASSWORD,
-                this.form
-            );
+            const result = await this.$store.dispatch(RESET_PASSWORD, payload);
 
             if (!result.success) {
                 this.isResetPasswordStart = false;
