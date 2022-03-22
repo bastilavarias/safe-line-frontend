@@ -9,6 +9,7 @@
                     <v-text-field
                         outlined
                         label="First Name"
+                        :rules="[rules.name]"
                         v-model="firstNameLocal"
                     ></v-text-field>
                 </v-col>
@@ -16,6 +17,7 @@
                     <v-text-field
                         outlined
                         label="Last Name"
+                        :rules="[rules.name]"
                         v-model="lastNameLocal"
                     ></v-text-field>
                 </v-col>
@@ -23,7 +25,23 @@
                     <v-text-field
                         outlined
                         label="Email"
+                        :rules="[rules.email]"
                         v-model="emailLocal"
+                    ></v-text-field>
+                </v-col>
+                <v-col cols="12">
+                    <v-text-field
+                        outlined
+                        label="Email Confirmation"
+                        :rules="[
+                            rules.email,
+                            rules.sameAs(
+                                emailLocal,
+                                emailConfirmation,
+                                'E-mail are not same.'
+                            ),
+                        ]"
+                        v-model="emailConfirmation"
                     ></v-text-field>
                 </v-col>
                 <v-col cols="12">
@@ -39,9 +57,11 @@
                         label="Confirm Password"
                         v-model="confirmPassword"
                         :rules="[
-                            (value) =>
-                                value === passwordLocal ||
-                                `Passwords you entered don't match don't match.`,
+                            rules.sameAs(
+                                passwordLocal,
+                                confirmPassword,
+                                'Password don'
+                            ),
                         ]"
                     ></b-password-field>
                 </v-col>
@@ -62,9 +82,12 @@
 </template>
 <script>
 import BPasswordField from "@/components/base/PasswordField";
+import inputRuleMixin from "@/mixins/inputRule";
 
 export default {
     components: { BPasswordField },
+
+    mixins: [inputRuleMixin],
 
     props: {
         changeStep: Function,
@@ -79,6 +102,7 @@ export default {
             firstNameLocal: this.firstName,
             lastNameLocal: this.lastName,
             emailLocal: this.email,
+            emailConfirmation: null,
             passwordLocal: this.password,
             confirmPassword: null,
         };
@@ -86,14 +110,21 @@ export default {
 
     computed: {
         isFormValid() {
-            const isPasswordsMatched =
-                this.passwordLocal === this.confirmPassword;
             return (
                 this.firstNameLocal &&
                 this.lastNameLocal &&
                 this.emailLocal &&
+                this.emailConfirmation &&
                 this.passwordLocal &&
-                isPasswordsMatched
+                this.confirmPassword &&
+                this.rules.name(this.firstNameLocal) === true &&
+                this.rules.name(this.lastName) === true &&
+                this.rules.email(this.emailLocal) === true &&
+                this.rules.email(this.emailConfirmation) === true &&
+                this.rules.sameAs(this.emailLocal, this.emailConfirmation) ===
+                    true &&
+                this.rules.sameAs(this.passwordLocal, this.confirmPassword) ===
+                    true
             );
         },
     },

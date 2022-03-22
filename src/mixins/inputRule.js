@@ -30,6 +30,11 @@ const inputRuleMixin = {
                         /^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(\?\S*)?$/;
                     return pattern.test(value) || "Invalid YouTube URL";
                 },
+
+                name: (value) => {
+                    const pattern = /^[ñA-Za-z _]*[ñA-Za-z][ñA-Za-z _]*$/;
+                    return pattern.test(value) || "Invalid Name";
+                },
             };
         },
     },
