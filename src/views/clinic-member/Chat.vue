@@ -770,6 +770,10 @@ export default {
         await this.fetchPatientChatRooms();
 
         if (this.roomID) {
+            if (!this.currentRoom) {
+                await this.$router.go(-1);
+            }
+
             this.subscribeRoomChatListener(this.roomID);
             this.$nextTick(() => {
                 this.computeConversationMessagesHeight();
