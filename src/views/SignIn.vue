@@ -174,6 +174,7 @@
                     <v-text-field
                         label="E-mail"
                         outlined
+                        :rules="[rules.email]"
                         v-model="email"
                     ></v-text-field>
                 </v-card-text>
@@ -185,7 +186,7 @@
                         depressed
                         class="text-capitalize"
                         :loading="isSearchEmailStart"
-                        :disabled="!email"
+                        :disabled="!email && rules.email(email) === true"
                         @click="searchEmail"
                         >Search E-mail</v-btn
                     >
