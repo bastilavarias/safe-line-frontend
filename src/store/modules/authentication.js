@@ -7,6 +7,7 @@ import {
     CLINIC_SIGNUP,
     SEARCH_EMAIL,
     RESET_PASSWORD,
+    SET_USER_DETAILS,
 } from "@/store/action-types/authentication";
 import apiService from "@/services/api";
 import tokenService from "@/services/token";
@@ -40,6 +41,14 @@ const authenticationModule = {
             state.isAuthenticated = false;
             removeDetails();
             tokenService.remove();
+        },
+
+        [SET_USER_DETAILS](state, payload) {
+            if (state.isAuthenticated) {
+                state.details.user = Object.assign({}, payload);
+                removeDetails();
+                storeDetails(state.details);
+            }
         },
     },
 

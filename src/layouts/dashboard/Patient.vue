@@ -49,6 +49,14 @@ export default {
                     description: "Find Clinics",
                     icon: "mdi-map",
                 },
+
+                {
+                    to: {
+                        name: "profile",
+                    },
+                    description: "Profile",
+                    icon: "mdi-account-edit",
+                },
             ],
         };
     },

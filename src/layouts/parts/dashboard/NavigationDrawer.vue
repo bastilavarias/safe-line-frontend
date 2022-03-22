@@ -33,14 +33,19 @@
                                 </v-list-item-avatar>
                             </v-col>
                             <v-col cols="8" class="mt-1 ml-n3">
-                                <h4>
-                                    <span
-                                        :title="`${user.profile.first_name} ${user.profile.last_name}`"
-                                    >
-                                        {{ user.profile.first_name }}
-                                        {{ user.profile.last_name }}
-                                    </span>
-                                </h4>
+                                <router-link
+                                    :to="{ name: 'profile' }"
+                                    class="black--text text-decoration-none"
+                                >
+                                    <h4>
+                                        <span
+                                            :title="`${user.profile.first_name} ${user.profile.last_name}`"
+                                        >
+                                            {{ user.profile.first_name }}
+                                            {{ user.profile.last_name }}
+                                        </span>
+                                    </h4>
+                                </router-link>
                                 <v-list-item-subtitle
                                     class="font-weight-bold"
                                     v-if="isAdmin || isDoctor || isCsr"

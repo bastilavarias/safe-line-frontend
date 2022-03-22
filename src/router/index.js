@@ -62,6 +62,12 @@ const routes = [
                 name: "patient-map",
                 component: () => import("@/views/patient/Map"),
             },
+
+            {
+                path: "profile",
+                name: "profile",
+                component: () => import("@/views/Profile"),
+            },
         ],
     },
 
@@ -90,6 +96,12 @@ const routes = [
                 name: "clinic-member-settings",
                 component: () => import("@/views/clinic-member/Settings"),
             },
+
+            {
+                path: "profile",
+                name: "profile",
+                component: () => import("@/views/Profile"),
+            },
         ],
     },
 
@@ -116,6 +128,12 @@ const routes = [
                 path: "accounts",
                 name: "super-admin-accounts",
                 component: () => import("@/views/super-admin/Accounts"),
+            },
+
+            {
+                path: "profile",
+                name: "profile",
+                component: () => import("@/views/Profile"),
             },
         ],
     },

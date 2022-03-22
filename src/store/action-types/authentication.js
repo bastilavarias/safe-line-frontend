@@ -6,3 +6,4 @@ export const PURGE_AUTHENTICATION = "authentication/purge-authentication";
 export const CLINIC_SIGNUP = "authentication/clinic-signup";
 export const SEARCH_EMAIL = "authentication/send-reset-password-link";
 export const RESET_PASSWORD = "authentication/reset-password";
+export const SET_USER_DETAILS = "authentication/set-user-details";
