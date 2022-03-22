@@ -75,6 +75,9 @@
                                                             v-model="form.email"
                                                             outlined
                                                             label="Email"
+                                                            :rules="[
+                                                                rules.email,
+                                                            ]"
                                                         ></v-text-field>
                                                     </v-col>
                                                     <v-col cols="12">
@@ -197,6 +200,7 @@ import BPasswordField from "@/components/base/PasswordField";
 import { SEARCH_EMAIL, SIGN_IN } from "@/store/action-types/authentication";
 import tokenService from "@/services/token";
 import routingMixin from "@/mixins/routing";
+import inputRuleMixin from "@/mixins/inputRule";
 
 const defaultForm = {
     email: null,
@@ -206,7 +210,7 @@ const defaultForm = {
 export default {
     components: { BPasswordField },
 
-    mixins: [routingMixin],
+    mixins: [routingMixin, inputRuleMixin],
 
     data() {
         return {
@@ -224,7 +228,11 @@ export default {
 
     computed: {
         isFormValid() {
-            return this.form.email && this.form.password;
+            return (
+                this.form.email &&
+                this.form.password &&
+                this.rules.email(this.form.email) === true
+            );
         },
     },
 
