@@ -143,7 +143,6 @@ import {
     CREATE_CHAT,
     FETCH_CHATS,
     FETCH_DIRECT_CHAT_ROOMS,
-    FETCH_GROUP_CHAT_ROOMS,
     GET_ROOM_LATEST_CHAT,
 } from "@/store/action-types/chat";
 import GenericChatRoom from "@/components/generic/chat/Room";
@@ -190,11 +189,11 @@ export default {
 
         currentRoom() {
             const patientRooms = this.patientChatRoomList.data;
-            const room =
+            return (
                 patientRooms.find(
                     (room) => room.id === parseInt(this.roomID)
-                ) || null;
-            return room;
+                ) || null
+            );
         },
     },
 
@@ -321,6 +320,10 @@ export default {
         await this.fetchPatientChatRooms();
 
         if (this.roomID) {
+            if (!this.currentRoom) {
+                await this.$router.go(-1);
+            }
+
             this.subscribeRoomChatListener(this.roomID);
             this.$nextTick(() => {
                 this.computeConversationMessagesHeight();

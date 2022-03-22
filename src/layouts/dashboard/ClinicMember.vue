@@ -41,6 +41,15 @@ const defaultNavigations = [
         icon: "mdi-cog",
         value: 3,
     },
+
+    {
+        to: {
+            name: "profile",
+        },
+        description: "Profile",
+        icon: "mdi-account-edit",
+        value: 4,
+    },
 ];
 
 export default {
