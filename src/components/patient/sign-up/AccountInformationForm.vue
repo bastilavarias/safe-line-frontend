@@ -38,7 +38,7 @@
                             rules.sameAs(
                                 emailLocal,
                                 emailConfirmation,
-                                'E-mail are not same.'
+                                `E-mail didn't match.`
                             ),
                         ]"
                         v-model="emailConfirmation"
@@ -60,7 +60,7 @@
                             rules.sameAs(
                                 passwordLocal,
                                 confirmPassword,
-                                'Password don'
+                                `Password didn't match.`
                             ),
                         ]"
                     ></b-password-field>

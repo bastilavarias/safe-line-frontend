@@ -17,6 +17,7 @@
                     <b-date-picker
                         v-model="birthdayLocal"
                         label="Birthday"
+                        :max="dateToday"
                         outlined
                     ></b-date-picker>
                 </v-col>
@@ -58,8 +59,11 @@
 </template>
 <script>
 import BDatePicker from "@/components/base/DatePicker";
+import dateMixin from "@/mixins/date";
 export default {
     components: { BDatePicker },
+
+    mixins: [dateMixin],
 
     props: {
         changeStep: Function,
