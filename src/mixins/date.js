@@ -31,6 +31,14 @@ const dateMixin = {
             if (!time) return "";
             return moment(new Date(`2021-12-02 ${time}`)).format("hh:mm A");
         },
+
+        isDatePast({ appointment_date, appointment_time }) {
+            let appointmentDate = appointment_date.split(" ")[0];
+            const isPast =
+                moment(`${appointmentDate} ${appointment_time}`) < moment();
+            console.log(isPast);
+            return isPast;
+        },
     },
 };
 

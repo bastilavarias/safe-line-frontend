@@ -70,7 +70,10 @@
                                     depressed
                                     small
                                     class="text-capitalize"
-                                    :disabled="item.type === 'personal_visit'"
+                                    :disabled="
+                                        item.type === 'personal_visit' ||
+                                        isDatePast(item)
+                                    "
                                     target="_blank"
                                     :href="item.zoom_link"
                                     >Open</v-btn

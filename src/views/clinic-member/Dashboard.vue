@@ -71,6 +71,7 @@
                                     small
                                     class="text-capitalize"
                                     @click="openViewDialog(item)"
+                                    :disabled="isDatePast(item)"
                                     v-if="isAdmin || isCsr"
                                     >View</v-btn
                                 >
@@ -80,7 +81,10 @@
                                     depressed
                                     small
                                     class="text-capitalize"
-                                    :disabled="item.type === 'personal_visit'"
+                                    :disabled="
+                                        item.type === 'personal_visit' ||
+                                        isDatePast(item)
+                                    "
                                     target="_blank"
                                     :href="item.zoom_link"
                                     v-if="isDoctor"
