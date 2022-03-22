@@ -186,7 +186,7 @@
                         depressed
                         class="text-capitalize"
                         :loading="isSearchEmailStart"
-                        :disabled="!email && rules.email(email) === true"
+                        :disabled="!isSearchEmailValid"
                         @click="searchEmail"
                         >Search E-mail</v-btn
                     >
@@ -234,6 +234,10 @@ export default {
                 this.form.password &&
                 this.rules.email(this.form.email) === true
             );
+        },
+
+        isSearchEmailValid() {
+            return this.email && this.rules.email(this.email) === true;
         },
     },
 
