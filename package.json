@@ -16,7 +16,7 @@
     "core-js": "^3.6.5",
     "moment": "^2.29.1",
     "pusher-js": "^7.0.3",
-    "vue": "^2.6.11",
+    "vue": "^2.7.8",
     "vue-axios": "^3.3.7",
     "vue-infinite-loading": "^2.4.5",
     "vue-router": "^3.2.0",
@@ -26,15 +26,15 @@
     "vuex": "^3.4.0"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-router": "~4.5.0",
-    "@vue/cli-plugin-vuex": "~4.5.0",
-    "@vue/cli-service": "~4.5.0",
+    "@vue/cli-plugin-babel": "^5.0.8",
+    "@vue/cli-plugin-router": "^5.0.8",
+    "@vue/cli-plugin-vuex": "^5.0.8",
+    "@vue/cli-service": "^5.0.8",
     "prettier": "^2.4.1",
     "sass": "~1.32.0",
     "sass-loader": "^10.0.0",
     "vue-cli-plugin-vuetify": "~2.4.2",
-    "vue-svg-loader": "^0.16.0",
+    "vue-svg-loader": "^0.10.0",
     "vue-template-compiler": "^2.6.11",
     "vuetify-loader": "^1.7.0"
   }
